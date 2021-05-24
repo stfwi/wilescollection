@@ -1,0 +1,8 @@
+{
+  "variants": {
+    "facing=north": { "model": "wilescollection:block/ladder_model"          },
+    "facing=south": { "model": "wilescollection:block/ladder_model", "y":180 },
+    "facing=west":  { "model": "wilescollection:block/ladder_model", "y":270 },
+    "facing=east":  { "model": "wilescollection:block/ladder_model", "y":90  }
+  }
+}

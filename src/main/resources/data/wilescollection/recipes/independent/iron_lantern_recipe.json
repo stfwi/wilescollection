@@ -1,0 +1,23 @@
+{
+  "type": "forge:conditional",
+  "recipes": [
+    {
+      "conditions": [
+        {
+          "type": "wilescollection:optional",
+          "result": "wilescollection:iron_lantern"
+        }
+      ],
+      "recipe": {
+        "type": "minecraft:crafting_shapeless",
+        "ingredients": [
+          { "item": "minecraft:lantern" },
+          { "item": "minecraft:iron_ingot" }
+        ],
+        "result": {
+          "item": "wilescollection:iron_lantern"
+        }
+      }
+    }
+  ]
+}

@@ -1,0 +1,22 @@
+{
+  "conditions": [
+    {
+      "type": "wilescollection:optional",
+      "result": "wilescollection:wood_chair"
+    }
+  ],
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "  F",
+    "SSF",
+    "F F"
+  ],
+  "key": {
+    "S": { "item": "minecraft:oak_slab" },
+    "F": { "item": "minecraft:oak_fence" }
+  },
+  "result": {
+    "item": "wilescollection:wood_chair",
+    "count": 2
+  }
+}

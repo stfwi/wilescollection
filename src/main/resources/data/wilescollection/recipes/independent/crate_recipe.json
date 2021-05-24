@@ -1,0 +1,23 @@
+{
+  "conditions": [
+    {
+      "type": "wilescollection:optional",
+      "result": "wilescollection:crate"
+    }
+  ],
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "SSS",
+    "CCP",
+    "CCP"
+  ],
+  "key": {
+    "S": { "item": "minecraft:oak_slab" },
+    "C": { "item": "minecraft:chest" },
+    "P": { "item": "minecraft:oak_planks" }
+  },
+  "result": {
+    "item": "wilescollection:crate",
+    "count": 1
+  }
+}
