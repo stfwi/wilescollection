@@ -8,14 +8,15 @@
  */
 package wile.wilescollection.blocks;
 
+import net.minecraft.block.material.PushReaction;
 import net.minecraft.item.BlockItemUseContext;
 import net.minecraft.util.math.shapes.VoxelShape;
 import net.minecraft.util.math.shapes.VoxelShapes;
 import net.minecraft.world.IWorld;
+import net.minecraft.world.IWorldReader;
 import net.minecraft.world.World;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
-import net.minecraft.entity.*;
 import net.minecraft.util.math.*;
 import net.minecraft.util.*;
 import wile.wilescollection.libmc.blocks.StandardBlocks;
@@ -47,6 +48,7 @@ public class OmniLanternBlock extends StandardBlocks.DirectedWaterLoggable imple
 
   @Override
   @Nullable
+  @SuppressWarnings("deprecation")
   public BlockState getStateForPlacement(BlockItemUseContext context)
   {
     final BlockState state = super.getStateForPlacement(context);
@@ -54,17 +56,27 @@ public class OmniLanternBlock extends StandardBlocks.DirectedWaterLoggable imple
     final Direction facing = context.getFace().getOpposite();
     final World world = context.getWorld();
     final BlockPos pos = context.getPos();
-    return (!world.getBlockState(pos.offset(facing)).isSolidSide(world, pos.offset(facing), facing.getOpposite())) ? null : state;
+    return (world.getBlockState(pos.offset(facing)).isAir()) ? null : state;
+  }
+
+  @Override
+  public PushReaction getPushReaction(BlockState state)
+  { return PushReaction.DESTROY; }
+
+  @Override
+  @SuppressWarnings("deprecation")
+  public boolean isValidPosition(BlockState state, IWorldReader world, BlockPos pos)
+  {
+    final Direction facing = state.get(FACING);
+    return Block.hasEnoughSolidSide(world, pos.offset(facing), facing.getOpposite());
   }
 
   @Override
   @SuppressWarnings("deprecation")
   public BlockState updatePostPlacement(BlockState state, Direction facing, BlockState facingState, IWorld world, BlockPos pos, BlockPos facingPos)
   {
-    if(!world.getBlockState(pos.offset(facing)).isSolidSide(world, pos.offset(facing), facing.getOpposite())) {
-      return state.getFluidState().getBlockState();
-    }
-    return super.updatePostPlacement(state, facing, facingState, world, pos, facingPos);
+    state = super.updatePostPlacement(state, facing, facingState, world, pos, facingPos);
+    return (isValidPosition(state, world, pos) && state.isIn(this)) ? (state) : (state.getFluidState().getBlockState());
   }
 
 }

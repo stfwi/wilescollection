@@ -5,17 +5,18 @@
       "conditions": [
         {
           "type": "wilescollection:optional",
-          "result": "wilescollection:iron_lantern"
+          "result": "wilescollection:rusty_iron_nugget",
+          "required": ["wilescollection:rusty_iron_ingot"]
         }
       ],
       "recipe": {
         "type": "minecraft:crafting_shapeless",
         "ingredients": [
-          { "item": "minecraft:lantern" },
-          { "item": "minecraft:iron_ingot" }
+          { "item": "wilescollection:rusty_iron_ingot" }
         ],
         "result": {
-          "item": "wilescollection:iron_lantern"
+          "item": "wilescollection:rusty_iron_nugget",
+          "count": 9
         }
       }
     }

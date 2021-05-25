@@ -12,8 +12,8 @@
     "F F"
   ],
   "key": {
-    "S": { "item": "minecraft:oak_slab" },
-    "F": { "item": "minecraft:oak_fence" }
+    "S": { "item": "minecraft:spruce_slab" },
+    "F": { "item": "minecraft:spruce_fence" }
   },
   "result": {
     "item": "wilescollection:wood_chair",

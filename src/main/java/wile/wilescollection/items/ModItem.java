@@ -1,5 +1,5 @@
 /*
- * @file EdItem.java
+ * @file ModItem.java
  * @author Stefan Wilhelm (wile)
  * @copyright (C) 2020 Stefan Wilhelm
  * @license MIT (see https://opensource.org/licenses/MIT)
@@ -26,12 +26,12 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
-public class EdItem extends Item
+public class ModItem extends Item
 {
   public static final Collection<ItemGroup> ENABLED_TABS  = Collections.singletonList(ModWilesCollection.ITEMGROUP);
   public static final Collection<ItemGroup> DISABLED_TABS = new ArrayList<ItemGroup>();
 
-  public EdItem(Item.Properties properties)
+  public ModItem(Item.Properties properties)
   { super(properties.group(ModWilesCollection.ITEMGROUP)); }
 
   @Override

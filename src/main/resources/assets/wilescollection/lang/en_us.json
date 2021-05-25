@@ -17,10 +17,12 @@
   "block.wilescollection.fluid_barrel.status.empty": "Empty barrel: §6%1$s§r / %2$s mB",
   "block.wilescollection.fluid_barrel.status.tip": "§6%1$s§r / %2$s mB of §6%3$s§r",
   "block.wilescollection.fluid_barrel.status.tip.empty": "Empty, max %2$s mB",
-  "block.wilescollection.iron_lantern": "Iron Wall Lantern",
   "block.wilescollection.ladder": "Wide Rung Ladder",
   "block.wilescollection.ladder.help": "Ladder with a really good grip. Look up or down to climb faster.",
+  "block.wilescollection.rustic_iron_lantern": "Rustic Iron Lantern",
+  "block.wilescollection.weathered_stone_brick_block": "Weathered Stone Bricks",
   "block.wilescollection.wood_chair": "Wood Chair",
   "block.wilescollection.wood_table": "Wood Table",
-  "item.wilescollection.unused": "Not yet implemented"
+  "item.wilescollection.rusty_iron_ingot": "Rusty Iron Ingot",
+  "item.wilescollection.rusty_iron_nugget": "Rusty Iron Nugget"
 }

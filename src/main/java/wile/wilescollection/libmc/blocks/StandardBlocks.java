@@ -16,9 +16,8 @@ import net.minecraft.entity.EntitySpawnPlacementRegistry;
 import net.minecraft.pathfinding.PathType;
 import net.minecraft.block.*;
 import net.minecraft.entity.EntityType;
-import net.minecraft.state.DirectionProperty;
-import net.minecraft.state.StateContainer;
-import net.minecraft.state.BooleanProperty;
+import net.minecraft.state.*;
+import net.minecraft.state.properties.AttachFace;
 import net.minecraft.state.properties.BlockStateProperties;
 import net.minecraft.fluid.FluidState;
 import net.minecraft.fluid.Fluids;
@@ -504,6 +503,58 @@ public class StandardBlocks
         case WEST : return HorizontalFourWayWaterLoggable.WEST;
         default   : return HorizontalFourWayWaterLoggable.NORTH;
       }
+    }
+  }
+
+  public static class HorizontalFaceAttachedWaterLoggable extends HorizontalWaterLoggable implements IWaterLoggable, IStandardBlock
+  {
+    public static final EnumProperty<AttachFace> FACE = BlockStateProperties.FACE;
+    protected final Map<BlockState, VoxelShape> vshapes;
+
+
+    public HorizontalFaceAttachedWaterLoggable(long config, Block.Properties properties, AxisAlignedBB aabb)
+    { this(config, properties, new AxisAlignedBB[]{aabb}); }
+
+    public HorizontalFaceAttachedWaterLoggable(long config, Block.Properties properties, AxisAlignedBB[] aabbs)
+    {
+      super(config|CFG_WATERLOGGABLE|CFG_LOOK_PLACEMENT, properties, new AxisAlignedBB[]{});
+      setDefaultState(super.getDefaultState().with(FACE, AttachFace.WALL));
+      Map<BlockState, VoxelShape> shapes = new HashMap<>();
+      getStateContainer().getValidStates().forEach((state)->{
+        final Direction facing = state.get(HORIZONTAL_FACING);
+        final AttachFace face = state.get(FACE);
+        AxisAlignedBB[] rotated = Auxiliaries.getRotatedAABB(aabbs, facing , true);
+        switch(face) {
+          case WALL:
+            break;
+          case CEILING:
+            break;
+          case FLOOR:
+            break;
+        }
+        VoxelShape shape = VoxelShapes.empty();
+        shapes.put(state, shape);
+      });
+      vshapes = shapes;
+    }
+
+    @Override
+    protected void fillStateContainer(StateContainer.Builder<Block, BlockState> builder)
+    { super.fillStateContainer(builder); builder.add(FACE); }
+
+    @Override
+    @Nullable
+    public BlockState getStateForPlacement(BlockItemUseContext context)
+    {
+      BlockState state = super.getStateForPlacement(context);
+      if(state==null) return null;
+      for(Direction direction : context.getNearestLookingDirections()) {
+        final BlockState atface_state = (direction.getAxis() == Direction.Axis.Y)
+          ? state.with(FACE, (direction == Direction.UP) ? (AttachFace.CEILING) : (AttachFace.FLOOR)).with(HORIZONTAL_FACING, context.getPlacementHorizontalFacing())
+          : state.with(FACE, AttachFace.WALL).with(HORIZONTAL_FACING, direction.getOpposite());
+        if(atface_state.isValidPosition(context.getWorld(), context.getPos())) return atface_state;
+      }
+      return null;
     }
   }
 

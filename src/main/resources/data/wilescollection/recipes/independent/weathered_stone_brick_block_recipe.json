@@ -1,0 +1,26 @@
+{
+  "type": "forge:conditional",
+  "recipes": [
+    {
+      "conditions": [
+        {
+          "type": "wilescollection:optional",
+          "result": "wilescollection:weathered_stone_brick_block"
+        }
+      ],
+      "recipe": {
+        "type": "minecraft:crafting_shapeless",
+        "ingredients": [
+          { "item": "minecraft:stone_bricks" },
+          { "item": "minecraft:stone_bricks" },
+          { "item": "minecraft:stone_bricks" },
+          { "tag" : "minecraft:leaves" }
+        ],
+        "result": {
+          "item": "wilescollection:weathered_stone_brick_block",
+          "count": 3
+        }
+      }
+    }
+  ]
+}

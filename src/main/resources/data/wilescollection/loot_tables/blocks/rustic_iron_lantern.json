@@ -2,7 +2,7 @@
   "type": "minecraft:block",
   "pools": [
     {
-      "name": "iron_lantern_dlt",
+      "name": "rustic_iron_lantern_dlt",
       "rolls": 1,
       "entries": [
         {
@@ -13,7 +13,7 @@
               "source": "block_entity"
             }
           ],
-          "name": "wilescollection:iron_lantern"
+          "name": "wilescollection:rustic_iron_lantern"
         }
       ]
     }

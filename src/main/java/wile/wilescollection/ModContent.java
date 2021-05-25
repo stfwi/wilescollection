@@ -12,9 +12,6 @@
  */
 package wile.wilescollection;
 
-import net.minecraft.block.BlockState;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.IBlockReader;
 import net.minecraft.block.material.MaterialColor;
 import net.minecraft.block.Block;
 import net.minecraft.block.SoundType;
@@ -36,7 +33,6 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.fml.client.registry.RenderingRegistry;
 import net.minecraftforge.fml.client.registry.ClientRegistry;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
-import org.apache.commons.lang3.ArrayUtils;
 import wile.wilescollection.blocks.*;
 import wile.wilescollection.items.*;
 import wile.wilescollection.libmc.blocks.StandardBlocks;
@@ -44,6 +40,7 @@ import wile.wilescollection.libmc.blocks.StandardBlocks.IStandardBlock;
 import wile.wilescollection.libmc.detail.Auxiliaries;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Collections;
 import javax.annotation.Nonnull;
@@ -55,41 +52,35 @@ public class ModContent
   private static final String MODID = ModWilesCollection.MODID;
 
   //--------------------------------------------------------------------------------------------------------------------
-
-  private static Boolean disallowSpawn(BlockState state, IBlockReader reader, BlockPos pos, EntityType<?> entity) { return false; }
-
-  //--------------------------------------------------------------------------------------------------------------------
   // Blocks
   //--------------------------------------------------------------------------------------------------------------------
 
-  //  public static final StandardBlocks.BaseBlock ACCENTUATED_STONE_BRICK_BLOCK = (StandardBlocks.BaseBlock)(new StandardBlocks.BaseBlock(
-  //    StandardBlocks.CFG_DEFAULT,
-  //    Block.Properties.create(Material.ROCK, MaterialColor.STONE).hardnessAndResistance(3f, 10f).sound(SoundType.STONE)
-  //  )).setRegistryName(new ResourceLocation(MODID, "accentuated_stone_brick_block"));
-  //
-  //  public static final VariantSlabBlock ACCENTUATED_STONE_BRICK_SLAB = (VariantSlabBlock)(new VariantSlabBlock(
-  //    StandardBlocks.CFG_DEFAULT,
-  //    Block.Properties.create(Material.ROCK, MaterialColor.STONE).hardnessAndResistance(3f, 10f).sound(SoundType.STONE)
-  //  )).setRegistryName(new ResourceLocation(MODID, "accentuated_stone_brick_slab"));
-  //
-  //  public static final StandardStairsBlock ACCENTUATED_STONE_BRICK_STAIRS = (StandardStairsBlock)(new StandardStairsBlock(
-  //    StandardBlocks.CFG_DEFAULT,
-  //    ACCENTUATED_STONE_BRICK_BLOCK.getDefaultState(),
-  //    Block.Properties.create(Material.ROCK, MaterialColor.STONE).hardnessAndResistance(3f, 10f).sound(SoundType.STONE)
-  //  )).setRegistryName(new ResourceLocation(MODID, "accentuated_stone_brick_stairs"));
-  //
-  //  public static final VariantWallBlock ACCENTUATED_STONE_BRICK_WALL = (VariantWallBlock)(new VariantWallBlock(
-  //    StandardBlocks.CFG_DEFAULT,
-  //    Block.Properties.create(Material.ROCK, MaterialColor.STONE).hardnessAndResistance(3f, 10f).sound(SoundType.STONE)
-  //  )).setRegistryName(new ResourceLocation(MODID, "accentuated_stone_brick_wall"));
-  //
-  //  public static final StandardBlocks.HorizontalWaterLoggable ACCENTUATED_STONE_BRICK_PANEL = (StandardBlocks.HorizontalWaterLoggable)(new StandardBlocks.HorizontalWaterLoggable(
-  //    StandardBlocks.CFG_CUTOUT|StandardBlocks.CFG_HORIZIONTAL|StandardBlocks.CFG_LOOK_PLACEMENT,
-  //    Block.Properties.create(Material.ROCK, MaterialColor.STONE).hardnessAndResistance(3f, 10f).sound(SoundType.STONE),
-  //    new AxisAlignedBB[] { Auxiliaries.getPixeledAABB( 0,0, 0, 16,16, 8) }
-  //  )).setRegistryName(new ResourceLocation(MODID, "accentuated_stone_brick_panel"));
+  public static final EdCraftingTable.CraftingTableBlock CRAFTING_TABLE = (EdCraftingTable.CraftingTableBlock)(new EdCraftingTable.CraftingTableBlock(
+    StandardBlocks.CFG_CUTOUT|StandardBlocks.CFG_HORIZIONTAL|StandardBlocks.CFG_LOOK_PLACEMENT|StandardBlocks.CFG_OPPOSITE_PLACEMENT,
+    Block.Properties.create(Material.WOOD, MaterialColor.WOOD).hardnessAndResistance(1f, 5f).sound(SoundType.WOOD).notSolid(),
+    new AxisAlignedBB[]{
+      Auxiliaries.getPixeledAABB(0,13,0, 16,16,16),
+      Auxiliaries.getPixeledAABB(1, 0,1, 15,16,15)
+    }
+  )).setRegistryName(new ResourceLocation(MODID, "crafting_table"));
 
-  // -------------------------------------------------------------------------------------------------------------------
+  public static final FluidBarrel.FluidBarrelBlock FLUID_BARREL = (FluidBarrel.FluidBarrelBlock)(new FluidBarrel.FluidBarrelBlock(
+    StandardBlocks.CFG_CUTOUT|StandardBlocks.CFG_LOOK_PLACEMENT|StandardBlocks.CFG_OPPOSITE_PLACEMENT,
+    Block.Properties.create(Material.WOOD, MaterialColor.WOOD).hardnessAndResistance(0.5f, 5f).sound(SoundType.WOOD).notSolid(),
+    new AxisAlignedBB[] {
+      Auxiliaries.getPixeledAABB(2, 0,0, 14, 1,16),
+      Auxiliaries.getPixeledAABB(1, 1,0, 15, 2,16),
+      Auxiliaries.getPixeledAABB(0, 2,0, 16,14,16),
+      Auxiliaries.getPixeledAABB(1,14,0, 15,15,16),
+      Auxiliaries.getPixeledAABB(2,15,0, 14,16,16),
+    }
+  )).setRegistryName(new ResourceLocation(MODID, "fluid_barrel"));
+
+  public static final LabeledCrate.LabeledCrateBlock CRATE = (LabeledCrate.LabeledCrateBlock)(new LabeledCrate.LabeledCrateBlock(
+    StandardBlocks.CFG_HORIZIONTAL|StandardBlocks.CFG_LOOK_PLACEMENT|StandardBlocks.CFG_OPPOSITE_PLACEMENT,
+    Block.Properties.create(Material.WOOD, MaterialColor.WOOD).hardnessAndResistance(0.5f, 5f).sound(SoundType.METAL).notSolid(),
+    Auxiliaries.getPixeledAABB(0,0,0, 16,16,16)
+  )).setRegistryName(new ResourceLocation(MODID, "crate"));
 
   public static final ExtLadderBlock WOOD_LADDER = (ExtLadderBlock)(new ExtLadderBlock(
     StandardBlocks.CFG_DEFAULT,
@@ -120,88 +111,82 @@ public class ModContent
     }
   )).setRegistryName(new ResourceLocation(MODID, "wood_chair"));
 
-  // -------------------------------------------------------------------------------------------------------------------
-
-  public static final OmniLanternBlock IRON_LANTERN = (OmniLanternBlock)(new OmniLanternBlock(
+  public static final OmniLanternBlock RUSTIC_IRON_LANTERN = (OmniLanternBlock)(new OmniLanternBlock(
     StandardBlocks.CFG_CUTOUT|StandardBlocks.CFG_FACING_PLACEMENT|StandardBlocks.CFG_OPPOSITE_PLACEMENT|StandardBlocks.CFG_AI_PASSABLE,
-    Block.Properties.create(Material.IRON, MaterialColor.IRON).hardnessAndResistance(2f, 4f).sound(SoundType.METAL).setLightLevel((state)->15).notSolid(),
+    Block.Properties.create(Material.IRON, MaterialColor.IRON).hardnessAndResistance(2f, 4f).sound(SoundType.LANTERN).setLightLevel((state)->15).notSolid(),
     new AxisAlignedBB[]{
-      Auxiliaries.getPixeledAABB( 7, 1, 3, 9,14, 5),
-      Auxiliaries.getPixeledAABB( 6, 7, 2,10,13, 6),
-      Auxiliaries.getPixeledAABB( 7, 2, 0, 9, 4, 3),
+      Auxiliaries.getPixeledAABB( 5, 2, 5, 11,8,11),
+      Auxiliaries.getPixeledAABB( 6, 8, 6, 10,9,10),
+      Auxiliaries.getPixeledAABB( 7.5, 11, 0, 8.5,13,2),
+      Auxiliaries.getPixeledAABB( 7.5, 12, 2, 8.5,13,9)
     },
     new AxisAlignedBB[]{
-      Auxiliaries.getPixeledAABB( 7, 0, 7,  9,12, 9),
-      Auxiliaries.getPixeledAABB( 6, 5, 6, 10,11,10)
+      Auxiliaries.getPixeledAABB( 5, 0, 5, 11,6,11),
+      Auxiliaries.getPixeledAABB( 6, 6, 6, 10,7,10)
     },
     new AxisAlignedBB[]{
-      Auxiliaries.getPixeledAABB( 7,13, 7,  9,16, 9),
-      Auxiliaries.getPixeledAABB( 6,7.5, 6, 10,13,10)
+      Auxiliaries.getPixeledAABB( 5,  5.75, 5, 11,11.75,11),
+      Auxiliaries.getPixeledAABB( 6, 11.75, 6, 10,12.75,10),
+      Auxiliaries.getPixeledAABB( 7, 12.00, 7,  9,16.00, 9)
     }
-  )).setRegistryName(new ResourceLocation(MODID, "iron_lantern"));
+  )).setRegistryName(new ResourceLocation(MODID, "rustic_iron_lantern"));
+
+  public static final StandardBlocks.BaseBlock WEATHERED_STONE_BRICK_BLOCK = (StandardBlocks.BaseBlock)(new StandardBlocks.BaseBlock(
+    StandardBlocks.CFG_DEFAULT,
+    Block.Properties.create(Material.ROCK, MaterialColor.STONE).hardnessAndResistance(2f, 4f).sound(SoundType.STONE)
+  )).setRegistryName(new ResourceLocation(MODID, "weathered_stone_brick_block"));
 
   // -------------------------------------------------------------------------------------------------------------------
 
-  //  public static final WindowBlock WOOD_WINDOW = (WindowBlock)(new WindowBlock(
-  //    StandardBlocks.CFG_LOOK_PLACEMENT,
-  //    Block.Properties.create(Material.IRON, MaterialColor.IRON).hardnessAndResistance(2f, 8f).sound(SoundType.METAL).notSolid(),
-  //    Auxiliaries.getPixeledAABB(0,0,7.5, 16,16,8.5)
-  //  )).setRegistryName(new ResourceLocation(MODID, "wood_window"));
-  //
-  //  public static final StandardBlocks.DirectedWaterLoggable WOOD_WINDOWSILL = (StandardBlocks.DirectedWaterLoggable)(new StandardBlocks.DirectedWaterLoggable(
-  //    StandardBlocks.CFG_CUTOUT|StandardBlocks.CFG_HORIZIONTAL|StandardBlocks.CFG_FACING_PLACEMENT|StandardBlocks.CFG_AI_PASSABLE,
-  //    Block.Properties.create(Material.WOOD, MaterialColor.WOOD).hardnessAndResistance(2f, 5f).sound(SoundType.WOOD).notSolid(),
-  //    Auxiliaries.getPixeledAABB(0.5,15,10.5, 15.5,16,16)
-  //  )).setRegistryName(new ResourceLocation(MODID, "wood_windowsill"));
-  //
-  //  public static final StandardBlocks.DirectedWaterLoggable WOOD_BROAD_WINDOWSILL = (StandardBlocks.DirectedWaterLoggable)(new StandardBlocks.DirectedWaterLoggable(
-  //    StandardBlocks.CFG_CUTOUT|StandardBlocks.CFG_HORIZIONTAL|StandardBlocks.CFG_FACING_PLACEMENT,
-  //    Block.Properties.create(Material.WOOD, MaterialColor.WOOD).hardnessAndResistance(2f, 5f).sound(SoundType.WOOD).notSolid(),
-  //    Auxiliaries.getPixeledAABB(0,14.5,4, 16,16,16)
-  //  )).setRegistryName(new ResourceLocation(MODID, "wood_broad_windowsill"));
-  //
-  //  public static final StraightPoleBlock THIN_STEEL_POLE = (StraightPoleBlock)(new StraightPoleBlock(
-  //    StandardBlocks.CFG_CUTOUT|StandardBlocks.CFG_FACING_PLACEMENT,
-  //    Block.Properties.create(Material.IRON, MaterialColor.IRON).hardnessAndResistance(2f, 11f).sound(SoundType.METAL).notSolid(),
-  //    Auxiliaries.getPixeledAABB(6,6,0, 10,10,16),
-  //    null
-  //  )).setRegistryName(new ResourceLocation(MODID, "thin_wood_pole"));
-  //
-  //  public static final StraightPoleBlock THICK_STEEL_POLE = (StraightPoleBlock)(new StraightPoleBlock(
-  //    StandardBlocks.CFG_CUTOUT|StandardBlocks.CFG_FACING_PLACEMENT,
-  //    Block.Properties.create(Material.IRON, MaterialColor.IRON).hardnessAndResistance(2f, 11f).sound(SoundType.METAL).notSolid(),
-  //    Auxiliaries.getPixeledAABB(5,5,0, 11,11,16),
-  //    null
-  //  )).setRegistryName(new ResourceLocation(MODID, "thick_wood_pole"));
-
-  // -------------------------------------------------------------------------------------------------------------------
-
-  public static final EdCraftingTable.CraftingTableBlock CRAFTING_TABLE = (EdCraftingTable.CraftingTableBlock)(new EdCraftingTable.CraftingTableBlock(
-    StandardBlocks.CFG_CUTOUT|StandardBlocks.CFG_HORIZIONTAL|StandardBlocks.CFG_LOOK_PLACEMENT|StandardBlocks.CFG_OPPOSITE_PLACEMENT,
-    Block.Properties.create(Material.WOOD, MaterialColor.WOOD).hardnessAndResistance(1f, 5f).sound(SoundType.WOOD).notSolid(),
-    new AxisAlignedBB[]{
-      Auxiliaries.getPixeledAABB(0,13,0, 16,16,16),
-      Auxiliaries.getPixeledAABB(1, 0,1, 15,16,15)
-    }
-  )).setRegistryName(new ResourceLocation(MODID, "crafting_table"));
-
-  public static final FluidBarrel.FluidBarrelBlock FLUID_BARREL = (FluidBarrel.FluidBarrelBlock)(new FluidBarrel.FluidBarrelBlock(
-    StandardBlocks.CFG_CUTOUT|StandardBlocks.CFG_LOOK_PLACEMENT|StandardBlocks.CFG_OPPOSITE_PLACEMENT,
-    Block.Properties.create(Material.WOOD, MaterialColor.WOOD).hardnessAndResistance(0.5f, 5f).sound(SoundType.WOOD).notSolid(),
-    new AxisAlignedBB[]{
-      Auxiliaries.getPixeledAABB(2, 0,0, 14, 1,16),
-      Auxiliaries.getPixeledAABB(1, 1,0, 15, 2,16),
-      Auxiliaries.getPixeledAABB(0, 2,0, 16,14,16),
-      Auxiliaries.getPixeledAABB(1,14,0, 15,15,16),
-      Auxiliaries.getPixeledAABB(2,15,0, 14,16,16),
-    }
-  )).setRegistryName(new ResourceLocation(MODID, "fluid_barrel"));
-
-  public static final LabeledCrate.LabeledCrateBlock CRATE = (LabeledCrate.LabeledCrateBlock)(new LabeledCrate.LabeledCrateBlock(
-    StandardBlocks.CFG_HORIZIONTAL|StandardBlocks.CFG_LOOK_PLACEMENT|StandardBlocks.CFG_OPPOSITE_PLACEMENT,
-    Block.Properties.create(Material.WOOD, MaterialColor.WOOD).hardnessAndResistance(0.5f, 5f).sound(SoundType.METAL).notSolid(),
-    Auxiliaries.getPixeledAABB(0,0,0, 16,16,16)
-  )).setRegistryName(new ResourceLocation(MODID, "crate"));
+  static {
+    //  public static final VariantSlabBlock ACCENTUATED_STONE_BRICK_SLAB = (VariantSlabBlock)(new VariantSlabBlock(
+    //    StandardBlocks.CFG_DEFAULT,
+    //    Block.Properties.create(Material.ROCK, MaterialColor.STONE).hardnessAndResistance(3f, 10f).sound(SoundType.STONE)
+    //  )).setRegistryName(new ResourceLocation(MODID, "accentuated_stone_brick_slab"));
+    //
+    //  public static final StandardStairsBlock ACCENTUATED_STONE_BRICK_STAIRS = (StandardStairsBlock)(new StandardStairsBlock(
+    //    StandardBlocks.CFG_DEFAULT,
+    //    ACCENTUATED_STONE_BRICK_BLOCK.getDefaultState(),
+    //    Block.Properties.create(Material.ROCK, MaterialColor.STONE).hardnessAndResistance(3f, 10f).sound(SoundType.STONE)
+    //  )).setRegistryName(new ResourceLocation(MODID, "accentuated_stone_brick_stairs"));
+    //
+    //  public static final StandardBlocks.HorizontalWaterLoggable ACCENTUATED_STONE_BRICK_PANEL = (StandardBlocks.HorizontalWaterLoggable)(new StandardBlocks.HorizontalWaterLoggable(
+    //    StandardBlocks.CFG_CUTOUT|StandardBlocks.CFG_HORIZIONTAL|StandardBlocks.CFG_LOOK_PLACEMENT,
+    //    Block.Properties.create(Material.ROCK, MaterialColor.STONE).hardnessAndResistance(3f, 10f).sound(SoundType.STONE),
+    //    new AxisAlignedBB[] { Auxiliaries.getPixeledAABB( 0,0, 0, 16,16, 8) }
+    //  )).setRegistryName(new ResourceLocation(MODID, "accentuated_stone_brick_panel"));
+    //  public static final WindowBlock WOOD_WINDOW = (WindowBlock)(new WindowBlock(
+    //    StandardBlocks.CFG_LOOK_PLACEMENT,
+    //    Block.Properties.create(Material.IRON, MaterialColor.IRON).hardnessAndResistance(2f, 8f).sound(SoundType.METAL).notSolid(),
+    //    Auxiliaries.getPixeledAABB(0,0,7.5, 16,16,8.5)
+    //  )).setRegistryName(new ResourceLocation(MODID, "wood_window"));
+    //
+    //  public static final StandardBlocks.DirectedWaterLoggable WOOD_WINDOWSILL = (StandardBlocks.DirectedWaterLoggable)(new StandardBlocks.DirectedWaterLoggable(
+    //    StandardBlocks.CFG_CUTOUT|StandardBlocks.CFG_HORIZIONTAL|StandardBlocks.CFG_FACING_PLACEMENT|StandardBlocks.CFG_AI_PASSABLE,
+    //    Block.Properties.create(Material.WOOD, MaterialColor.WOOD).hardnessAndResistance(2f, 5f).sound(SoundType.WOOD).notSolid(),
+    //    Auxiliaries.getPixeledAABB(0.5,15,10.5, 15.5,16,16)
+    //  )).setRegistryName(new ResourceLocation(MODID, "wood_windowsill"));
+    //
+    //  public static final StandardBlocks.DirectedWaterLoggable WOOD_BROAD_WINDOWSILL = (StandardBlocks.DirectedWaterLoggable)(new StandardBlocks.DirectedWaterLoggable(
+    //    StandardBlocks.CFG_CUTOUT|StandardBlocks.CFG_HORIZIONTAL|StandardBlocks.CFG_FACING_PLACEMENT,
+    //    Block.Properties.create(Material.WOOD, MaterialColor.WOOD).hardnessAndResistance(2f, 5f).sound(SoundType.WOOD).notSolid(),
+    //    Auxiliaries.getPixeledAABB(0,14.5,4, 16,16,16)
+    //  )).setRegistryName(new ResourceLocation(MODID, "wood_broad_windowsill"));
+    //
+    //  public static final StraightPoleBlock THIN_STEEL_POLE = (StraightPoleBlock)(new StraightPoleBlock(
+    //    StandardBlocks.CFG_CUTOUT|StandardBlocks.CFG_FACING_PLACEMENT,
+    //    Block.Properties.create(Material.IRON, MaterialColor.IRON).hardnessAndResistance(2f, 11f).sound(SoundType.METAL).notSolid(),
+    //    Auxiliaries.getPixeledAABB(6,6,0, 10,10,16),
+    //    null
+    //  )).setRegistryName(new ResourceLocation(MODID, "thin_wood_pole"));
+    //
+    //  public static final StraightPoleBlock THICK_STEEL_POLE = (StraightPoleBlock)(new StraightPoleBlock(
+    //    StandardBlocks.CFG_CUTOUT|StandardBlocks.CFG_FACING_PLACEMENT,
+    //    Block.Properties.create(Material.IRON, MaterialColor.IRON).hardnessAndResistance(2f, 11f).sound(SoundType.METAL).notSolid(),
+    //    Auxiliaries.getPixeledAABB(5,5,0, 11,11,16),
+    //    null
+    //  )).setRegistryName(new ResourceLocation(MODID, "thick_wood_pole"));
+  }
 
   // -------------------------------------------------------------------------------------------------------------------
 
@@ -212,7 +197,8 @@ public class ModContent
     WOOD_LADDER,
     WOOD_TABLE,
     WOOD_CHAIR,
-    IRON_LANTERN
+    RUSTIC_IRON_LANTERN,
+    WEATHERED_STONE_BRICK_BLOCK
   };
 
   private static final Block devBlocks[] = {
@@ -247,14 +233,16 @@ public class ModContent
   // Items
   //--------------------------------------------------------------------------------------------------------------------
 
-  private static Item.Properties default_item_properties()
-  { return (new Item.Properties()).group(ModWilesCollection.ITEMGROUP); }
+  private static Item.Properties default_item_properties()  { return (new Item.Properties()).group(ModWilesCollection.ITEMGROUP); }
 
-  public static final EdItem RING_ITEM = (EdItem)((new EdItem(default_item_properties()).setRegistryName(MODID, "ring")));
+  public static final ModItem RUSTY_IRON_INGOT = (ModItem)((new ModItem(default_item_properties()).setRegistryName(MODID, "rusty_iron_ingot")));
+  public static final ModItem RUSTY_IRON_NUGGET = (ModItem)((new ModItem(default_item_properties()).setRegistryName(MODID, "rusty_iron_nugget")));
+  public static final ModItem RING_ITEM = (ModItem)((new ModItem(default_item_properties()).setRegistryName(MODID, "ring")));
 
   @SuppressWarnings("all")
-  private static final EdItem modItems[] = {
-    //RING_ITEM
+  private static final ModItem modItems[] = {
+    RUSTY_IRON_INGOT,
+    RUSTY_IRON_NUGGET
   };
 
   //--------------------------------------------------------------------------------------------------------------------
@@ -311,7 +299,7 @@ public class ModContent
 
   @SuppressWarnings("deprecation")
   public static boolean isExperimentalBlock(Block block)
-  { return ArrayUtils.contains(devBlocks, block); }
+  { return Arrays.asList(devBlocks).contains(block); }
 
   @Nonnull
   public static List<Block> getRegisteredBlocks()

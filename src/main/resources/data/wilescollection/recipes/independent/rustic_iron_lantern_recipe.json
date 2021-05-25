@@ -1,0 +1,31 @@
+{
+  "type": "forge:conditional",
+  "recipes": [
+    {
+      "conditions": [
+        {
+          "type": "wilescollection:optional",
+          "result": "wilescollection:rustic_iron_lantern",
+          "required": ["wilescollection:rusty_iron_nugget"]
+        }
+      ],
+      "recipe": {
+        "type": "minecraft:crafting_shapeless",
+        "ingredients": [
+          { "item": "wilescollection:rusty_iron_nugget" },
+          { "item": "wilescollection:rusty_iron_nugget" },
+          { "item": "wilescollection:rusty_iron_nugget" },
+          { "item": "wilescollection:rusty_iron_nugget" },
+          { "item": "minecraft:torch" },
+          { "item": "wilescollection:rusty_iron_nugget" },
+          { "item": "wilescollection:rusty_iron_nugget" },
+          { "item": "wilescollection:rusty_iron_nugget" },
+          { "item": "wilescollection:rusty_iron_nugget" }
+        ],
+        "result": {
+          "item": "wilescollection:rustic_iron_lantern"
+        }
+      }
+    }
+  ]
+}

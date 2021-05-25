@@ -7,14 +7,14 @@
   ],
   "type": "minecraft:crafting_shaped",
   "pattern": [
-    "SSS",
+    "PPP",
     "CCP",
-    "CCP"
+    "CCL"
   ],
   "key": {
-    "S": { "item": "minecraft:oak_slab" },
+    "L": { "item": "minecraft:item_frame" },
     "C": { "item": "minecraft:chest" },
-    "P": { "item": "minecraft:oak_planks" }
+    "P": { "item": "minecraft:spruce_planks" }
   },
   "result": {
     "item": "wilescollection:crate",

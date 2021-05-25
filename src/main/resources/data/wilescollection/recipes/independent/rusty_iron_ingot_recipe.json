@@ -1,0 +1,31 @@
+{
+  "type": "forge:conditional",
+  "recipes": [
+    {
+      "conditions": [
+        {
+          "type": "wilescollection:optional",
+          "result": "wilescollection:rusty_iron_ingot"
+        }
+      ],
+      "recipe": {
+        "type": "minecraft:crafting_shapeless",
+        "ingredients": [
+          { "item": "minecraft:iron_ingot" },
+          { "item": "minecraft:iron_ingot" },
+          { "item": "minecraft:iron_ingot" },
+          { "item": "minecraft:iron_ingot" },
+          { "item": "minecraft:water_bucket" },
+          { "item": "minecraft:iron_ingot" },
+          { "item": "minecraft:iron_ingot" },
+          { "item": "minecraft:iron_ingot" },
+          { "item": "minecraft:iron_ingot" }
+        ],
+        "result": {
+          "item": "wilescollection:rusty_iron_ingot",
+          "count": 8
+        }
+      }
+    }
+  ]
+}
