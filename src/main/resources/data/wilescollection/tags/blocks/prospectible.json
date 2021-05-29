@@ -1,0 +1,10 @@
+{
+  "replace": false,
+  "values": [
+    "minecraft:ancient_debris",
+    "minecraft:diamond_ore",
+    "minecraft:emerald_ore",
+    "minecraft:gilded_blackstone",
+    "minecraft:crying_obsidian"
+  ]
+}

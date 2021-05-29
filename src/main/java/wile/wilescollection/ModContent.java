@@ -16,13 +16,14 @@ import net.minecraft.block.material.MaterialColor;
 import net.minecraft.block.Block;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
+import net.minecraft.item.*;
+import net.minecraft.item.crafting.Ingredient;
 import net.minecraft.tileentity.TileEntityType;
-import net.minecraft.item.Item;
-import net.minecraft.item.BlockItem;
 import net.minecraft.entity.EntityClassification;
 import net.minecraft.entity.EntityType;
 import net.minecraft.inventory.container.ContainerType;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.SoundEvents;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.RenderTypeLookup;
@@ -38,6 +39,7 @@ import wile.wilescollection.items.*;
 import wile.wilescollection.libmc.blocks.StandardBlocks;
 import wile.wilescollection.libmc.blocks.StandardBlocks.IStandardBlock;
 import wile.wilescollection.libmc.detail.Auxiliaries;
+import wile.wilescollection.libmc.detail.Materials;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -78,7 +80,7 @@ public class ModContent
 
   public static final LabeledCrate.LabeledCrateBlock CRATE = (LabeledCrate.LabeledCrateBlock)(new LabeledCrate.LabeledCrateBlock(
     StandardBlocks.CFG_HORIZIONTAL|StandardBlocks.CFG_LOOK_PLACEMENT|StandardBlocks.CFG_OPPOSITE_PLACEMENT,
-    Block.Properties.create(Material.WOOD, MaterialColor.WOOD).hardnessAndResistance(0.5f, 5f).sound(SoundType.METAL).notSolid(),
+    Block.Properties.create(Material.WOOD, MaterialColor.WOOD).hardnessAndResistance(0.5f, 5f).sound(SoundType.WOOD).notSolid(),
     Auxiliaries.getPixeledAABB(0,0,0, 16,16,16)
   )).setRegistryName(new ResourceLocation(MODID, "crate"));
 
@@ -230,19 +232,75 @@ public class ModContent
   };
 
   //--------------------------------------------------------------------------------------------------------------------
+  // Materials
+  //--------------------------------------------------------------------------------------------------------------------
+
+  public static final Materials.CustomArmorMaterial REINFORCED_ARMOR_MATERIAL = new Materials.CustomArmorMaterial(
+    MODID+":plated_netherite",
+    SoundEvents.ITEM_ARMOR_EQUIP_NETHERITE,
+    ()->Ingredient.fromItems(Items.NETHERITE_INGOT),
+    new int[]{4, 8, 10, 4},
+    new int[]{13*42, 15*42, 16*42, 11*42},
+    15,
+    4f,
+    0.2f
+  );
+
+  //--------------------------------------------------------------------------------------------------------------------
   // Items
   //--------------------------------------------------------------------------------------------------------------------
 
   private static Item.Properties default_item_properties()  { return (new Item.Properties()).group(ModWilesCollection.ITEMGROUP); }
 
-  public static final ModItem RUSTY_IRON_INGOT = (ModItem)((new ModItem(default_item_properties()).setRegistryName(MODID, "rusty_iron_ingot")));
-  public static final ModItem RUSTY_IRON_NUGGET = (ModItem)((new ModItem(default_item_properties()).setRegistryName(MODID, "rusty_iron_nugget")));
-  public static final ModItem RING_ITEM = (ModItem)((new ModItem(default_item_properties()).setRegistryName(MODID, "ring")));
+  public static final ModItem RUSTY_IRON_INGOT = (ModItem)((new ModItem(
+    default_item_properties()
+  ).setRegistryName(MODID, "rusty_iron_ingot")));
+
+  public static final ModItem RUSTY_IRON_NUGGET = (ModItem)((new ModItem(
+    default_item_properties()
+  ).setRegistryName(MODID, "rusty_iron_nugget")));
+
+  public static final ProspectingDowserItem PROSPECTING_DOWSER = (ProspectingDowserItem)((new ProspectingDowserItem(
+    default_item_properties()
+  ).setRegistryName(MODID, "prospecting_dowser")));
+
+  public static final Armors.HelmetArmorItem PLATED_NETHERITE_HELMET = (Armors.HelmetArmorItem)((new Armors.HelmetArmorItem(
+    Armors.CFG_DEFAULT,
+    REINFORCED_ARMOR_MATERIAL,
+    default_item_properties().isImmuneToFire()
+  ).setRegistryName(MODID, "plated_netherite_helmet")));
+
+  public static final Armors.ChestPlateArmorItem PLATED_NETHERITE_CHESTPLATE = (Armors.ChestPlateArmorItem)((new Armors.ChestPlateArmorItem(
+    Armors.CFG_MAKES_PIGLINS_NEUTRAL,
+    REINFORCED_ARMOR_MATERIAL,
+    default_item_properties().isImmuneToFire()
+  ).setRegistryName(MODID, "plated_netherite_chestplate")));
+
+  public static final Armors.LeggingsArmorItem PLATED_NETHERITE_LEGGINGS = (Armors.LeggingsArmorItem)((new Armors.LeggingsArmorItem(
+    Armors.CFG_MAKES_PIGLINS_NEUTRAL,
+    REINFORCED_ARMOR_MATERIAL,
+    default_item_properties().isImmuneToFire()
+  ).setRegistryName(MODID, "plated_netherite_leggings")));
+
+  public static final Armors.BootsArmorItem PLATED_NETHERITE_BOOTS = (Armors.BootsArmorItem)((new Armors.BootsArmorItem(
+    Armors.CFG_DEFAULT,
+    REINFORCED_ARMOR_MATERIAL,
+    default_item_properties().isImmuneToFire()
+  ).setRegistryName(MODID, "plated_netherite_boots")));
+
+  public static final ModItem RING_ITEM = (ModItem)((new ModItem(
+    default_item_properties()
+  ).setRegistryName(MODID, "ring")));
 
   @SuppressWarnings("all")
-  private static final ModItem modItems[] = {
+  private static final Item modItems[] = {
     RUSTY_IRON_INGOT,
-    RUSTY_IRON_NUGGET
+    RUSTY_IRON_NUGGET,
+    PROSPECTING_DOWSER,
+    PLATED_NETHERITE_HELMET,
+    PLATED_NETHERITE_CHESTPLATE,
+    PLATED_NETHERITE_LEGGINGS,
+    PLATED_NETHERITE_BOOTS
   };
 
   //--------------------------------------------------------------------------------------------------------------------
@@ -380,6 +438,12 @@ public class ModContent
       (TileEntityType<LabeledCrate.LabeledCrateTileEntity>)TET_LABELED_CRATE,
       wile.wilescollection.detail.ModRenderers.DecorLabeledCrateTer::new
     );
+  }
+
+  @OnlyIn(Dist.CLIENT)
+  public static void registerModels()
+  {
+    PROSPECTING_DOWSER.registerModels();
   }
 
   @OnlyIn(Dist.CLIENT)

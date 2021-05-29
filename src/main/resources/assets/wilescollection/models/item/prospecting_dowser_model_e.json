@@ -1,0 +1,60 @@
+{
+	"textures": {
+		"particle": "wilescollection:item/prospecting_dowser_e",
+		"e": "wilescollection:item/prospecting_dowser_e"
+	},
+	"elements": [
+		{
+			"from": [9, 11, 7.5],
+			"to": [10, 14, 8.5],
+			"rotation": {"angle": 0, "axis": "y", "origin": [17, 19, 15.5]},
+			"faces": {
+				"north": {"uv": [9, 2, 10, 5], "texture": "#e"},
+				"east": {"uv": [9, 2, 10, 5], "texture": "#e"},
+				"south": {"uv": [9, 2, 10, 5], "texture": "#e"},
+				"west": {"uv": [9, 2, 10, 5], "texture": "#e"},
+				"up": {"uv": [9, 2, 10, 3], "texture": "#e"},
+				"down": {"uv": [9, 4, 10, 5], "texture": "#e"}
+			}
+		},
+		{
+			"from": [11, 9, 7.5],
+			"to": [14, 10, 8.5],
+			"rotation": {"angle": 0, "axis": "y", "origin": [19, 17, 15.5]},
+			"faces": {
+				"north": {"uv": [11, 6, 14, 7], "rotation": 180, "texture": "#e"},
+				"east": {"uv": [13, 6, 14, 7], "texture": "#e"},
+				"south": {"uv": [11, 6, 14, 7], "texture": "#e"},
+				"west": {"uv": [11, 6, 12, 7], "texture": "#e"},
+				"up": {"uv": [11, 6, 14, 7], "texture": "#e"},
+				"down": {"uv": [11, 6, 14, 7], "texture": "#e"}
+			}
+		},
+		{
+			"from": [10, 12, 7.5],
+			"to": [11, 13, 8.5],
+			"rotation": {"angle": 0, "axis": "y", "origin": [18, 19, 15.5]},
+			"faces": {
+				"north": {"uv": [10, 3, 11, 4], "texture": "#e"},
+				"east": {"uv": [10, 3, 11, 4], "texture": "#e"},
+				"south": {"uv": [10, 3, 11, 4], "texture": "#e"},
+				"west": {"uv": [7.5, 3, 8.5, 4], "texture": "#e"},
+				"up": {"uv": [10, 3, 11, 4], "texture": "#e"},
+				"down": {"uv": [10, 3, 11, 4], "texture": "#e"}
+			}
+		},
+		{
+			"from": [12, 10, 7.5],
+			"to": [13, 11, 8.5],
+			"rotation": {"angle": 0, "axis": "y", "origin": [20, 17, 15.5]},
+			"faces": {
+				"north": {"uv": [12, 5, 13, 6], "texture": "#e"},
+				"east": {"uv": [12, 5, 13, 6], "texture": "#e"},
+				"south": {"uv": [12, 5, 13, 6], "texture": "#e"},
+				"west": {"uv": [12, 5, 13, 6], "texture": "#e"},
+				"up": {"uv": [12, 5, 13, 6], "texture": "#e"},
+				"down": {"uv": [12, 7.5, 13, 8.5], "texture": "#e"}
+			}
+		}
+	]
+}

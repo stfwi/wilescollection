@@ -11,6 +11,9 @@ Mod sources for Minecraft version 1.16.x.
 
 ## Version history
 
+    - v1.1.0-b2  [A] Added Prospecting Dowser.
+                 [A] Added Plated Netherite Armor.
+
     - v1.1.0-b1  [A] Initial feature set implemented.
 
     - v1.1.0-a1  [A] Initial Alpha.

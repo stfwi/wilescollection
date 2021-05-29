@@ -9,9 +9,13 @@
  */
 package wile.wilescollection.detail;
 
+import com.mojang.blaze3d.matrix.MatrixStack;
+import com.mojang.blaze3d.vertex.IVertexBuilder;
+import net.minecraft.client.renderer.model.IBakedModel;
+import net.minecraft.client.renderer.model.ItemCameraTransforms;
+import net.minecraft.client.renderer.model.ModelResourceLocation;
+import net.minecraft.client.renderer.tileentity.ItemStackTileEntityRenderer;
 import net.minecraft.util.text.ITextComponent;
-import wile.wilescollection.ModWilesCollection;
-import wile.wilescollection.blocks.EdCraftingTable;
 import net.minecraft.client.renderer.*;
 import net.minecraft.client.renderer.entity.EntityRenderer;
 import net.minecraft.client.renderer.entity.EntityRendererManager;
@@ -26,9 +30,10 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.math.MathHelper;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-import com.mojang.blaze3d.matrix.MatrixStack;
 import wile.wilescollection.blocks.EdCraftingTable.CraftingTableBlock;
 import wile.wilescollection.blocks.LabeledCrate;
+import wile.wilescollection.blocks.EdCraftingTable;
+import wile.wilescollection.ModWilesCollection;
 
 
 public class ModRenderers
@@ -160,6 +165,33 @@ public class ModRenderers
           ModWilesCollection.logger().error("TER was disabled (because broken), exception was: " + e.getMessage());
         }
       }
+    }
+  }
+
+  //--------------------------------------------------------------------------------------------------------------------
+  // Prospecting Dowser
+  //--------------------------------------------------------------------------------------------------------------------
+
+  @OnlyIn(Dist.CLIENT)
+  public static class ProspectingDowserIster extends ItemStackTileEntityRenderer
+  {
+    @Override
+    public void func_239207_a_/*render*/(ItemStack stack, ItemCameraTransforms.TransformType ctt, MatrixStack mx, IRenderTypeBuffer buf, int combinedLight, int combinedOverlay)
+    {
+      mx.push();
+      final ItemRenderer ir = Minecraft.getInstance().getItemRenderer();
+      IVertexBuilder vb = ItemRenderer.getBuffer(buf, RenderType.getCutout(), true, false);
+      IBakedModel base_model = Minecraft.getInstance().getModelManager().getModel(new ModelResourceLocation(new ResourceLocation(ModWilesCollection.MODID, "prospecting_dowser_model"), "inventory"));
+      ir.renderModel(base_model, stack, combinedLight, combinedOverlay, mx, vb);
+      final int rotation = (!stack.hasTag()) ? (0) : stack.getTag().getInt("rotation");
+      IBakedModel active_model = Minecraft.getInstance().getModelManager().getModel(new ModelResourceLocation(new ResourceLocation(ModWilesCollection.MODID, "prospecting_dowser_model_e"), "inventory"));
+      mx.translate(0.5,0.5,0.5);
+      mx.rotate(Vector3f.ZP.rotationDegrees(-45));
+      mx.rotate(Vector3f.YP.rotationDegrees(rotation));
+      mx.rotate(Vector3f.ZP.rotationDegrees( 45));
+      mx.translate(-0.5,-0.5,-0.5);
+      ir.renderModel(active_model, stack, combinedLight, combinedOverlay, mx, vb);
+      mx.pop();
     }
   }
 }

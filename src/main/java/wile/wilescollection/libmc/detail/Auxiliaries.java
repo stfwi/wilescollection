@@ -8,11 +8,17 @@
  */
 package wile.wilescollection.libmc.detail;
 
+import net.minecraft.block.Block;
 import net.minecraft.client.util.InputMappings;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.item.Item;
 import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.tags.BlockTags;
+import net.minecraft.tags.ITag;
+import net.minecraft.tags.ItemTags;
 import net.minecraft.util.Direction;
 import net.minecraft.util.Direction.Axis;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SharedConstants;
 import net.minecraft.util.math.shapes.IBooleanFunction;
 import net.minecraft.util.math.shapes.VoxelShape;
@@ -31,6 +37,7 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 import org.apache.logging.log4j.Logger;
 import org.lwjgl.glfw.GLFW;
 import wile.wilescollection.ModConfig;
+import wile.wilescollection.ModWilesCollection;
 
 import javax.annotation.Nullable;
 import java.io.BufferedReader;
@@ -38,6 +45,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 import java.util.function.Function;
 import java.util.function.Supplier;
@@ -276,6 +284,14 @@ public class Auxiliaries
     }
     return stack;
   }
+
+  // -------------------------------------------------------------------------------------------------------------------
+  // Block/Item tags
+  // -------------------------------------------------------------------------------------------------------------------
+
+  @Nullable
+  public static ITag<Block> getTag(String mod_tag_path)
+  { return BlockTags.getCollection().get(new ResourceLocation(modid, mod_tag_path)); }
 
   // -------------------------------------------------------------------------------------------------------------------
   // Block handling

@@ -1,0 +1,23 @@
+{
+  "conditions": [
+    {
+      "type": "wilescollection:optional",
+      "result": "wilescollection:prospecting_dowser",
+      "required": ["wilescollection:rusty_iron_ingot"]
+    }
+  ],
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    " IC",
+    " SI",
+    "S  "
+  ],
+  "key": {
+    "S": { "item": "minecraft:stick" },
+    "C": { "item": "minecraft:crying_obsidian" },
+    "I": { "item": "wilescollection:rusty_iron_ingot" }
+  },
+  "result": {
+    "item": "wilescollection:prospecting_dowser"
+  }
+}

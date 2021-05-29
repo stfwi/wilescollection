@@ -1,5 +1,6 @@
 package wile.wilescollection;
 
+import net.minecraftforge.client.event.ModelRegistryEvent;
 import wile.wilescollection.blocks.*;
 import wile.wilescollection.libmc.detail.Auxiliaries;
 import wile.wilescollection.libmc.detail.OptionalRecipeCondition;
@@ -89,6 +90,10 @@ public class ModWilesCollection
     @SubscribeEvent
     public static void onRegisterContainerTypes(final RegistryEvent.Register<ContainerType<?>> event)
     { ModContent.registerContainers(event); }
+
+    @SubscribeEvent
+    public static final void onRegisterModels(final ModelRegistryEvent event)
+    { ModContent.registerModels(); }
 
     public static void onConfigLoad(net.minecraftforge.fml.config.ModConfig.Loading configEvent)
     { ModConfig.apply(); }

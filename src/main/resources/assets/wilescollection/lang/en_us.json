@@ -23,6 +23,12 @@
   "block.wilescollection.weathered_stone_brick_block": "Weathered Stone Bricks",
   "block.wilescollection.wood_chair": "Wood Chair",
   "block.wilescollection.wood_table": "Wood Table",
+  "item.wilescollection.plated_netherite_boots": "Plated Netherite Boots",
+  "item.wilescollection.plated_netherite_chestplate": "Plated Netherite Chestplate",
+  "item.wilescollection.plated_netherite_helmet": "Plated Netherite Helmet",
+  "item.wilescollection.plated_netherite_leggings": "Plated Netherite Leggings",
+  "item.wilescollection.prospecting_dowser": "Prospecting Dowser",
+  "item.wilescollection.prospecting_dowser.status": "Sensing: §6%1$s§r",
   "item.wilescollection.rusty_iron_ingot": "Rusty Iron Ingot",
   "item.wilescollection.rusty_iron_nugget": "Rusty Iron Nugget"
 }
