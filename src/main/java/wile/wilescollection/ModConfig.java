@@ -16,6 +16,7 @@ import net.minecraftforge.common.ForgeConfigSpec;
 import org.apache.commons.lang3.tuple.Pair;
 import org.apache.logging.log4j.Logger;
 import wile.wilescollection.blocks.*;
+import wile.wilescollection.items.Trinkets;
 import wile.wilescollection.libmc.blocks.VariantSlabBlock;
 import wile.wilescollection.libmc.detail.Auxiliaries;
 import wile.wilescollection.libmc.detail.OptionalRecipeCondition;
@@ -23,6 +24,7 @@ import wile.wilescollection.libmc.detail.OptionalRecipeCondition;
 import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.HashSet;
+
 
 public class ModConfig
 {
@@ -264,6 +266,7 @@ public class ModConfig
     LabeledCrate.on_config(false);
     EdCraftingTable.on_config(COMMON.without_crafting_table_history.get(), false, COMMON.without_crafting_mouse_scrolling.get());
     FluidBarrel.on_config(12000, 1000);
+    Trinkets.on_config();
   }
 
   public static final void log(String config_message)

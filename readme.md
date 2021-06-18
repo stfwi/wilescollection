@@ -11,6 +11,11 @@ Mod sources for Minecraft version 1.16.x.
 
 ## Version history
 
+    - v1.1.0-b4  [U] Compatibility update to Forge v1.16.5-36.2.0.
+
+    - v1.1.0-b3  [F] Added Rustic Iron Chain.
+                 [A] Peculiar Ring added.
+
     - v1.1.0-b2  [A] Added Prospecting Dowser.
                  [A] Added Plated Netherite Armor.
 

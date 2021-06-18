@@ -1,12 +1,14 @@
 {
   "homepage": "https://www.curseforge.com/minecraft/mc-mods/wilescollection/",
-  "1.16.4": {
+  "1.16.5": {
+    "1.1.0-b4": "[U] Compatibility update to Forge v1.16.5-36.2.0.",
+    "1.1.0-b3": "[F] Added Rustic Iron Chain.\n[A] Peculiar Ring added.",
     "1.1.0-b2": "[A] Added Prospecting Dowser.\n[A] Added Plated Netherite Armor.",
     "1.1.0-b1": "[A] Initial feature set implemented.",
     "1.1.0-a1": "[A] Initial Alpha."
   },
   "promos": {
-    "1.16.4-recommended": "1.1.0-b2",
-    "1.16.4-latest": "1.1.0-b2"
+    "1.16.5-recommended": "1.1.0-b4",
+    "1.16.5-latest": "1.1.0-b4"
   }
 }

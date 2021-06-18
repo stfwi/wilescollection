@@ -1,8 +1,8 @@
 {
 	"parent": "block/block",
 	"textures": {
-		"particle": "wilescollection:block/material/rustic_lantern",
-		"lantern": "wilescollection:block/material/rustic_lantern"
+		"particle": "wilescollection:block/misc/rustic_lantern",
+		"lantern": "wilescollection:block/misc/rustic_lantern"
 	},
 	"elements": [
 		{

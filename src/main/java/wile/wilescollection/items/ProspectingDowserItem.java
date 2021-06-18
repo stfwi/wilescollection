@@ -38,7 +38,7 @@ public class ProspectingDowserItem extends ModItem
   private static int search_range = 12;
 
   public ProspectingDowserItem(Item.Properties properties)
-  { super(properties.maxStackSize(1).setISTER(ProspectingDowserItem::createIster)); }
+  { super(properties.stacksTo(1).setISTER(ProspectingDowserItem::createIster)); }
 
   @OnlyIn(Dist.CLIENT)
   public void registerModels()
@@ -52,21 +52,21 @@ public class ProspectingDowserItem extends ModItem
 
   @Override
   @OnlyIn(Dist.CLIENT)
-  public void addInformation(ItemStack stack, @Nullable World world, List<ITextComponent> tooltip, ITooltipFlag flag)
+  public void appendHoverText(ItemStack stack, @Nullable World world, List<ITextComponent> tooltip, ITooltipFlag flag)
   {
-    super.addInformation(stack, world, tooltip, flag);
+    super.appendHoverText(stack, world, tooltip, flag);
     if(!stack.hasTag()) return;
-    final ResourceLocation rl = ResourceLocation.tryCreate(stack.getTag().getString("target"));
+    final ResourceLocation rl = ResourceLocation.tryParse(stack.getTag().getString("target"));
     if(rl == null) return;
     final Block block = ForgeRegistries.BLOCKS.getValue(rl);
     if(block == null) return;
-    tooltip.add(Auxiliaries.localizable("item.wilescollection.prospecting_dowser.status", new Object[]{block.getTranslatedName()}));
+    tooltip.add(Auxiliaries.localizable("item.wilescollection.prospecting_dowser.status", new Object[]{block.getName()}));
   }
 
-  public boolean hasEffect(ItemStack stack)
+  public boolean isFoil(ItemStack stack)
   { return false; }
 
-  public boolean isImmuneToFire()
+  public boolean isFireResistant()
   { return true; }
 
   @Override
@@ -88,18 +88,18 @@ public class ProspectingDowserItem extends ModItem
   @Override
   public void inventoryTick(ItemStack stack, World world, Entity entity, int slot, boolean isSelected)
   {
-    if(!world.isRemote()) return; // client only
+    if(!world.isClientSide()) return; // client only
     final CompoundNBT tag = stack.getOrCreateTag();
     final ITag<Block> searches = Auxiliaries.getTag("prospectible");
     if(isSelected && (searches!=null)) {
-      final ResourceLocation rl = ResourceLocation.tryCreate(tag.getString("target"));
+      final ResourceLocation rl = ResourceLocation.tryParse(tag.getString("target"));
       if(rl != null) {
-        final BlockPos pos_found = blockSearch(world, entity.getPosition(), searches);
+        final BlockPos pos_found = blockSearch(world, entity.blockPosition(), searches);
         if(pos_found != null) {
-          final Vector3d dist_vec = entity.getPositionVec().add(0, entity.getEyeHeight(), 0).subtract(Vector3d.copyCentered(pos_found));
+          final Vector3d dist_vec = entity.position().add(0, entity.getEyeHeight(), 0).subtract(Vector3d.atCenterOf(pos_found));
           final double dist = ((search_range - dist_vec.length()) / search_range);
           if(dist > 1e-2) {
-            final double look = (entity.getLookVec().subtract(dist_vec.normalize()).lengthSquared() * 2); // 0..8
+            final double look = (entity.getLookAngle().subtract(dist_vec.normalize()).lengthSqr() * 2); // 0..8
             final int intensity = (int)MathHelper.clamp((dist * dist * 4) + (look * (Math.min(dist + 0.5, 1))), 0, 15);
             tag.putInt("rotation", (tag.getInt("rotation") + intensity * 8) % 360);
             tag.putString("target", world.getBlockState(pos_found).getBlock().getRegistryName().toString());
@@ -117,14 +117,14 @@ public class ProspectingDowserItem extends ModItem
   @Nullable
   private BlockPos blockSearchPN(World world, BlockPos origin, ITag<Block> match_block, int x, int y, int z)
   {
-    if(world.getBlockState(origin.add( x, y, z)).isIn(match_block)) return origin.add( x, y, z);
-    if(world.getBlockState(origin.add(-x, y, z)).isIn(match_block)) return origin.add(-x, y, z);
-    if(world.getBlockState(origin.add( x,-y, z)).isIn(match_block)) return origin.add( x,-y, z);
-    if(world.getBlockState(origin.add(-x,-y, z)).isIn(match_block)) return origin.add(-x,-y, z);
-    if(world.getBlockState(origin.add( x, y,-z)).isIn(match_block)) return origin.add( x, y,-z);
-    if(world.getBlockState(origin.add(-x, y,-z)).isIn(match_block)) return origin.add(-x, y,-z);
-    if(world.getBlockState(origin.add( x,-y,-z)).isIn(match_block)) return origin.add( x,-y,-z);
-    if(world.getBlockState(origin.add(-x,-y,-z)).isIn(match_block)) return origin.add(-x,-y,-z);
+    if(world.getBlockState(origin.offset( x, y, z)).is(match_block)) return origin.offset( x, y, z);
+    if(world.getBlockState(origin.offset(-x, y, z)).is(match_block)) return origin.offset(-x, y, z);
+    if(world.getBlockState(origin.offset( x,-y, z)).is(match_block)) return origin.offset( x,-y, z);
+    if(world.getBlockState(origin.offset(-x,-y, z)).is(match_block)) return origin.offset(-x,-y, z);
+    if(world.getBlockState(origin.offset( x, y,-z)).is(match_block)) return origin.offset( x, y,-z);
+    if(world.getBlockState(origin.offset(-x, y,-z)).is(match_block)) return origin.offset(-x, y,-z);
+    if(world.getBlockState(origin.offset( x,-y,-z)).is(match_block)) return origin.offset( x,-y,-z);
+    if(world.getBlockState(origin.offset(-x,-y,-z)).is(match_block)) return origin.offset(-x,-y,-z);
     return null;
   }
 

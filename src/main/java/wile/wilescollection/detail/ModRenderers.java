@@ -57,13 +57,13 @@ public class ModRenderers
     { return Vector3d.ZERO; }
 
     @SuppressWarnings("deprecation")
-    public ResourceLocation getEntityTexture(T entity)
-    { return AtlasTexture.LOCATION_BLOCKS_TEXTURE; }
+    public ResourceLocation getTextureLocation(T entity)
+    { return AtlasTexture.LOCATION_BLOCKS; }
 
-    protected boolean canRenderName(T entity)
+    protected boolean shouldShowName(T entity)
     { return false; }
 
-    protected void renderName(T entity, ITextComponent displayName, MatrixStack matrixStack, IRenderTypeBuffer buffer, int packedLight)
+    protected void renderNameTag(T entity, ITextComponent displayName, MatrixStack matrixStack, IRenderTypeBuffer buffer, int packedLight)
     {}
   }
 
@@ -94,11 +94,11 @@ public class ModRenderers
     {
       if(tesr_error_counter <= 0) return;
       try {
-        final int di = MathHelper.clamp(te.getWorld().getBlockState(te.getPos()).get(CraftingTableBlock.HORIZONTAL_FACING).getHorizontalIndex(), 0, 3);
-        long posrnd = te.getPos().toLong();
+        final int di = MathHelper.clamp(te.getLevel().getBlockState(te.getBlockPos()).getValue(CraftingTableBlock.HORIZONTAL_FACING).get2DDataValue(), 0, 3);
+        long posrnd = te.getBlockPos().asLong();
         posrnd = (posrnd>>16)^(posrnd<<1);
         for(int i=0; i<9; ++i) {
-          final ItemStack stack = te.mainInventory().getStackInSlot(i);
+          final ItemStack stack = te.mainInventory().getItem(i);
           if(stack.isEmpty()) continue;
           float prnd = ((float)(((Integer.rotateRight(stack.getItem().hashCode()^(int)posrnd,(stack.getCount()+i)&31)))&1023))/1024f;
           float rndo = gap * ((prnd*0.1f)-0.05f);
@@ -106,14 +106,14 @@ public class ModRenderers
           float oy = 0.5f;
           float ry = ((yrotations[di]+180) + ((prnd*60)-30)) % 360;
           if(stack.isEmpty()) return;
-          mxs.push();
+          mxs.pushPose();
           mxs.translate(0.5+ox, 0.5+oy, 0.5+oz);
-          mxs.rotate(Vector3f.XP.rotationDegrees(90.0f));
-          mxs.rotate(Vector3f.ZP.rotationDegrees(ry));
+          mxs.mulPose(Vector3f.XP.rotationDegrees(90.0f));
+          mxs.mulPose(Vector3f.ZP.rotationDegrees(ry));
           mxs.translate(rndo, rndo, 0);
           mxs.scale(scaler, scaler, scaler);
-          Minecraft.getInstance().getItemRenderer().renderItem(stack, net.minecraft.client.renderer.model.ItemCameraTransforms.TransformType.FIXED, i5, i6, mxs, buf);
-          mxs.pop();
+          Minecraft.getInstance().getItemRenderer().renderStatic(stack, net.minecraft.client.renderer.model.ItemCameraTransforms.TransformType.FIXED, i5, i6, mxs, buf);
+          mxs.popPose();
         }
       } catch(Throwable e) {
         if(--tesr_error_counter<=0) {
@@ -151,15 +151,15 @@ public class ModRenderers
       try {
         final ItemStack stack = te.getItemFrameStack();
         if(stack.isEmpty()) return;
-        final int di = MathHelper.clamp(te.getWorld().getBlockState(te.getPos()).get(LabeledCrate.LabeledCrateBlock.HORIZONTAL_FACING).getHorizontalIndex(), 0, 3);
+        final int di = MathHelper.clamp(te.getLevel().getBlockState(te.getBlockPos()).getValue(LabeledCrate.LabeledCrateBlock.HORIZONTAL_FACING).get2DDataValue(), 0, 3);
         double ox = tr[di][0], oy = tr[di][1], oz = tr[di][2];
         float ry = (float)tr[di][3];
-        mxs.push();
+        mxs.pushPose();
         mxs.translate(0.5+ox, 0.5+oy, 0.5+oz);
-        mxs.rotate(Vector3f.YP.rotationDegrees(ry));
+        mxs.mulPose(Vector3f.YP.rotationDegrees(ry));
         mxs.scale(scaler, scaler, scaler);
-        Minecraft.getInstance().getItemRenderer().renderItem(stack, net.minecraft.client.renderer.model.ItemCameraTransforms.TransformType.FIXED, i5, i6, mxs, buf);
-        mxs.pop();
+        Minecraft.getInstance().getItemRenderer().renderStatic(stack, net.minecraft.client.renderer.model.ItemCameraTransforms.TransformType.FIXED, i5, i6, mxs, buf);
+        mxs.popPose();
       } catch(Throwable e) {
         if(--tesr_error_counter<=0) {
           ModWilesCollection.logger().error("TER was disabled (because broken), exception was: " + e.getMessage());
@@ -176,22 +176,22 @@ public class ModRenderers
   public static class ProspectingDowserIster extends ItemStackTileEntityRenderer
   {
     @Override
-    public void func_239207_a_/*render*/(ItemStack stack, ItemCameraTransforms.TransformType ctt, MatrixStack mx, IRenderTypeBuffer buf, int combinedLight, int combinedOverlay)
+    public void renderByItem/*render*/(ItemStack stack, ItemCameraTransforms.TransformType ctt, MatrixStack mx, IRenderTypeBuffer buf, int combinedLight, int combinedOverlay)
     {
-      mx.push();
+      mx.pushPose();
       final ItemRenderer ir = Minecraft.getInstance().getItemRenderer();
-      IVertexBuilder vb = ItemRenderer.getBuffer(buf, RenderType.getCutout(), true, false);
+      IVertexBuilder vb = ItemRenderer.getFoilBuffer(buf, RenderType.cutout(), true, false);
       IBakedModel base_model = Minecraft.getInstance().getModelManager().getModel(new ModelResourceLocation(new ResourceLocation(ModWilesCollection.MODID, "prospecting_dowser_model"), "inventory"));
-      ir.renderModel(base_model, stack, combinedLight, combinedOverlay, mx, vb);
+      ir.renderModelLists(base_model, stack, combinedLight, combinedOverlay, mx, vb);
       final int rotation = (!stack.hasTag()) ? (0) : stack.getTag().getInt("rotation");
       IBakedModel active_model = Minecraft.getInstance().getModelManager().getModel(new ModelResourceLocation(new ResourceLocation(ModWilesCollection.MODID, "prospecting_dowser_model_e"), "inventory"));
       mx.translate(0.5,0.5,0.5);
-      mx.rotate(Vector3f.ZP.rotationDegrees(-45));
-      mx.rotate(Vector3f.YP.rotationDegrees(rotation));
-      mx.rotate(Vector3f.ZP.rotationDegrees( 45));
+      mx.mulPose(Vector3f.ZP.rotationDegrees(-45));
+      mx.mulPose(Vector3f.YP.rotationDegrees(rotation));
+      mx.mulPose(Vector3f.ZP.rotationDegrees( 45));
       mx.translate(-0.5,-0.5,-0.5);
-      ir.renderModel(active_model, stack, combinedLight, combinedOverlay, mx, vb);
-      mx.pop();
+      ir.renderModelLists(active_model, stack, combinedLight, combinedOverlay, mx, vb);
+      mx.popPose();
     }
   }
 }

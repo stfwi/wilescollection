@@ -15,6 +15,7 @@ import net.minecraft.util.math.shapes.VoxelShapes;
 import net.minecraft.world.IWorld;
 import net.minecraft.world.IWorldReader;
 import net.minecraft.world.World;
+import net.minecraft.block.AbstractBlock;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.util.math.*;
@@ -29,7 +30,7 @@ import java.util.Arrays;
 
 public class OmniLanternBlock extends StandardBlocks.DirectedWaterLoggable implements StandardBlocks.IStandardBlock
 {
-  public OmniLanternBlock(long config, Block.Properties builder, final AxisAlignedBB[] wallAABBs, final AxisAlignedBB[] standingAABBs, final AxisAlignedBB[] handingAABBs)
+  public OmniLanternBlock(long config, AbstractBlock.Properties builder, final AxisAlignedBB[] wallAABBs, final AxisAlignedBB[] standingAABBs, final AxisAlignedBB[] handingAABBs)
   {
     super(config, builder, ()->{
       final boolean is_horizontal = false;
@@ -40,8 +41,8 @@ public class OmniLanternBlock extends StandardBlocks.DirectedWaterLoggable imple
         Auxiliaries.getUnionShape(Auxiliaries.getRotatedAABB(wallAABBs, Direction.SOUTH, is_horizontal)),
         Auxiliaries.getUnionShape(Auxiliaries.getRotatedAABB(wallAABBs, Direction.WEST, is_horizontal)),
         Auxiliaries.getUnionShape(Auxiliaries.getRotatedAABB(wallAABBs, Direction.EAST, is_horizontal)),
-        VoxelShapes.fullCube(),
-        VoxelShapes.fullCube()
+        VoxelShapes.block(),
+        VoxelShapes.block()
       ));
     });
   }
@@ -53,30 +54,30 @@ public class OmniLanternBlock extends StandardBlocks.DirectedWaterLoggable imple
   {
     final BlockState state = super.getStateForPlacement(context);
     if(state==null) return state;
-    final Direction facing = context.getFace().getOpposite();
-    final World world = context.getWorld();
-    final BlockPos pos = context.getPos();
-    return (world.getBlockState(pos.offset(facing)).isAir()) ? null : state;
+    final Direction facing = context.getClickedFace().getOpposite();
+    final World world = context.getLevel();
+    final BlockPos pos = context.getClickedPos();
+    return (world.getBlockState(pos.relative(facing)).isAir()) ? null : state;
   }
 
   @Override
-  public PushReaction getPushReaction(BlockState state)
+  public PushReaction getPistonPushReaction(BlockState state)
   { return PushReaction.DESTROY; }
 
   @Override
   @SuppressWarnings("deprecation")
-  public boolean isValidPosition(BlockState state, IWorldReader world, BlockPos pos)
+  public boolean canSurvive(BlockState state, IWorldReader world, BlockPos pos)
   {
-    final Direction facing = state.get(FACING);
-    return Block.hasEnoughSolidSide(world, pos.offset(facing), facing.getOpposite());
+    final Direction facing = state.getValue(FACING);
+    return Block.canSupportCenter(world, pos.relative(facing), facing.getOpposite());
   }
 
   @Override
   @SuppressWarnings("deprecation")
-  public BlockState updatePostPlacement(BlockState state, Direction facing, BlockState facingState, IWorld world, BlockPos pos, BlockPos facingPos)
+  public BlockState updateShape(BlockState state, Direction facing, BlockState facingState, IWorld world, BlockPos pos, BlockPos facingPos)
   {
-    state = super.updatePostPlacement(state, facing, facingState, world, pos, facingPos);
-    return (isValidPosition(state, world, pos) && state.isIn(this)) ? (state) : (state.getFluidState().getBlockState());
+    state = super.updateShape(state, facing, facingState, world, pos, facingPos);
+    return (canSurvive(state, world, pos) && state.is(this)) ? (state) : (state.getFluidState().createLegacyBlock());
   }
 
 }

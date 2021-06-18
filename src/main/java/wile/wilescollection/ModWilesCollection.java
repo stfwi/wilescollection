@@ -1,9 +1,5 @@
 package wile.wilescollection;
 
-import net.minecraftforge.client.event.ModelRegistryEvent;
-import wile.wilescollection.blocks.*;
-import wile.wilescollection.libmc.detail.Auxiliaries;
-import wile.wilescollection.libmc.detail.OptionalRecipeCondition;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.inventory.container.ContainerType;
@@ -23,6 +19,11 @@ import net.minecraftforge.fml.event.lifecycle.*;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
+import net.minecraftforge.client.event.ModelRegistryEvent;
+import wile.wilescollection.blocks.*;
+import wile.wilescollection.libmc.detail.Auxiliaries;
+import wile.wilescollection.libmc.detail.OptionalRecipeCondition;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -119,7 +120,7 @@ public class ModWilesCollection
   //
   public static final ItemGroup ITEMGROUP = (new ItemGroup("tab" + MODID) {
     @OnlyIn(Dist.CLIENT)
-    public ItemStack createIcon()
+    public ItemStack makeIcon()
     { return new ItemStack(ModContent.CRAFTING_TABLE); }
   });
 
@@ -129,9 +130,9 @@ public class ModWilesCollection
   @SubscribeEvent
   public void onPlayerEvent(final LivingEvent.LivingUpdateEvent event)
   {
-    if((event.getEntity().world == null) || (!(event.getEntity() instanceof PlayerEntity))) return;
+    if((event.getEntity().level == null) || (!(event.getEntity() instanceof PlayerEntity))) return;
     final PlayerEntity player = (PlayerEntity)event.getEntity();
-    if(player.isOnLadder()) ExtLadderBlock.onPlayerUpdateEvent(player);
+    if(player.onClimbable()) ExtLadderBlock.onPlayerUpdateEvent(player);
   }
 
 }

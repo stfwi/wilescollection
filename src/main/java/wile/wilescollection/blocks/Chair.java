@@ -10,11 +10,9 @@ package wile.wilescollection.blocks;
 
 import net.minecraft.entity.monster.piglin.PiglinEntity;
 import net.minecraft.util.math.vector.Vector3d;
-import wile.wilescollection.ModConfig;
-import wile.wilescollection.ModContent;
 import net.minecraft.world.server.ServerWorld;
 import net.minecraft.world.World;
-import net.minecraft.block.Block;
+import net.minecraft.block.AbstractBlock;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.*;
@@ -26,6 +24,8 @@ import net.minecraft.util.*;
 import net.minecraftforge.fml.network.FMLPlayMessages;
 import net.minecraftforge.fml.network.NetworkHooks;
 import wile.wilescollection.libmc.blocks.StandardBlocks;
+import wile.wilescollection.ModConfig;
+import wile.wilescollection.ModContent;
 
 import java.util.List;
 import java.util.Random;
@@ -51,22 +51,22 @@ public class Chair
 
   public static class ChairBlock extends StandardBlocks.HorizontalWaterLoggable implements StandardBlocks.IStandardBlock
   {
-    public ChairBlock(long config, Block.Properties builder, final AxisAlignedBB[] unrotatedAABBs)
-    { super(config, builder.tickRandomly(), unrotatedAABBs); }
+    public ChairBlock(long config, AbstractBlock.Properties builder, final AxisAlignedBB[] unrotatedAABBs)
+    { super(config, builder.randomTicks(), unrotatedAABBs); }
 
     @Override
     @SuppressWarnings("deprecation")
-    public ActionResultType onBlockActivated(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockRayTraceResult rayTraceResult)
+    public ActionResultType use(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockRayTraceResult rayTraceResult)
     {
       if(!sitting_enabled) return ActionResultType.PASS;
-      if(world.isRemote()) return ActionResultType.SUCCESS;
+      if(world.isClientSide()) return ActionResultType.SUCCESS;
       EntityChair.sit(world, player, pos);
       return ActionResultType.CONSUME;
     }
 
     @Override
     @SuppressWarnings("deprecation")
-    public void onEntityCollision(BlockState state, World world, BlockPos pos, Entity entity)
+    public void entityInside(BlockState state, World world, BlockPos pos, Entity entity)
     {
       if(sitting_enabled && (Math.random() < sitting_probability) && (entity instanceof MobEntity)) EntityChair.sit(world, (LivingEntity)entity, pos);
     }
@@ -76,7 +76,7 @@ public class Chair
     public void tick(BlockState state, ServerWorld world, BlockPos pos, Random rnd)
     {
       if((!sitting_enabled) || (sitting_probability < 1e-6)) return;
-      final List<LivingEntity> entities = world.getEntitiesWithinAABB(MobEntity.class, new AxisAlignedBB(pos).grow(2,1,2).expand(0,1,0), e->true);
+      final List<LivingEntity> entities = world.getEntitiesOfClass(MobEntity.class, new AxisAlignedBB(pos).inflate(2,1,2).expandTowards(0,1,0), e->true);
       if(entities.isEmpty()) return;
       int index = rnd.nextInt(entities.size());
       if((index < 0) || (index >= entities.size())) return;
@@ -99,10 +99,10 @@ public class Chair
     public EntityChair(EntityType<? extends Entity> entityType, World world)
     {
       super(entityType, world);
-      preventEntitySpawning=true;
-      setMotion(Vector3d.ZERO);
+      blocksBuilding=true;
+      setDeltaMovement(Vector3d.ZERO);
       canUpdate(true);
-      noClip=true;
+      noPhysics=true;
     }
 
     public EntityChair(World world)
@@ -111,13 +111,13 @@ public class Chair
     public static EntityChair customClientFactory(FMLPlayMessages.SpawnEntity spkt, World world)
     { return new EntityChair(world); }
 
-    public IPacket<?> createSpawnPacket()
+    public IPacket<?> getAddEntityPacket()
     { return NetworkHooks.getEntitySpawningPacket(this); }
 
     public static boolean accepts_mob(LivingEntity entity)
     {
       if(!(entity instanceof net.minecraft.entity.monster.MonsterEntity)) return false;
-      if((entity.getType().getSize().height > 2.5) || (entity.getType().getSize().height > 2.0)) return false;
+      if((entity.getType().getDimensions().height > 2.5) || (entity.getType().getDimensions().height > 2.0)) return false;
       if(entity instanceof ZombieEntity) return true;
       if(entity instanceof ZombieVillagerEntity) return true;
       if(entity instanceof ZombifiedPiglinEntity) return true;
@@ -132,46 +132,46 @@ public class Chair
     public static void sit(World world, LivingEntity sitter, BlockPos pos)
     {
       if(!sitting_enabled) return;
-      if((world==null) || (world.isRemote) || (sitter==null) || (pos==null)) return;
+      if((world==null) || (world.isClientSide) || (sitter==null) || (pos==null)) return;
       if((!(sitter instanceof PlayerEntity)) && (!accepts_mob(sitter))) return;
-      if(!world.getEntitiesWithinAABB(EntityChair.class, new AxisAlignedBB(pos)).isEmpty()) return;
-      if(sitter.isBeingRidden() || (!sitter.isAlive()) || (sitter.isPassenger()) ) return;
-      if((!world.isAirBlock(pos.up())) || (!world.isAirBlock(pos.up(2)))) return;
+      if(!world.getEntitiesOfClass(EntityChair.class, new AxisAlignedBB(pos)).isEmpty()) return;
+      if(sitter.isVehicle() || (!sitter.isAlive()) || (sitter.isPassenger()) ) return;
+      if((!world.isEmptyBlock(pos.above())) || (!world.isEmptyBlock(pos.above(2)))) return;
       boolean on_top_of_block_position = true;
       boolean use_next_negative_y_position = false;
       EntityChair chair = new EntityChair(world);
-      BlockPos chair_pos = chair.getPosition();
+      BlockPos chair_pos = chair.blockPosition();
       chair.chair_pos = pos;
       chair.t_sit = 5;
-      chair.prevPosX = chair_pos.getX();
-      chair.prevPosY = chair_pos.getY();
-      chair.prevPosZ = chair_pos.getZ();
-      chair.setPosition(pos.getX()+x_offset,pos.getY()+y_offset,pos.getZ()+z_offset);
-      world.addEntity(chair);
+      chair.xo = chair_pos.getX();
+      chair.yo = chair_pos.getY();
+      chair.zo = chair_pos.getZ();
+      chair.setPos(pos.getX()+x_offset,pos.getY()+y_offset,pos.getZ()+z_offset);
+      world.addFreshEntity(chair);
       sitter.startRiding(chair, true);
     }
 
     @Override
-    protected void registerData() {}
+    protected void defineSynchedData() {}
 
     @Override
-    protected void readAdditional(CompoundNBT compound) {}
+    protected void readAdditionalSaveData(CompoundNBT compound) {}
 
     @Override
-    protected void writeAdditional(CompoundNBT compound) {}
+    protected void addAdditionalSaveData(CompoundNBT compound) {}
 
     @Override
-    public boolean canBePushed()
+    public boolean isPushable()
     { return false; }
 
     @Override
-    public double getMountedYOffset()
+    public double getPassengersRidingOffset()
     { return 0.0; }
 
     @Override
     public void tick()
     {
-      if(world.isRemote) return;
+      if(level.isClientSide) return;
       super.tick();
       if(--t_sit > 0) return;
       Entity sitter = getPassengers().isEmpty() ? null : getPassengers().get(0);
@@ -180,9 +180,9 @@ public class Chair
         return;
       }
       boolean abort = (!sitting_enabled);
-      final BlockState state = world.getBlockState(chair_pos);
+      final BlockState state = level.getBlockState(chair_pos);
       if((state==null) || (!(state.getBlock() instanceof ChairBlock))) abort = true;
-      if(!world.isAirBlock(chair_pos.up())) abort = true;
+      if(!level.isEmptyBlock(chair_pos.above())) abort = true;
       if((!(sitter instanceof PlayerEntity)) && (Math.random() < standup_probability)) abort = true;
       if(abort) {
         for(Entity e:getPassengers()) {

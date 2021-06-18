@@ -12,6 +12,7 @@
  */
 package wile.wilescollection;
 
+import net.minecraft.block.AbstractBlock;
 import net.minecraft.block.material.MaterialColor;
 import net.minecraft.block.Block;
 import net.minecraft.block.SoundType;
@@ -38,6 +39,7 @@ import wile.wilescollection.blocks.*;
 import wile.wilescollection.items.*;
 import wile.wilescollection.libmc.blocks.StandardBlocks;
 import wile.wilescollection.libmc.blocks.StandardBlocks.IStandardBlock;
+import wile.wilescollection.libmc.blocks.StandardDoorBlock;
 import wile.wilescollection.libmc.detail.Auxiliaries;
 import wile.wilescollection.libmc.detail.Materials;
 
@@ -59,7 +61,7 @@ public class ModContent
 
   public static final EdCraftingTable.CraftingTableBlock CRAFTING_TABLE = (EdCraftingTable.CraftingTableBlock)(new EdCraftingTable.CraftingTableBlock(
     StandardBlocks.CFG_CUTOUT|StandardBlocks.CFG_HORIZIONTAL|StandardBlocks.CFG_LOOK_PLACEMENT|StandardBlocks.CFG_OPPOSITE_PLACEMENT,
-    Block.Properties.create(Material.WOOD, MaterialColor.WOOD).hardnessAndResistance(1f, 5f).sound(SoundType.WOOD).notSolid(),
+    AbstractBlock.Properties.of(Material.WOOD, MaterialColor.WOOD).strength(1f, 5f).sound(SoundType.WOOD).noOcclusion(),
     new AxisAlignedBB[]{
       Auxiliaries.getPixeledAABB(0,13,0, 16,16,16),
       Auxiliaries.getPixeledAABB(1, 0,1, 15,16,15)
@@ -68,7 +70,7 @@ public class ModContent
 
   public static final FluidBarrel.FluidBarrelBlock FLUID_BARREL = (FluidBarrel.FluidBarrelBlock)(new FluidBarrel.FluidBarrelBlock(
     StandardBlocks.CFG_CUTOUT|StandardBlocks.CFG_LOOK_PLACEMENT|StandardBlocks.CFG_OPPOSITE_PLACEMENT,
-    Block.Properties.create(Material.WOOD, MaterialColor.WOOD).hardnessAndResistance(0.5f, 5f).sound(SoundType.WOOD).notSolid(),
+    AbstractBlock.Properties.of(Material.WOOD, MaterialColor.WOOD).strength(0.5f, 5f).sound(SoundType.WOOD).noOcclusion(),
     new AxisAlignedBB[] {
       Auxiliaries.getPixeledAABB(2, 0,0, 14, 1,16),
       Auxiliaries.getPixeledAABB(1, 1,0, 15, 2,16),
@@ -80,20 +82,20 @@ public class ModContent
 
   public static final LabeledCrate.LabeledCrateBlock CRATE = (LabeledCrate.LabeledCrateBlock)(new LabeledCrate.LabeledCrateBlock(
     StandardBlocks.CFG_HORIZIONTAL|StandardBlocks.CFG_LOOK_PLACEMENT|StandardBlocks.CFG_OPPOSITE_PLACEMENT,
-    Block.Properties.create(Material.WOOD, MaterialColor.WOOD).hardnessAndResistance(0.5f, 5f).sound(SoundType.WOOD).notSolid(),
+    AbstractBlock.Properties.of(Material.WOOD, MaterialColor.WOOD).strength(0.5f, 5f).sound(SoundType.WOOD).noOcclusion(),
     Auxiliaries.getPixeledAABB(0,0,0, 16,16,16)
   )).setRegistryName(new ResourceLocation(MODID, "crate"));
 
   public static final ExtLadderBlock WOOD_LADDER = (ExtLadderBlock)(new ExtLadderBlock(
     StandardBlocks.CFG_DEFAULT,
-    Block.Properties.create(Material.WOOD, MaterialColor.WOOD).hardnessAndResistance(0.7f, 3f).sound(SoundType.WOOD).notSolid()
+    AbstractBlock.Properties.of(Material.WOOD, MaterialColor.WOOD).strength(0.7f, 3f).sound(SoundType.WOOD).noOcclusion()
   )).setRegistryName(new ResourceLocation(MODID, "ladder"));
 
   // -------------------------------------------------------------------------------------------------------------------
 
   public static final TableBlock WOOD_TABLE = (TableBlock)(new TableBlock(
     StandardBlocks.CFG_CUTOUT,
-    Block.Properties.create(Material.WOOD, MaterialColor.WOOD).hardnessAndResistance(1f, 3f).sound(SoundType.WOOD).notSolid(),
+    AbstractBlock.Properties.of(Material.WOOD, MaterialColor.WOOD).strength(1f, 3f).sound(SoundType.WOOD).noOcclusion(),
     Auxiliaries.getPixeledAABB( 0,14, 0, 16,16,16), // top base aabb
     new AxisAlignedBB[]{ // side NORTH-EAST
       Auxiliaries.getPixeledAABB(14, 0, 0, 16,16, 2),
@@ -102,7 +104,7 @@ public class ModContent
 
   public static final Chair.ChairBlock WOOD_CHAIR = (Chair.ChairBlock)(new Chair.ChairBlock(
     StandardBlocks.CFG_CUTOUT|StandardBlocks.CFG_HORIZIONTAL|StandardBlocks.CFG_LOOK_PLACEMENT,
-    Block.Properties.create(Material.WOOD, MaterialColor.WOOD).hardnessAndResistance(1f, 3f).sound(SoundType.WOOD).notSolid(),
+    AbstractBlock.Properties.of(Material.WOOD, MaterialColor.WOOD).strength(1f, 3f).sound(SoundType.WOOD).noOcclusion(),
     new AxisAlignedBB[]{
       Auxiliaries.getPixeledAABB( 2, 0, 3,  4, 9, 5),
       Auxiliaries.getPixeledAABB(12, 0, 3, 14, 9, 5),
@@ -113,9 +115,17 @@ public class ModContent
     }
   )).setRegistryName(new ResourceLocation(MODID, "wood_chair"));
 
+  public static final StandardDoorBlock RUSTIC_WOOD_DOOR = (StandardDoorBlock)(new StandardDoorBlock(
+    StandardBlocks.CFG_DEFAULT,
+    AbstractBlock.Properties.of(Material.WOOD, MaterialColor.WOOD).strength(1.5f, 6f).sound(SoundType.WOOD).noOcclusion(),
+    Auxiliaries.getPixeledAABB(15,0, 0, 16,16,16),
+    Auxiliaries.getPixeledAABB( 0,0,13, 16,16,16),
+    SoundEvents.WOODEN_DOOR_OPEN, SoundEvents.WOODEN_DOOR_CLOSE
+  )).setRegistryName(new ResourceLocation(MODID, "rustic_wood_door"));
+
   public static final OmniLanternBlock RUSTIC_IRON_LANTERN = (OmniLanternBlock)(new OmniLanternBlock(
     StandardBlocks.CFG_CUTOUT|StandardBlocks.CFG_FACING_PLACEMENT|StandardBlocks.CFG_OPPOSITE_PLACEMENT|StandardBlocks.CFG_AI_PASSABLE,
-    Block.Properties.create(Material.IRON, MaterialColor.IRON).hardnessAndResistance(2f, 4f).sound(SoundType.LANTERN).setLightLevel((state)->15).notSolid(),
+    AbstractBlock.Properties.of(Material.METAL, MaterialColor.METAL).strength(2f, 4f).sound(SoundType.LANTERN).lightLevel((state)->15).noOcclusion(),
     new AxisAlignedBB[]{
       Auxiliaries.getPixeledAABB( 5, 2, 5, 11,8,11),
       Auxiliaries.getPixeledAABB( 6, 8, 6, 10,9,10),
@@ -133,9 +143,41 @@ public class ModContent
     }
   )).setRegistryName(new ResourceLocation(MODID, "rustic_iron_lantern"));
 
+  public static final StandardBlocks.AxisAlignedWaterLoggable RUSTIC_CHAIN = (StandardBlocks.AxisAlignedWaterLoggable)(new StandardBlocks.AxisAlignedWaterLoggable(
+    StandardBlocks.CFG_CUTOUT|StandardBlocks.CFG_FACING_PLACEMENT,
+    AbstractBlock.Properties.of(Material.METAL, MaterialColor.NONE).strength(1.0F, 6.0F).sound(SoundType.CHAIN).noOcclusion(),
+    new AxisAlignedBB[]{
+      Auxiliaries.getPixeledAABB( 7,  7, 0, 9,9,16),
+    }
+  )).setRegistryName(new ResourceLocation(MODID, "rustic_chain"));
+
+  public static final WindowBlock RUSTIC_IRON_FRAMED_WINDOW = (WindowBlock)(new WindowBlock(
+    StandardBlocks.CFG_CUTOUT|StandardBlocks.CFG_LOOK_PLACEMENT,
+    AbstractBlock.Properties.of(Material.METAL, MaterialColor.METAL).strength(1f, 3f).sound(SoundType.METAL).noOcclusion(),
+    Auxiliaries.getPixeledAABB(0,0,7.5, 16,16,8.5)
+  )).setRegistryName(new ResourceLocation(MODID, "rustic_iron_framed_window"));
+
+  public static final WindowBlock RUSTIC_IRON_FRAMED_WINDOW_ASYM = (WindowBlock)(new WindowBlock(
+    StandardBlocks.CFG_CUTOUT|StandardBlocks.CFG_LOOK_PLACEMENT,
+    AbstractBlock.Properties.of(Material.METAL, MaterialColor.METAL).strength(1f, 3f).sound(SoundType.METAL).noOcclusion(),
+    Auxiliaries.getPixeledAABB(0,0,7.5, 16,16,8.5)
+  )).setRegistryName(new ResourceLocation(MODID, "rustic_iron_framed_window_asym"));
+
+  public static final WindowBlock RUSTIC_IRON_FRAMED_WINDOW_DIAG = (WindowBlock)(new WindowBlock(
+    StandardBlocks.CFG_CUTOUT|StandardBlocks.CFG_LOOK_PLACEMENT,
+    AbstractBlock.Properties.of(Material.METAL, MaterialColor.METAL).strength(1f, 3f).sound(SoundType.METAL).noOcclusion(),
+    Auxiliaries.getPixeledAABB(0,0,7.5, 16,16,8.5)
+  )).setRegistryName(new ResourceLocation(MODID, "rustic_iron_framed_window_diag"));
+
+  public static final WindowBlock RUSTIC_IRON_FRAMED_WINDOW_WIDE = (WindowBlock)(new WindowBlock(
+    StandardBlocks.CFG_CUTOUT|StandardBlocks.CFG_LOOK_PLACEMENT,
+    AbstractBlock.Properties.of(Material.METAL, MaterialColor.METAL).strength(1f, 3f).sound(SoundType.METAL).noOcclusion(),
+    Auxiliaries.getPixeledAABB(0,0,7.5, 16,16,8.5)
+  )).setRegistryName(new ResourceLocation(MODID, "rustic_iron_framed_window_wide"));
+
   public static final StandardBlocks.BaseBlock WEATHERED_STONE_BRICK_BLOCK = (StandardBlocks.BaseBlock)(new StandardBlocks.BaseBlock(
     StandardBlocks.CFG_DEFAULT,
-    Block.Properties.create(Material.ROCK, MaterialColor.STONE).hardnessAndResistance(2f, 4f).sound(SoundType.STONE)
+    AbstractBlock.Properties.of(Material.STONE, MaterialColor.STONE).strength(2f, 4f).sound(SoundType.STONE)
   )).setRegistryName(new ResourceLocation(MODID, "weathered_stone_brick_block"));
 
   // -------------------------------------------------------------------------------------------------------------------
@@ -199,7 +241,13 @@ public class ModContent
     WOOD_LADDER,
     WOOD_TABLE,
     WOOD_CHAIR,
+    RUSTIC_WOOD_DOOR,
     RUSTIC_IRON_LANTERN,
+    RUSTIC_CHAIN,
+    RUSTIC_IRON_FRAMED_WINDOW,
+    RUSTIC_IRON_FRAMED_WINDOW_DIAG,
+    RUSTIC_IRON_FRAMED_WINDOW_ASYM,
+    RUSTIC_IRON_FRAMED_WINDOW_WIDE,
     WEATHERED_STONE_BRICK_BLOCK
   };
 
@@ -211,17 +259,17 @@ public class ModContent
   //--------------------------------------------------------------------------------------------------------------------
 
   public static final TileEntityType<?> TET_CRAFTING_TABLE = TileEntityType.Builder
-    .create(EdCraftingTable.CraftingTableTileEntity::new, CRAFTING_TABLE)
+    .of(EdCraftingTable.CraftingTableTileEntity::new, CRAFTING_TABLE)
     .build(null)
     .setRegistryName(MODID, "te_crafting_table");
 
   public static final TileEntityType<?> TET_LABELED_CRATE = TileEntityType.Builder
-    .create(LabeledCrate.LabeledCrateTileEntity::new, CRATE)
+    .of(LabeledCrate.LabeledCrateTileEntity::new, CRATE)
     .build(null)
     .setRegistryName(MODID, "te_crate");
 
   public static final TileEntityType<?> TET_FLUID_BARREL = TileEntityType.Builder
-    .create(FluidBarrel.FluidBarrelTileEntity::new, FLUID_BARREL)
+    .of(FluidBarrel.FluidBarrelTileEntity::new, FLUID_BARREL)
     .build(null)
     .setRegistryName(MODID, "te_fluid_barrel");
 
@@ -237,8 +285,8 @@ public class ModContent
 
   public static final Materials.CustomArmorMaterial REINFORCED_ARMOR_MATERIAL = new Materials.CustomArmorMaterial(
     MODID+":plated_netherite",
-    SoundEvents.ITEM_ARMOR_EQUIP_NETHERITE,
-    ()->Ingredient.fromItems(Items.NETHERITE_INGOT),
+    SoundEvents.ARMOR_EQUIP_NETHERITE,
+    ()->Ingredient.of(Items.NETHERITE_INGOT),
     new int[]{4, 8, 10, 4},
     new int[]{13*42, 15*42, 16*42, 11*42},
     15,
@@ -250,7 +298,7 @@ public class ModContent
   // Items
   //--------------------------------------------------------------------------------------------------------------------
 
-  private static Item.Properties default_item_properties()  { return (new Item.Properties()).group(ModWilesCollection.ITEMGROUP); }
+  private static Item.Properties default_item_properties()  { return (new Item.Properties()).tab(ModWilesCollection.ITEMGROUP); }
 
   public static final ModItem RUSTY_IRON_INGOT = (ModItem)((new ModItem(
     default_item_properties()
@@ -267,36 +315,38 @@ public class ModContent
   public static final Armors.HelmetArmorItem PLATED_NETHERITE_HELMET = (Armors.HelmetArmorItem)((new Armors.HelmetArmorItem(
     Armors.CFG_DEFAULT,
     REINFORCED_ARMOR_MATERIAL,
-    default_item_properties().isImmuneToFire()
+    default_item_properties().fireResistant()
   ).setRegistryName(MODID, "plated_netherite_helmet")));
 
   public static final Armors.ChestPlateArmorItem PLATED_NETHERITE_CHESTPLATE = (Armors.ChestPlateArmorItem)((new Armors.ChestPlateArmorItem(
     Armors.CFG_MAKES_PIGLINS_NEUTRAL,
     REINFORCED_ARMOR_MATERIAL,
-    default_item_properties().isImmuneToFire()
+    default_item_properties().fireResistant()
   ).setRegistryName(MODID, "plated_netherite_chestplate")));
 
   public static final Armors.LeggingsArmorItem PLATED_NETHERITE_LEGGINGS = (Armors.LeggingsArmorItem)((new Armors.LeggingsArmorItem(
     Armors.CFG_MAKES_PIGLINS_NEUTRAL,
     REINFORCED_ARMOR_MATERIAL,
-    default_item_properties().isImmuneToFire()
+    default_item_properties().fireResistant()
   ).setRegistryName(MODID, "plated_netherite_leggings")));
 
   public static final Armors.BootsArmorItem PLATED_NETHERITE_BOOTS = (Armors.BootsArmorItem)((new Armors.BootsArmorItem(
     Armors.CFG_DEFAULT,
     REINFORCED_ARMOR_MATERIAL,
-    default_item_properties().isImmuneToFire()
+    default_item_properties().fireResistant()
   ).setRegistryName(MODID, "plated_netherite_boots")));
 
-  public static final ModItem RING_ITEM = (ModItem)((new ModItem(
-    default_item_properties()
-  ).setRegistryName(MODID, "ring")));
+  public static final Trinkets.TrinketItem PECULIAR_RING_ITEM = (Trinkets.TrinketItem)((new Trinkets.TrinketItem(
+    0,
+    default_item_properties().fireResistant().setNoRepair().rarity(Rarity.RARE).defaultDurability(1000).durability(1000)
+  ).setRegistryName(MODID, "peculiar_ring")));
 
   @SuppressWarnings("all")
   private static final Item modItems[] = {
     RUSTY_IRON_INGOT,
     RUSTY_IRON_NUGGET,
     PROSPECTING_DOWSER,
+    PECULIAR_RING_ITEM,
     PLATED_NETHERITE_HELMET,
     PLATED_NETHERITE_CHESTPLATE,
     PLATED_NETHERITE_LEGGINGS,
@@ -310,8 +360,8 @@ public class ModContent
   @SuppressWarnings("unchecked")
   public static final EntityType<Chair.EntityChair> ET_CHAIR = (EntityType<Chair.EntityChair>)(
     EntityType.Builder
-      .create(Chair.EntityChair::new, EntityClassification.MISC)
-      .immuneToFire().size(1e-3f, 1e-3f).disableSerialization()
+      .of(Chair.EntityChair::new, EntityClassification.MISC)
+      .fireImmune().sized(1e-3f, 1e-3f).noSave()
       .setShouldReceiveVelocityUpdates(false).setUpdateInterval(4)
       .setCustomClientFactory(Chair.EntityChair::customClientFactory)
       .build(new ResourceLocation(MODID, "et_chair").toString())
@@ -380,9 +430,9 @@ public class ModContent
       ResourceLocation rl = e.getRegistryName();
       if(rl == null) continue;
       if(e instanceof StandardBlocks.IBlockItemFactory) {
-        event.getRegistry().register(((StandardBlocks.IBlockItemFactory)e).getBlockItem(e, (new BlockItem.Properties().group(ModWilesCollection.ITEMGROUP))).setRegistryName(rl));
+        event.getRegistry().register(((StandardBlocks.IBlockItemFactory)e).getBlockItem(e, (new Item.Properties().tab(ModWilesCollection.ITEMGROUP))).setRegistryName(rl));
       } else {
-        event.getRegistry().register(new BlockItem(e, (new BlockItem.Properties().group(ModWilesCollection.ITEMGROUP))).setRegistryName(rl));
+        event.getRegistry().register(new BlockItem(e, (new Item.Properties().tab(ModWilesCollection.ITEMGROUP))).setRegistryName(rl));
       }
       ++n;
     }
@@ -422,8 +472,8 @@ public class ModContent
   @OnlyIn(Dist.CLIENT)
   public static final void registerContainerGuis(final FMLClientSetupEvent event)
   {
-    ScreenManager.registerFactory(CT_TREATED_WOOD_CRAFTING_TABLE, EdCraftingTable.CraftingTableGui::new);
-    ScreenManager.registerFactory(CT_LABELED_CRATE, LabeledCrate.LabeledCrateGui::new);
+    ScreenManager.register(CT_TREATED_WOOD_CRAFTING_TABLE, EdCraftingTable.CraftingTableGui::new);
+    ScreenManager.register(CT_LABELED_CRATE, LabeledCrate.LabeledCrateGui::new);
   }
 
   @OnlyIn(Dist.CLIENT)
@@ -454,16 +504,16 @@ public class ModContent
       if(block instanceof IStandardBlock) {
         switch(((IStandardBlock)block).getRenderTypeHint()) {
           case CUTOUT:
-            RenderTypeLookup.setRenderLayer(block, RenderType.getCutout());
+            RenderTypeLookup.setRenderLayer(block, RenderType.cutout());
             break;
           case CUTOUT_MIPPED:
-            RenderTypeLookup.setRenderLayer(block, RenderType.getCutoutMipped());
+            RenderTypeLookup.setRenderLayer(block, RenderType.cutoutMipped());
             break;
           case TRANSLUCENT:
-            RenderTypeLookup.setRenderLayer(block, RenderType.getTranslucent());
+            RenderTypeLookup.setRenderLayer(block, RenderType.translucent());
             break;
           case TRANSLUCENT_NO_CRUMBLING:
-            RenderTypeLookup.setRenderLayer(block, RenderType.getTranslucentNoCrumbling());
+            RenderTypeLookup.setRenderLayer(block, RenderType.translucentNoCrumbling());
             break;
           case SOLID:
             break;

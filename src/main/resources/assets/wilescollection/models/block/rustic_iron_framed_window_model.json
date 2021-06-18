@@ -1,0 +1,41 @@
+{
+	"parent": "wilescollection:block/block",
+	"ambientocclusion": false,
+	"textures": {
+		"particle": "wilescollection:block/misc/rustic_iron_framed_window_texture",
+		"w": "wilescollection:block/misc/rustic_iron_framed_window_texture"
+	},
+	"elements": [
+		{
+			"from": [0, 0, 7.5],
+			"to": [16, 16, 8.5],
+      "shade": false,
+			"faces": {
+				"north": {"uv": [0, 0, 16, 16], "texture": "#w"},
+				"east": {"uv": [15, 0, 16, 16], "texture": "#w"},
+				"south": {"uv": [0, 0, 16, 16], "texture": "#w"},
+				"west": {"uv": [0, 0, 1, 16], "texture": "#w"},
+				"up": {"uv": [0, 15, 16, 16], "texture": "#w"},
+				"down": {"uv": [0, 0, 16, 1], "texture": "#w"}
+			}
+		}
+	],
+	"display": {
+		"thirdperson_righthand": {
+			"rotation": [3, 69, 23],
+			"translation": [1, 1, -2.25],
+			"scale": [0.4, 0.4, 0.4]
+		},
+		"firstperson_righthand": {
+			"rotation": [0, -61, 0],
+			"scale": [0.4, 0.4, 0.4]
+		},
+		"ground": {
+			"translation": [0, 1.75, 0],
+			"scale": [0.2, 0.2, 0.2]
+		},
+		"fixed": {
+			"scale": [0.5, 0.5, 0.5]
+		}
+	}
+}

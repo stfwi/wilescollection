@@ -1,0 +1,7 @@
+{
+	"parent": "wilescollection:block/rustic_iron_framed_window_model",
+	"textures": {
+		"particle": "wilescollection:block/misc/rustic_iron_framed_window_wide_texture",
+		"w": "wilescollection:block/misc/rustic_iron_framed_window_wide_texture"
+	}
+}

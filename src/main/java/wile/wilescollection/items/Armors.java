@@ -47,13 +47,13 @@ public class Armors
 
     public ModArmorItem(long config, IArmorMaterial material, EquipmentSlotType slot, Properties properties)
     {
-      super(material, slot, properties.group(ModWilesCollection.ITEMGROUP));
+      super(material, slot, properties.tab(ModWilesCollection.ITEMGROUP));
       armor_config = config;
     }
 
     @Override
     @OnlyIn(Dist.CLIENT)
-    public void addInformation(ItemStack stack, @Nullable World world, List<ITextComponent> tooltip, ITooltipFlag flag)
+    public void appendHoverText(ItemStack stack, @Nullable World world, List<ITextComponent> tooltip, ITooltipFlag flag)
     { Auxiliaries.Tooltip.addInformation(stack, world, tooltip, flag, true); }
 
     @Override
@@ -62,9 +62,9 @@ public class Armors
 
     @Override
     @SuppressWarnings("all")
-    public Multimap<Attribute, AttributeModifier> getAttributeModifiers(EquipmentSlotType slot)
+    public Multimap<Attribute, AttributeModifier> getDefaultAttributeModifiers(EquipmentSlotType slot)
     {
-      final Multimap<Attribute, AttributeModifier> modifiers = super.getAttributeModifiers(slot);
+      final Multimap<Attribute, AttributeModifier> modifiers = super.getDefaultAttributeModifiers(slot);
       return (!modifiers.isEmpty()) ? MultimapBuilder.hashKeys().hashSetValues().build(modifiers) : MultimapBuilder.hashKeys().hashSetValues().build();
     }
 

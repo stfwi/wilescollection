@@ -8,6 +8,7 @@
  */
 package wile.wilescollection.blocks;
 
+import net.minecraft.block.AbstractBlock;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.player.PlayerEntity;
@@ -28,7 +29,7 @@ import java.util.Arrays;
 
 public class WindowBlock extends StandardBlocks.DirectedWaterLoggable implements StandardBlocks.IStandardBlock
 {
-  public WindowBlock(long config, Block.Properties builder, final AxisAlignedBB unrotatedAABB)
+  public WindowBlock(long config, AbstractBlock.Properties builder, final AxisAlignedBB unrotatedAABB)
   { super(config, builder, unrotatedAABB); }
 
   @Override
@@ -39,41 +40,41 @@ public class WindowBlock extends StandardBlocks.DirectedWaterLoggable implements
   @Nullable
   public BlockState getStateForPlacement(BlockItemUseContext context)
   {
-    Direction facing = context.getPlacementHorizontalFacing();
-    if(Math.abs(context.getPlayer().getLookVec().y) > 0.9) {
+    Direction facing = context.getHorizontalDirection();
+    if(Math.abs(context.getPlayer().getLookAngle().y) > 0.9) {
       facing = context.getNearestLookingDirection();
     } else {
       for(Direction f: Direction.values()) {
-        BlockState st = context.getWorld().getBlockState(context.getPos().offset(f));
+        BlockState st = context.getLevel().getBlockState(context.getClickedPos().relative(f));
         if(st.getBlock() == this) {
-          facing = st.get(FACING);
+          facing = st.getValue(FACING);
           break;
         }
       }
     }
-    return super.getStateForPlacement(context).with(FACING, facing);
+    return super.getStateForPlacement(context).setValue(FACING, facing);
   }
 
   @Override
   @SuppressWarnings("deprecation")
-  public ActionResultType onBlockActivated(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockRayTraceResult hit)
+  public ActionResultType use(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockRayTraceResult hit)
   {
-    if(player.getHeldItem(hand).getItem() != asItem()) return ActionResultType.PASS;
-    final Direction facing = state.get(FACING);
-    if(facing.getAxis() != hit.getFace().getAxis()) return ActionResultType.PASS;
-    Arrays.stream(Direction.getFacingDirections(player))
+    if(!(Block.byItem(player.getItemInHand(hand).getItem()) instanceof WindowBlock)) return ActionResultType.PASS;
+    final Direction facing = state.getValue(FACING);
+    if(facing.getAxis() != hit.getDirection().getAxis()) return ActionResultType.PASS;
+    Arrays.stream(Direction.orderedByNearest(player))
       .filter(d->d.getAxis() != facing.getAxis())
-      .filter(d->world.getBlockState(pos.offset(d)).isReplaceable((new DirectionalPlaceContext(world, pos.offset(d), facing.getOpposite(), player.getHeldItem(hand), facing))))
+      .filter(d->world.getBlockState(pos.relative(d)).canBeReplaced((new DirectionalPlaceContext(world, pos.relative(d), facing.getOpposite(), player.getItemInHand(hand), facing))))
       .findFirst().ifPresent((d)->{
-        BlockState st = getDefaultState()
-          .with(FACING, facing)
-          .with(WATERLOGGED,world.getBlockState(pos.offset(d)).getFluidState().getFluid()==Fluids.WATER);
-        world.setBlockState(pos.offset(d), st, 1|2);
-        world.playSound(player, pos, SoundEvents.BLOCK_METAL_PLACE, SoundCategory.BLOCKS, 1f, 1f);
-        player.getHeldItem(hand).shrink(1);
+        BlockState st = defaultBlockState()
+          .setValue(FACING, facing)
+          .setValue(WATERLOGGED,world.getBlockState(pos.relative(d)).getFluidState().getType()==Fluids.WATER);
+        world.setBlock(pos.relative(d), st, 1|2);
+        world.playSound(player, pos, SoundEvents.METAL_PLACE, SoundCategory.BLOCKS, 1f, 1f);
+        player.getItemInHand(hand).shrink(1);
       }
     );
-    return ActionResultType.func_233537_a_(world.isRemote());
+    return ActionResultType.sidedSuccess(world.isClientSide());
   }
 
   @Override
@@ -82,7 +83,7 @@ public class WindowBlock extends StandardBlocks.DirectedWaterLoggable implements
 
   @Override
   @SuppressWarnings("deprecation")
-  public boolean isTransparent(BlockState state)
+  public boolean useShapeForLightOcclusion(BlockState state)
   { return true; }
 
 }

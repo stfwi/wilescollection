@@ -10,9 +10,9 @@ package wile.wilescollection.libmc.datagen;
 
 import net.minecraftforge.client.model.generators.BlockStateProvider;
 import net.minecraftforge.client.model.generators.ItemModelProvider;
-import wile.wilescollection.libmc.detail.Auxiliaries;
 import net.minecraftforge.common.data.ExistingFileHelper;
 import net.minecraft.data.*;
+import wile.wilescollection.libmc.detail.Auxiliaries;
 
 public class AssetsDataGen
 {

@@ -53,19 +53,19 @@ public class Materials
     public String getName()
     { return name_; }
 
-    public int getDurability(EquipmentSlotType slot)
+    public int getDurabilityForSlot(EquipmentSlotType slot)
     { return durability_[slot.getIndex()]; }
 
-    public int getDamageReductionAmount(EquipmentSlotType slot)
+    public int getDefenseForSlot(EquipmentSlotType slot)
     { return damage_reduction_[slot.getIndex()]; }
 
-    public int getEnchantability()
+    public int getEnchantmentValue()
     { return enchantability_; }
 
-    public SoundEvent getSoundEvent()
+    public SoundEvent getEquipSound()
     { return sound_event_; }
 
-    public Ingredient getRepairMaterial()
+    public Ingredient getRepairIngredient()
     { return repair_material_.get(); }
 
     public float getToughness()

@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "facing=north": { "model": "wilescollection:block/rustic_iron_framed_window_diag_model"          },
+    "facing=south": { "model": "wilescollection:block/rustic_iron_framed_window_diag_model", "y":180 },
+    "facing=west":  { "model": "wilescollection:block/rustic_iron_framed_window_diag_model", "y":270 },
+    "facing=east":  { "model": "wilescollection:block/rustic_iron_framed_window_diag_model", "y":90  },
+    "facing=up":    { "model": "wilescollection:block/rustic_iron_framed_window_diag_model", "x":270 },
+    "facing=down":  { "model": "wilescollection:block/rustic_iron_framed_window_diag_model", "x":90  }
+  }
+}

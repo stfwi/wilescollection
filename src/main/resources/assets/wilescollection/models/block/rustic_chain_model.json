@@ -1,0 +1,29 @@
+{
+	"parent": "block/block",
+	"textures": {
+		"particle": "wilescollection:block/misc/rustic_chain_texture",
+		"c": "wilescollection:block/misc/rustic_chain_texture"
+	},
+	"elements": [
+		{
+			"from": [8, 6.5, 0],
+			"to": [8, 9.5, 16],
+			"shade": false,
+			"rotation": {"angle": -45, "axis": "z", "origin": [8, 8, 8]},
+			"faces": {
+				"east": {"uv": [0, 0, 3, 16], "rotation": 270, "texture": "#c"},
+				"west": {"uv": [0, 0, 3, 16], "rotation": 90, "texture": "#c"}
+			}
+		},
+		{
+			"from": [6.5, 8, 0],
+			"to": [9.5, 8, 16],
+			"shade": false,
+			"rotation": {"angle": -45, "axis": "z", "origin": [8, 8, 8]},
+			"faces": {
+				"up": {"uv": [3, 0, 6, 16], "rotation": 180, "texture": "#c"},
+				"down": {"uv": [3, 0, 6, 16], "texture": "#c"}
+			}
+		}
+	]
+}
