@@ -1,0 +1,23 @@
+{
+  "type": "forge:conditional",
+  "recipes": [
+    {
+      "conditions": [
+        {
+          "type": "wilescollection:optional",
+          "result": "wilescollection:fluid_barrel"
+        }
+      ],
+      "recipe": {
+        "type": "minecraft:crafting_shapeless",
+        "ingredients": [
+          { "item": "minecraft:barrel" },
+          { "item": "minecraft:water_bucket" }
+        ],
+        "result": {
+          "item": "wilescollection:fluid_barrel"
+        }
+      }
+    }
+  ]
+}

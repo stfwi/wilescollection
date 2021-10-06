@@ -1,0 +1,26 @@
+{
+  "type": "forge:conditional",
+  "recipes": [
+    {
+      "conditions": [
+        {
+          "type": "wilescollection:optional",
+          "result": "wilescollection:plated_netherite_helmet",
+          "required": ["wilescollection:rusty_iron_ingot"]
+        }
+      ],
+      "recipe": {
+        "type": "minecraft:crafting_shapeless",
+        "ingredients": [
+          { "item": "minecraft:netherite_helmet" },
+          { "item": "minecraft:netherite_ingot" },
+          { "item": "minecraft:gold_ingot" },
+          { "item": "wilescollection:rusty_iron_ingot" }
+        ],
+        "result": {
+          "item": "wilescollection:plated_netherite_helmet"
+        }
+      }
+    }
+  ]
+}

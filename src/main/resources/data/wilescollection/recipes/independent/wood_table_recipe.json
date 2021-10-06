@@ -1,0 +1,21 @@
+{
+  "conditions": [
+    {
+      "type": "wilescollection:optional",
+      "result": "wilescollection:wood_table"
+    }
+  ],
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "SSS",
+    "F F"
+  ],
+  "key": {
+    "S": { "item": "minecraft:spruce_slab" },
+    "F": { "item": "minecraft:spruce_fence" }
+  },
+  "result": {
+    "item": "wilescollection:wood_table",
+    "count": 1
+  }
+}

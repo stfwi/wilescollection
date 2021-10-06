@@ -1,0 +1,23 @@
+{
+  "type": "forge:conditional",
+  "recipes": [
+    {
+      "conditions": [
+        {
+          "type": "wilescollection:optional",
+          "result": "wilescollection:rustic_iron_framed_window_diag",
+          "required": ["wilescollection:rustic_iron_framed_window"]
+        }
+      ],
+      "recipe": {
+        "type": "minecraft:crafting_shapeless",
+        "ingredients": [
+          { "item": "wilescollection:rustic_iron_framed_window" }
+        ],
+        "result": {
+          "item": "wilescollection:rustic_iron_framed_window_diag"
+        }
+      }
+    }
+  ]
+}

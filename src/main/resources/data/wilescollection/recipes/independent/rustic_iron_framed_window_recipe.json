@@ -1,0 +1,23 @@
+{
+  "conditions": [
+    {
+      "type": "wilescollection:optional",
+      "result": "wilescollection:rustic_iron_framed_window",
+      "required": ["wilescollection:rusty_iron_nugget"]
+    }
+  ],
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "NNN",
+    "NPN",
+    "NNN"
+  ],
+  "key": {
+    "N": { "item" : "wilescollection:rusty_iron_nugget" },
+    "P": { "item": "minecraft:glass_pane" }
+  },
+  "result": {
+    "item": "wilescollection:rustic_iron_framed_window",
+    "count": 1
+  }
+}

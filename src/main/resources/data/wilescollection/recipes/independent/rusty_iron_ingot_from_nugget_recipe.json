@@ -1,0 +1,31 @@
+{
+  "type": "forge:conditional",
+  "recipes": [
+    {
+      "conditions": [
+        {
+          "type": "wilescollection:optional",
+          "result": "wilescollection:rusty_iron_ingot",
+          "required": ["wilescollection:rusty_iron_nugget"]
+        }
+      ],
+      "recipe": {
+        "type": "minecraft:crafting_shapeless",
+        "ingredients": [
+          { "item": "wilescollection:rusty_iron_nugget" },
+          { "item": "wilescollection:rusty_iron_nugget" },
+          { "item": "wilescollection:rusty_iron_nugget" },
+          { "item": "wilescollection:rusty_iron_nugget" },
+          { "item": "wilescollection:rusty_iron_nugget" },
+          { "item": "wilescollection:rusty_iron_nugget" },
+          { "item": "wilescollection:rusty_iron_nugget" },
+          { "item": "wilescollection:rusty_iron_nugget" },
+          { "item": "wilescollection:rusty_iron_nugget" }
+        ],
+        "result": {
+          "item": "wilescollection:rusty_iron_ingot"
+        }
+      }
+    }
+  ]
+}

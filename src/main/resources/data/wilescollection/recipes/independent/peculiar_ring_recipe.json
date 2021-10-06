@@ -1,0 +1,23 @@
+{
+  "conditions": [
+    {
+      "type": "wilescollection:optional",
+      "result": "wilescollection:peculiar_ring",
+      "required": ["wilescollection:rusty_iron_ingot"]
+    }
+  ],
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "GCG",
+    "I I",
+    "GIG"
+  ],
+  "key": {
+    "G": { "item": "minecraft:gold_ingot" },
+    "C": { "item": "minecraft:crying_obsidian" },
+    "I": { "item": "wilescollection:rusty_iron_ingot" }
+  },
+  "result": {
+    "item": "wilescollection:peculiar_ring"
+  }
+}

@@ -1,0 +1,23 @@
+{
+  "conditions": [
+    {
+      "type": "wilescollection:optional",
+      "result": "wilescollection:rustic_chain",
+      "required": ["wilescollection:rusty_iron_ingot", "wilescollection:rusty_iron_nugget"]
+    }
+  ],
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "N",
+    "I",
+    "N"
+  ],
+  "key": {
+    "I": { "item": "wilescollection:rusty_iron_ingot" },
+    "N": { "item": "wilescollection:rusty_iron_nugget" }
+  },
+  "result": {
+    "item": "wilescollection:rustic_chain",
+    "count": 1
+  }
+}

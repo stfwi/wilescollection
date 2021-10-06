@@ -1,0 +1,21 @@
+{
+  "conditions": [
+    {
+      "type": "wilescollection:optional",
+      "result": "wilescollection:ladder"
+    }
+  ],
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "F F",
+    "FFF",
+    "F F"
+  ],
+  "key": {
+    "F": { "item": "minecraft:oak_fence" }
+  },
+  "result": {
+    "item": "wilescollection:ladder",
+    "count": 12
+  }
+}

@@ -1,0 +1,7 @@
+{
+  "variants": {
+    "axis=x": { "model": "wilescollection:block/rustic_chain_model", "y": 90 },
+    "axis=y": { "model": "wilescollection:block/rustic_chain_model", "x": 90 },
+    "axis=z": { "model": "wilescollection:block/rustic_chain_model" }
+  }
+}

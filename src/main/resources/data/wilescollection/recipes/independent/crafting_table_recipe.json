@@ -1,0 +1,22 @@
+{
+  "conditions": [
+    {
+      "type": "wilescollection:optional",
+      "result": "wilescollection:crafting_table"
+    }
+  ],
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "SS",
+    "CT"
+  ],
+  "key": {
+    "S": { "tag" : "minecraft:wooden_slabs" },
+    "C": { "item": "minecraft:chest" },
+    "T": { "item": "minecraft:crafting_table" }
+  },
+  "result": {
+    "item": "wilescollection:crafting_table",
+    "count": 1
+  }
+}

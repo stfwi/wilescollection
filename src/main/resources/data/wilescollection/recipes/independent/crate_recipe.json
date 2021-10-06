@@ -1,0 +1,23 @@
+{
+  "conditions": [
+    {
+      "type": "wilescollection:optional",
+      "result": "wilescollection:crate"
+    }
+  ],
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "PPP",
+    "CCP",
+    "CCL"
+  ],
+  "key": {
+    "L": { "item": "minecraft:item_frame" },
+    "C": { "item": "minecraft:chest" },
+    "P": { "item": "minecraft:spruce_planks" }
+  },
+  "result": {
+    "item": "wilescollection:crate",
+    "count": 1
+  }
+}

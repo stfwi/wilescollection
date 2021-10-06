@@ -1,0 +1,22 @@
+{
+	"ambientocclusion": false,
+	"textures": {
+		"particle": "wilescollection:block/misc/rustic_wood_door_texture_top",
+		"o": "wilescollection:block/misc/rustic_wood_door_texture_top",
+		"s": "wilescollection:block/misc/rustic_wood_door_texture_side"
+	},
+	"elements": [
+		{
+			"from": [0, 0, 0],
+			"to": [3, 16, 16],
+			"rotation": {"angle": 0, "axis": "y", "origin": [8.5, 8, -6]},
+			"faces": {
+				"north": {"uv": [0, 16, 3, 0], "texture": "#s"},
+				"east": {"uv": [16, 0, 0, 16], "texture": "#o"},
+				"south": {"uv": [9, 0, 12, 16], "texture": "#s"},
+				"west": {"uv": [0, 0, 16, 16], "texture": "#o"},
+				"up": {"uv": [9, 0, 12, 16], "texture": "#s"}
+			}
+		}
+	]
+}
