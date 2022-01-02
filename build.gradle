@@ -12,8 +12,8 @@ buildscript {
 apply plugin: 'net.minecraftforge.gradle'
 apply plugin: 'eclipse'
 apply plugin: 'maven-publish'
-java.toolchain.languageVersion = JavaLanguageVersion.of(16)
-//----------------------------------------------------------------------------------------------------------------------
+java.toolchain.languageVersion = JavaLanguageVersion.of(17)
+//-----------------------------------------------------------------------------
 version = "${version_mod}"
 group = "wile.wilescollection"
 archivesBaseName = "wilescollection-${version_minecraft}"
@@ -25,14 +25,13 @@ repositories {
 }
 
 minecraft {
-  mappings channel: "official", version: "1.17.1"
+  mappings channel: "official", version: "1.18.1"
   runs {
     client {
       workingDirectory project.file('run')
       property 'forge.logging.markers', '' // SCAN,REGISTRIES,REGISTRYDUMP
       property 'forge.logging.console.level', 'info'
-      mods { wilescollection { source sourceSets.main } }
-    }
+      mods { wilescollection { source sourceSets.main } } }
     server {
       workingDirectory project.file('run')
       property 'forge.logging.markers', '' // SCAN,REGISTRIES,REGISTRYDUMP
@@ -67,9 +66,12 @@ jar {
   }
 }
 
-sourceSets.main.resources { srcDir 'src/generated/resources' } // Include datagen resources
 jar.finalizedBy('reobfJar')
+// def reobfFile = file("$buildDir/reobfJar/output.jar")
+// def reobfArtifact = artifacts.add('default', reobfFile) { type 'jar'; builtBy 'reobfJar' }
 
+
+//import net.minecraftforge.gradle.common.task.SignJar
 // task signJar(type: SignJar, dependsOn: jar) {
 //   onlyIf { project.hasProperty("keystore_file") }
 //   if(project.hasProperty("keystore_file")) {

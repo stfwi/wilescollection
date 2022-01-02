@@ -1,7 +1,7 @@
 
-## WilE's Collection (MC1.17.x)
+## WilE's Collection (MC1.18.x)
 
-Mod sources for Minecraft version 1.17.x.
+Mod sources for Minecraft version 1.18.x.
 
 - Description, credits, and features: Please see the readme in the repository root.
 
@@ -10,6 +10,8 @@ Mod sources for Minecraft version 1.17.x.
 ----
 
 ## Version history
+
+    - v1.1.1-b2  [U] Initial 1.18.1 port.
 
     - v1.1.1-b1  [U] Initial 1.17.1 port.
 

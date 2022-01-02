@@ -95,7 +95,7 @@ public class ModContent
 
   public static final EdCraftingTable.CraftingTableBlock CRAFTING_TABLE = (EdCraftingTable.CraftingTableBlock)(new EdCraftingTable.CraftingTableBlock(
     StandardBlocks.CFG_CUTOUT|StandardBlocks.CFG_HORIZIONTAL|StandardBlocks.CFG_LOOK_PLACEMENT|StandardBlocks.CFG_OPPOSITE_PLACEMENT,
-    BlockBehaviour.Properties.of(Material.WOOD, MaterialColor.WOOD).strength(1f, 5f).sound(SoundType.WOOD).noOcclusion(),
+    BlockBehaviour.Properties.of(Material.WOOD, MaterialColor.WOOD).strength(0.2f, 5f).sound(SoundType.WOOD).noOcclusion(),
     new AABB[]{
       Auxiliaries.getPixeledAABB(0,13,0, 16,16,16),
       Auxiliaries.getPixeledAABB(1, 0,1, 15,16,15)
@@ -104,7 +104,7 @@ public class ModContent
 
   public static final FluidBarrel.FluidBarrelBlock FLUID_BARREL = (FluidBarrel.FluidBarrelBlock)(new FluidBarrel.FluidBarrelBlock(
     StandardBlocks.CFG_CUTOUT|StandardBlocks.CFG_LOOK_PLACEMENT|StandardBlocks.CFG_OPPOSITE_PLACEMENT,
-    BlockBehaviour.Properties.of(Material.WOOD, MaterialColor.WOOD).strength(0.5f, 5f).sound(SoundType.WOOD).noOcclusion(),
+    BlockBehaviour.Properties.of(Material.WOOD, MaterialColor.WOOD).strength(0.2f, 5f).sound(SoundType.WOOD).noOcclusion(),
     new AABB[] {
       Auxiliaries.getPixeledAABB(2, 0,0, 14, 1,16),
       Auxiliaries.getPixeledAABB(1, 1,0, 15, 2,16),
@@ -116,20 +116,20 @@ public class ModContent
 
   public static final LabeledCrate.LabeledCrateBlock LABELED_CRATE = (LabeledCrate.LabeledCrateBlock)(new LabeledCrate.LabeledCrateBlock(
     StandardBlocks.CFG_HORIZIONTAL|StandardBlocks.CFG_LOOK_PLACEMENT|StandardBlocks.CFG_OPPOSITE_PLACEMENT,
-    BlockBehaviour.Properties.of(Material.WOOD, MaterialColor.WOOD).strength(0.5f, 5f).sound(SoundType.WOOD).noOcclusion(),
+    BlockBehaviour.Properties.of(Material.WOOD, MaterialColor.WOOD).strength(0.2f, 5f).sound(SoundType.WOOD).noOcclusion(),
     Auxiliaries.getPixeledAABB(0,0,0, 16,16,16)
   )).setRegistryName(new ResourceLocation(MODID, "crate"));
 
   public static final ExtLadderBlock WOOD_LADDER = (ExtLadderBlock)(new ExtLadderBlock(
     StandardBlocks.CFG_DEFAULT,
-    BlockBehaviour.Properties.of(Material.WOOD, MaterialColor.WOOD).strength(0.7f, 3f).sound(SoundType.WOOD).noOcclusion()
+    BlockBehaviour.Properties.of(Material.WOOD, MaterialColor.WOOD).strength(0.2f, 3f).sound(SoundType.WOOD).noOcclusion()
   )).setRegistryName(new ResourceLocation(MODID, "ladder"));
 
   // -------------------------------------------------------------------------------------------------------------------
 
   public static final TableBlock WOOD_TABLE = (TableBlock)(new TableBlock(
     StandardBlocks.CFG_CUTOUT,
-    BlockBehaviour.Properties.of(Material.WOOD, MaterialColor.WOOD).strength(1f, 3f).sound(SoundType.WOOD).noOcclusion(),
+    BlockBehaviour.Properties.of(Material.WOOD, MaterialColor.WOOD).strength(0.2f, 3f).sound(SoundType.WOOD).noOcclusion(),
     Auxiliaries.getPixeledAABB( 0,14, 0, 16,16,16), // top base aabb
     new AABB[]{ // side NORTH-EAST
       Auxiliaries.getPixeledAABB(14, 0, 0, 16,16, 2),
@@ -138,7 +138,7 @@ public class ModContent
 
   public static final Chair.ChairBlock WOOD_CHAIR = (Chair.ChairBlock)(new Chair.ChairBlock(
     StandardBlocks.CFG_CUTOUT|StandardBlocks.CFG_HORIZIONTAL|StandardBlocks.CFG_LOOK_PLACEMENT,
-    BlockBehaviour.Properties.of(Material.WOOD, MaterialColor.WOOD).strength(1f, 3f).sound(SoundType.WOOD).noOcclusion(),
+    BlockBehaviour.Properties.of(Material.WOOD, MaterialColor.WOOD).strength(0.2f, 3f).sound(SoundType.WOOD).noOcclusion(),
     new AABB[]{
       Auxiliaries.getPixeledAABB( 2, 0, 3,  4, 9, 5),
       Auxiliaries.getPixeledAABB(12, 0, 3, 14, 9, 5),
@@ -151,7 +151,7 @@ public class ModContent
 
   public static final StandardDoorBlock RUSTIC_WOOD_DOOR = (StandardDoorBlock)(new StandardDoorBlock(
     StandardBlocks.CFG_DEFAULT,
-    BlockBehaviour.Properties.of(Material.WOOD, MaterialColor.WOOD).strength(1.5f, 6f).sound(SoundType.WOOD).noOcclusion(),
+    BlockBehaviour.Properties.of(Material.WOOD, MaterialColor.WOOD).strength(0.2f, 6f).sound(SoundType.WOOD).noOcclusion(),
     Auxiliaries.getPixeledAABB(15,0, 0, 16,16,16),
     Auxiliaries.getPixeledAABB( 0,0,13, 16,16,16),
     SoundEvents.WOODEN_DOOR_OPEN, SoundEvents.WOODEN_DOOR_CLOSE
@@ -159,7 +159,7 @@ public class ModContent
 
   public static final OmniLanternBlock RUSTIC_IRON_LANTERN = (OmniLanternBlock)(new OmniLanternBlock(
     StandardBlocks.CFG_CUTOUT|StandardBlocks.CFG_FACING_PLACEMENT|StandardBlocks.CFG_OPPOSITE_PLACEMENT|StandardBlocks.CFG_AI_PASSABLE,
-    BlockBehaviour.Properties.of(Material.METAL, MaterialColor.METAL).strength(2f, 4f).sound(SoundType.LANTERN).lightLevel((state)->15).noOcclusion(),
+    BlockBehaviour.Properties.of(Material.METAL, MaterialColor.METAL).strength(0.2f, 4f).sound(SoundType.LANTERN).lightLevel((state)->15).noOcclusion(),
     new AABB[]{
       Auxiliaries.getPixeledAABB( 5, 2, 5, 11,8,11),
       Auxiliaries.getPixeledAABB( 6, 8, 6, 10,9,10),
@@ -179,7 +179,7 @@ public class ModContent
 
   public static final StandardBlocks.AxisAlignedWaterLoggable RUSTIC_CHAIN = (StandardBlocks.AxisAlignedWaterLoggable)(new StandardBlocks.AxisAlignedWaterLoggable(
     StandardBlocks.CFG_CUTOUT|StandardBlocks.CFG_FACING_PLACEMENT,
-    BlockBehaviour.Properties.of(Material.METAL, MaterialColor.NONE).strength(1.0F, 6.0F).sound(SoundType.CHAIN).noOcclusion(),
+    BlockBehaviour.Properties.of(Material.METAL, MaterialColor.NONE).strength(0.2f, 6.0F).sound(SoundType.CHAIN).noOcclusion(),
     new AABB[]{
       Auxiliaries.getPixeledAABB( 7,  7, 0, 9,9,16),
     }
@@ -187,31 +187,31 @@ public class ModContent
 
   public static final WindowBlock RUSTIC_IRON_FRAMED_WINDOW = (WindowBlock)(new WindowBlock(
     StandardBlocks.CFG_CUTOUT|StandardBlocks.CFG_LOOK_PLACEMENT,
-    BlockBehaviour.Properties.of(Material.METAL, MaterialColor.METAL).strength(1f, 3f).sound(SoundType.METAL).noOcclusion(),
+    BlockBehaviour.Properties.of(Material.METAL, MaterialColor.METAL).strength(0.2f, 3f).sound(SoundType.METAL).noOcclusion(),
     Auxiliaries.getPixeledAABB(0,0,7.5, 16,16,8.5)
   )).setRegistryName(new ResourceLocation(MODID, "rustic_iron_framed_window"));
 
   public static final WindowBlock RUSTIC_IRON_FRAMED_WINDOW_ASYM = (WindowBlock)(new WindowBlock(
     StandardBlocks.CFG_CUTOUT|StandardBlocks.CFG_LOOK_PLACEMENT,
-    BlockBehaviour.Properties.of(Material.METAL, MaterialColor.METAL).strength(1f, 3f).sound(SoundType.METAL).noOcclusion(),
+    BlockBehaviour.Properties.of(Material.METAL, MaterialColor.METAL).strength(0.2f, 3f).sound(SoundType.METAL).noOcclusion(),
     Auxiliaries.getPixeledAABB(0,0,7.5, 16,16,8.5)
   )).setRegistryName(new ResourceLocation(MODID, "rustic_iron_framed_window_asym"));
 
   public static final WindowBlock RUSTIC_IRON_FRAMED_WINDOW_DIAG = (WindowBlock)(new WindowBlock(
     StandardBlocks.CFG_CUTOUT|StandardBlocks.CFG_LOOK_PLACEMENT,
-    BlockBehaviour.Properties.of(Material.METAL, MaterialColor.METAL).strength(1f, 3f).sound(SoundType.METAL).noOcclusion(),
+    BlockBehaviour.Properties.of(Material.METAL, MaterialColor.METAL).strength(0.2f, 3f).sound(SoundType.METAL).noOcclusion(),
     Auxiliaries.getPixeledAABB(0,0,7.5, 16,16,8.5)
   )).setRegistryName(new ResourceLocation(MODID, "rustic_iron_framed_window_diag"));
 
   public static final WindowBlock RUSTIC_IRON_FRAMED_WINDOW_WIDE = (WindowBlock)(new WindowBlock(
     StandardBlocks.CFG_CUTOUT|StandardBlocks.CFG_LOOK_PLACEMENT,
-    BlockBehaviour.Properties.of(Material.METAL, MaterialColor.METAL).strength(1f, 3f).sound(SoundType.METAL).noOcclusion(),
+    BlockBehaviour.Properties.of(Material.METAL, MaterialColor.METAL).strength(0.2f, 3f).sound(SoundType.METAL).noOcclusion(),
     Auxiliaries.getPixeledAABB(0,0,7.5, 16,16,8.5)
   )).setRegistryName(new ResourceLocation(MODID, "rustic_iron_framed_window_wide"));
 
   public static final StandardBlocks.BaseBlock WEATHERED_STONE_BRICK_BLOCK = (StandardBlocks.BaseBlock)(new StandardBlocks.BaseBlock(
     StandardBlocks.CFG_DEFAULT,
-    BlockBehaviour.Properties.of(Material.STONE, MaterialColor.STONE).strength(2f, 4f).sound(SoundType.STONE)
+    BlockBehaviour.Properties.of(Material.STONE, MaterialColor.STONE).strength(0.4f, 7f).sound(SoundType.STONE).requiresCorrectToolForDrops()
   )).setRegistryName(new ResourceLocation(MODID, "weathered_stone_brick_block"));
 
   // -------------------------------------------------------------------------------------------------------------------

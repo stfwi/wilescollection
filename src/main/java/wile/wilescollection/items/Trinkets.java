@@ -77,15 +77,15 @@ public class Trinkets
     }
 
     @Override
-    public boolean showDurabilityBar(ItemStack stack)
+    public boolean isBarVisible(ItemStack stack)
     { return getDurability(stack) > 0; }
 
     @Override
-    public double getDurabilityForDisplay(ItemStack stack)
-    { return 1.0 - getDurability(stack); }
+    public int getBarWidth(ItemStack stack)
+    { return (int)Math.round(13f * getDurability(stack)); }
 
     @Override
-    public int getRGBDurabilityForDisplay(ItemStack stack)
+    public int getBarColor(ItemStack stack)
     { return 0x2d9ff7; }
 
     @Override

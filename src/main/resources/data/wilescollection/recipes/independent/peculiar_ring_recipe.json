@@ -9,12 +9,13 @@
   "type": "minecraft:crafting_shaped",
   "pattern": [
     "GCG",
-    "I I",
+    "A A",
     "GIG"
   ],
   "key": {
     "G": { "item": "minecraft:gold_ingot" },
     "C": { "item": "minecraft:crying_obsidian" },
+    "A": { "item": "minecraft:amethyst_shard" },
     "I": { "item": "wilescollection:rusty_iron_ingot" }
   },
   "result": {

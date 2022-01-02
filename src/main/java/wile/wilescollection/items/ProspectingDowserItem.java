@@ -46,8 +46,8 @@ public class ProspectingDowserItem extends ModItem
   @OnlyIn(Dist.CLIENT)
   public void registerModels()
   {
-    net.minecraftforge.client.model.ModelLoader.addSpecialModel(new ModelResourceLocation(new ResourceLocation(ModWilesCollection.MODID, "prospecting_dowser_model"), "inventory"));
-    net.minecraftforge.client.model.ModelLoader.addSpecialModel(new ModelResourceLocation(new ResourceLocation(ModWilesCollection.MODID, "prospecting_dowser_model_e"), "inventory"));
+    net.minecraftforge.client.model.ForgeModelBakery.addSpecialModel(new ModelResourceLocation(new ResourceLocation(ModWilesCollection.MODID, "prospecting_dowser_model"), "inventory"));
+    net.minecraftforge.client.model.ForgeModelBakery.addSpecialModel(new ModelResourceLocation(new ResourceLocation(ModWilesCollection.MODID, "prospecting_dowser_model_e"), "inventory"));
   }
 
   @Override
@@ -91,7 +91,7 @@ public class ProspectingDowserItem extends ModItem
   { return false; }
 
   @Override
-  public boolean showDurabilityBar(ItemStack stack)
+  public boolean isBarVisible(ItemStack stack)
   { return false; }
 
   @Override
