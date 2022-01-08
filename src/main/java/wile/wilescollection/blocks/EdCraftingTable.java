@@ -98,6 +98,10 @@ public class EdCraftingTable
     { return ModContent.TET_CRAFTING_TABLE; }
 
     @Override
+    public boolean isBlockEntityTicking(Level world, BlockState state)
+    { return false; }
+
+    @Override
     public boolean shouldCheckWeakPower(BlockState state, LevelReader world, BlockPos pos, Direction side)
     { return false; }
 

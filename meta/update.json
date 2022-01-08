@@ -1,6 +1,7 @@
 {
   "homepage": "https://www.curseforge.com/minecraft/mc-mods/wilescollection/",
   "1.18.1": {
+    "1.1.1-b3": "[U] Forge/gradle updated, library adaptions.\n[F] Fixed water logging.",
     "1.1.1-b2": "[U] Initial 1.18.1 port.",
     "1.1.1-b1": "[U] Initial 1.17.1 port.",
     "1.1.0-b3": "[F] Added Rustic Iron Chain.\n[A] Peculiar Ring added.",
@@ -9,7 +10,7 @@
     "1.1.0-a1": "[A] Initial Alpha."
   },
   "promos": {
-    "1.18.1-recommended": "1.1.1-b2",
-    "1.18.1-latest": "1.1.1-b2"
+    "1.18.1-recommended": "1.1.1-b3",
+    "1.18.1-latest": "1.1.1-b3"
   }
 }

@@ -104,6 +104,10 @@ public class FluidBarrel
     { return ModContent.TET_FLUID_BARREL; }
 
     @Override
+    public boolean isBlockEntityTicking(Level world, BlockState state)
+    { return true; }
+
+    @Override
     public BlockItem getBlockItem(Block block, Item.Properties builder)
     { return new FluidBarrelItem(block, builder); }
 

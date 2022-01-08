@@ -11,6 +11,9 @@ Mod sources for Minecraft version 1.18.x.
 
 ## Version history
 
+    - v1.1.1-b3  [U] Forge/gradle updated, library adaptions.
+                 [F] Fixed water logging.
+
     - v1.1.1-b2  [U] Initial 1.18.1 port.
 
     - v1.1.1-b1  [U] Initial 1.17.1 port.

@@ -91,6 +91,10 @@ public class LabeledCrate
     { return ModContent.TET_LABELED_CRATE; }
 
     @Override
+    public boolean isBlockEntityTicking(Level world, BlockState state)
+    { return false; }
+
+    @Override
     @SuppressWarnings("deprecation")
     public boolean hasAnalogOutputSignal(BlockState state)
     { return true; }

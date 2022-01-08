@@ -211,7 +211,7 @@ public class ModContent
 
   public static final StandardBlocks.BaseBlock WEATHERED_STONE_BRICK_BLOCK = (StandardBlocks.BaseBlock)(new StandardBlocks.BaseBlock(
     StandardBlocks.CFG_DEFAULT,
-    BlockBehaviour.Properties.of(Material.STONE, MaterialColor.STONE).strength(0.4f, 7f).sound(SoundType.STONE).requiresCorrectToolForDrops()
+    BlockBehaviour.Properties.of(Material.STONE, MaterialColor.STONE).strength(0.3f, 7f).sound(SoundType.STONE)
   )).setRegistryName(new ResourceLocation(MODID, "weathered_stone_brick_block"));
 
   // -------------------------------------------------------------------------------------------------------------------
