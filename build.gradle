@@ -1,6 +1,5 @@
 // @file build.gradle
 // WilE's Collection mod gradle build.
-import net.minecraftforge.gradle.common.task.SignJar
 buildscript {
   repositories {
     maven { url = 'https://files.minecraftforge.net/maven' }
@@ -8,13 +7,13 @@ buildscript {
     mavenCentral()
   }
   dependencies {
-    classpath group: 'net.minecraftforge.gradle', name: 'ForgeGradle', version: '3.+', changing: true
+    classpath group: 'net.minecraftforge.gradle', name: 'ForgeGradle', version: '5.1.+', changing: true
   }
 }
 apply plugin: 'net.minecraftforge.gradle'
 apply plugin: 'eclipse'
 apply plugin: 'maven-publish'
-sourceCompatibility = targetCompatibility = compileJava.sourceCompatibility = compileJava.targetCompatibility = '1.8'
+java.toolchain.languageVersion = JavaLanguageVersion.of(8)
 //----------------------------------------------------------------------------------------------------------------------
 version = "${version_mod}"
 group = "wile.wilescollection"
@@ -26,8 +25,7 @@ repositories {
 }
 
 minecraft {
-  mappings channel: "official", version: "1.16.5" // mappings channel: 'snapshot', version: "${version_fml_mappings}"
-  // accessTransformer = file('build/resources/main/META-INF/accesstransformer.cfg')
+  mappings channel: "official", version: "1.16.5"
   runs {
     client {
       workingDirectory project.file('run')
@@ -49,17 +47,6 @@ minecraft {
         }
       }
     }
-    data {
-      workingDirectory project.file('run')
-      property 'forge.logging.markers', '' // SCAN,REGISTRIES,REGISTRYDUMP
-      property 'forge.logging.console.level', 'info'
-      args '--mod', 'wilescollection', '--all', '--output', file('src/generated/resources/')
-      mods {
-        wilescollection {
-          source sourceSets.main
-        }
-      }
-    }
   }
 }
 
@@ -70,7 +57,7 @@ dependencies {
 }
 
 processResources {
-  outputs.upToDateWhen { false } // thx to @tterrag for this hint
+  outputs.upToDateWhen { false }
   doLast { file("${sourceSets.main.output.resourcesDir}/.gitversion-wilescollection").text = 'git log "-1" "--format=%h"'.execute().in.text.trim() }
 }
 
@@ -88,8 +75,10 @@ jar {
   }
 }
 
+/*
 def reobfFile = file("$buildDir/reobfJar/output.jar")
 def reobfArtifact = artifacts.add('default', reobfFile) { type 'jar'; builtBy 'reobfJar' }
+import net.minecraftforge.gradle.common.task.SignJar
 
 task signJar(type: SignJar, dependsOn: jar) {
   onlyIf { project.hasProperty("keystore_file") }
@@ -110,3 +99,4 @@ publishing {
   publications { mavenJava(MavenPublication) { artifact reobfArtifact } }
   repositories { maven { url "file:///${project.projectDir}/mcmodsrepo" } }
 }
+*/
