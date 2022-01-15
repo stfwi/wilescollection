@@ -1,6 +1,7 @@
 {
   "homepage": "https://www.curseforge.com/minecraft/mc-mods/wilescollection/",
   "1.18.1": {
+    "1.1.1-b4": "[A] Added Ariadne Coal (moved from Engineer's Tools mod).\n[A] Added Crushing Hammer & Crushed Ores.\n[A] Charged Lapis & Mind Squeezer.\n[F] Fixed Crate Model.\n[F] Fixed Weathered Brick drops.",
     "1.1.1-b3": "[U] Forge/gradle updated, library adaptions.\n[F] Fixed water logging.",
     "1.1.1-b2": "[U] Initial 1.18.1 port.",
     "1.1.1-b1": "[U] Initial 1.17.1 port.",
@@ -10,7 +11,7 @@
     "1.1.0-a1": "[A] Initial Alpha."
   },
   "promos": {
-    "1.18.1-recommended": "1.1.1-b3",
-    "1.18.1-latest": "1.1.1-b3"
+    "1.18.1-recommended": "1.1.1-b4",
+    "1.18.1-latest": "1.1.1-b4"
   }
 }

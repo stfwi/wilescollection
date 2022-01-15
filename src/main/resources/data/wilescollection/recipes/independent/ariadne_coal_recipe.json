@@ -1,0 +1,22 @@
+{
+  "conditions": [
+    {
+      "type": "wilescollection:optional",
+      "result": "wilescollection:ariadne_coal"
+    }
+  ],
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "C",
+    "C",
+    "S"
+  ],
+  "key": {
+    "S": { "item": "minecraft:stick" },
+    "C": { "item": "minecraft:coal"  }
+  },
+  "result": {
+    "item": "wilescollection:ariadne_coal",
+    "count": 1
+  }
+}

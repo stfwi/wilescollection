@@ -1,0 +1,9 @@
+{
+  "type": "minecraft:smelting",
+  "ingredient": {
+    "item": "wilescollection:crushed_gold"
+  },
+  "result": "minecraft:gold_ingot",
+  "experience": 1.0,
+  "cookingtime": 120
+}

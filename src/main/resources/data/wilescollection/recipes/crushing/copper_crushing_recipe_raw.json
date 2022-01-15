@@ -1,0 +1,31 @@
+{ "type": "forge:conditional", "recipes": [
+  {
+    "conditions": [
+      {
+        "type": "wilescollection:optional",
+        "result": "wilescollection:crushed_copper",
+        "requires": ["wilescollection:crushing_hammer", "minecraft:raw_copper", "wilescollection:crushed_copper"]
+      }
+    ],
+    "recipe": {
+      "type": "wilescollection:crafting_extended_shapeless",
+      "group": "grit",
+      "ingredients": [
+        {
+          "item": "minecraft:raw_copper"
+        },
+        {
+          "item": "wilescollection:crushing_hammer"
+        }
+      ],
+      "result": {
+        "item": "wilescollection:crushed_copper",
+        "count": 2
+      },
+      "aspects": {
+        "tool": "wilescollection:crushing_hammer",
+        "tool_damage": 8
+      }
+    }
+  }
+]}

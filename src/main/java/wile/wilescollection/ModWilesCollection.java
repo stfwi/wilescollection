@@ -6,6 +6,8 @@ import net.minecraft.world.inventory.MenuType;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.crafting.RecipeSerializer;
+import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraftforge.api.distmarker.Dist;
@@ -94,6 +96,10 @@ public class ModWilesCollection
     @SubscribeEvent
     public static final void onRegisterModels(final ModelRegistryEvent event)
     { ModContent.registerModels(); }
+
+    @SubscribeEvent
+    public static final void onRecipeRegistry(final RegistryEvent.Register<RecipeSerializer<?>> event)
+    { event.getRegistry().register(wile.wilescollection.libmc.detail.ExtendedShapelessRecipe.SERIALIZER); }
 
     @SubscribeEvent
     public static void onConfigLoad(final ModConfigEvent.Loading event)

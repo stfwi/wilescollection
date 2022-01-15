@@ -12,7 +12,6 @@
  */
 package wile.wilescollection;
 
-
 import net.minecraft.client.gui.screens.MenuScreens;
 import net.minecraft.client.renderer.ItemBlockRenderTypes;
 import net.minecraft.client.renderer.RenderType;
@@ -209,9 +208,16 @@ public class ModContent
     Auxiliaries.getPixeledAABB(0,0,7.5, 16,16,8.5)
   )).setRegistryName(new ResourceLocation(MODID, "rustic_iron_framed_window_wide"));
 
+  // -------------------------------------------------------------------------------------------------------------------
+
+  public static final AriadneCoalBlock ARIADNE_COAL_BLOCK = (AriadneCoalBlock)(new AriadneCoalBlock(
+    StandardBlocks.CFG_TRANSLUCENT,
+    BlockBehaviour.Properties.of(Material.STONE, MaterialColor.STONE).strength(0.2f, 2f).sound(SoundType.STONE).noCollission().noDrops()
+  )).setRegistryName(new ResourceLocation(MODID, "ariadne_coal_block"));
+
   public static final StandardBlocks.BaseBlock WEATHERED_STONE_BRICK_BLOCK = (StandardBlocks.BaseBlock)(new StandardBlocks.BaseBlock(
     StandardBlocks.CFG_DEFAULT,
-    BlockBehaviour.Properties.of(Material.STONE, MaterialColor.STONE).strength(0.3f, 7f).sound(SoundType.STONE)
+    BlockBehaviour.Properties.of(Material.STONE, MaterialColor.STONE).strength(1.5F, 6.0F).sound(SoundType.STONE).requiresCorrectToolForDrops()
   )).setRegistryName(new ResourceLocation(MODID, "weathered_stone_brick_block"));
 
   // -------------------------------------------------------------------------------------------------------------------
@@ -230,7 +236,8 @@ public class ModContent
     RUSTIC_IRON_FRAMED_WINDOW_DIAG,
     RUSTIC_IRON_FRAMED_WINDOW_ASYM,
     RUSTIC_IRON_FRAMED_WINDOW_WIDE,
-    WEATHERED_STONE_BRICK_BLOCK
+    WEATHERED_STONE_BRICK_BLOCK,
+    ARIADNE_COAL_BLOCK
   };
 
   private static final Block devBlocks[] = {
@@ -312,16 +319,44 @@ public class ModContent
     default_item_properties().fireResistant().setNoRepair().rarity(Rarity.RARE).defaultDurability(1000).durability(1000)
   ).setRegistryName(MODID, "peculiar_ring")));
 
+  public static final AriadneCoalItem ARIADNE_COAL = (AriadneCoalItem)((new AriadneCoalItem(
+    default_item_properties().stacksTo(1).rarity(Rarity.UNCOMMON)
+  ).setRegistryName(MODID, "ariadne_coal")));
+
+  public static final ChargedLapisItem CHARGED_LAPIS = (ChargedLapisItem)((new ChargedLapisItem(
+    default_item_properties().rarity(Rarity.UNCOMMON)
+  ).setRegistryName(MODID, "charged_lapis")));
+
+  public static final ChargedLapisSqueezerItem CHARGED_LAPIS_SQUEEZER = (ChargedLapisSqueezerItem)((new ChargedLapisSqueezerItem(
+    default_item_properties().rarity(Rarity.UNCOMMON)
+  ).setRegistryName(MODID, "charged_lapis_squeezer")));
+
+  public static final CrushingHammerItem CRUSHING_HAMMER = (CrushingHammerItem)((new CrushingHammerItem(
+    default_item_properties().stacksTo(1).rarity(Rarity.UNCOMMON)
+  ).setRegistryName(MODID, "crushing_hammer")));
+
+  public static final GritItem CRUSHED_IRON = (GritItem)((new GritItem(
+    default_item_properties()
+  ).setRegistryName(MODID, "crushed_iron")));
+
+  public static final GritItem CRUSHED_GOLD = (GritItem)((new GritItem(
+    default_item_properties()
+  ).setRegistryName(MODID, "crushed_gold")));
+
+  public static final GritItem CRUSHED_COPPER = (GritItem)((new GritItem(
+    default_item_properties()
+  ).setRegistryName(MODID, "crushed_copper")));
+
+
   @SuppressWarnings("all")
   private static final Item modItems[] = {
-    RUSTY_IRON_INGOT,
-    RUSTY_IRON_NUGGET,
+    RUSTY_IRON_INGOT, RUSTY_IRON_NUGGET,
     PROSPECTING_DOWSER,
     PECULIAR_RING_ITEM,
-    PLATED_NETHERITE_HELMET,
-    PLATED_NETHERITE_CHESTPLATE,
-    PLATED_NETHERITE_LEGGINGS,
-    PLATED_NETHERITE_BOOTS
+    PLATED_NETHERITE_HELMET, PLATED_NETHERITE_CHESTPLATE, PLATED_NETHERITE_LEGGINGS, PLATED_NETHERITE_BOOTS,
+    ARIADNE_COAL,
+    CHARGED_LAPIS, CHARGED_LAPIS_SQUEEZER,
+    CRUSHING_HAMMER, CRUSHED_COPPER, CRUSHED_IRON, CRUSHED_GOLD
   };
 
   //--------------------------------------------------------------------------------------------------------------------
@@ -412,7 +447,6 @@ public class ModContent
   public static void registerTileEntities(final RegistryEvent.Register<BlockEntityType<?>> event)
   { for(final BlockEntityType<?> e:tile_entity_types) event.getRegistry().register(e); }
 
-
   public static final void registerEntities(final RegistryEvent.Register<EntityType<?>> event)
   {
     for(final EntityType<?> e:entity_types) {
@@ -420,7 +454,6 @@ public class ModContent
       event.getRegistry().register(e);
     }
   }
-
   public static void registerContainers(final RegistryEvent.Register<MenuType<?>> event)
   {
     int n_registered = 0;

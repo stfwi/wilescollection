@@ -1,0 +1,60 @@
+{ "type": "forge:conditional", "recipes": [
+  {
+    "conditions": [
+      {
+        "type": "wilescollection:optional",
+        "result": "#forge:dusts/iron",
+        "requires": ["wilescollection:crushing_hammer", "#forge:ores/iron"]
+      }
+    ],
+    "recipe": {
+      "type": "wilescollection:crafting_extended_shapeless",
+      "group": "grit",
+      "ingredients": [
+        {
+          "tag": "forge:ores/iron"
+        },
+        {
+          "item": "wilescollection:crushing_hammer"
+        }
+      ],
+      "result": {
+        "tag": "forge:dusts/iron",
+        "count": 2
+      },
+      "aspects": {
+        "tool": "wilescollection:crushing_hammer",
+        "tool_damage": 10
+      }
+    }
+  },
+  {
+    "conditions": [
+      {
+        "type": "wilescollection:optional",
+        "result": "wilescollection:crushed_iron",
+        "requires": ["wilescollection:crushing_hammer", "minecraft:iron_ore", "wilescollection:crushed_iron"]
+      }
+    ],
+    "recipe": {
+      "type": "wilescollection:crafting_extended_shapeless",
+      "group": "grit",
+      "ingredients": [
+        {
+          "item": "minecraft:iron_ore"
+        },
+        {
+          "item": "wilescollection:crushing_hammer"
+        }
+      ],
+      "result": {
+        "item": "wilescollection:crushed_iron",
+        "count": 2
+      },
+      "aspects": {
+        "tool": "wilescollection:crushing_hammer",
+        "tool_damage": 10
+      }
+    }
+  }
+]}

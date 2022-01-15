@@ -19,6 +19,8 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.*;
+import net.minecraft.world.item.enchantment.Enchantment;
+import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
@@ -39,12 +41,24 @@ public class Trinkets
   private static int max_charges_ = 4096;
   private static int repair_max_tick_damage_ = 50;
   private static Map<Item, Integer> charging_items_ = new HashMap<>();
+  private static Set<Enchantment> allowed_enchantments_ = new HashSet<>();
 
   public static void on_config()
   {
     charging_items_.clear();
     charging_items_.put(Items.LAPIS_LAZULI, 25);
     charging_items_.put(Items.LAPIS_BLOCK, 25*9);
+    // @todo: Implement corresponding effects
+    //    allowed_enchantments_.add(Enchantments.RESPIRATION);
+    //    allowed_enchantments_.add(Enchantments.AQUA_AFFINITY);
+    //    allowed_enchantments_.add(Enchantments.THORNS);
+    //    allowed_enchantments_.add(Enchantments.PROJECTILE_PROTECTION);
+    //    allowed_enchantments_.add(Enchantments.BLAST_PROTECTION);
+    //    allowed_enchantments_.add(Enchantments.FALL_PROTECTION);
+    //    allowed_enchantments_.add(Enchantments.FIRE_PROTECTION);
+    //    allowed_enchantments_.add(Enchantments.ALL_DAMAGE_PROTECTION);
+    //    allowed_enchantments_.add(Enchantments.FROST_WALKER);
+    //    allowed_enchantments_.add(Enchantments.SOUL_SPEED);
   }
 
   //--------------------------------------------------------------------------------------------------------------------
@@ -98,11 +112,19 @@ public class Trinkets
 
     @Override
     public boolean isEnchantable(ItemStack stack)
-    { return false; }
+    { return true; }
+
+    @Override
+    public int getEnchantmentValue()
+    { return 35; }
 
     @Override
     public boolean isBookEnchantable(ItemStack stack, ItemStack book)
-    { return false; }
+    { return EnchantmentHelper.getEnchantments(book).keySet().stream().anyMatch((ench)->allowed_enchantments_.contains(ench)); }
+
+    @Override
+    public boolean canApplyAtEnchantingTable(ItemStack stack, Enchantment enchantment)
+    { return allowed_enchantments_.contains(enchantment); }
 
     @Override
     public void inventoryTick(ItemStack stack, Level world, Entity entity, int itemSlot, boolean isSelected)

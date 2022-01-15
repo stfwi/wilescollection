@@ -1,0 +1,7 @@
+{
+	"parent": "wilescollection:block/ariadne_coal/ariadne_coal_0_model",
+	"textures": {
+		"s": "wilescollection:block/ariadne_coal/ariadne_coal_block_texture_2",
+		"particle": "wilescollection:block/ariadne_coal/ariadne_coal_block_texture_2"
+	}
+}
