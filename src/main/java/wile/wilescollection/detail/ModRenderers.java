@@ -13,12 +13,10 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.mojang.math.Vector3f;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.model.geom.EntityModelSet;
 import net.minecraft.client.renderer.BlockEntityWithoutLevelRenderer;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.block.model.ItemTransforms;
-import net.minecraft.client.renderer.blockentity.BlockEntityRenderDispatcher;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderer;
 import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
 import net.minecraft.client.renderer.entity.EntityRenderer;
@@ -32,13 +30,14 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
+import wile.wilescollection.ModWilesCollection;
+import wile.wilescollection.blocks.EdCraftingTable;
 import wile.wilescollection.blocks.EdCraftingTable.CraftingTableBlock;
 import wile.wilescollection.blocks.LabeledCrate;
-import wile.wilescollection.blocks.EdCraftingTable;
-import wile.wilescollection.ModWilesCollection;
 import wile.wilescollection.libmc.detail.Auxiliaries;
 
 
@@ -100,7 +99,9 @@ public class ModRenderers
     {
       if(tesr_error_counter <= 0) return;
       try {
-        final int di = Mth.clamp(te.getLevel().getBlockState(te.getBlockPos()).getValue(CraftingTableBlock.HORIZONTAL_FACING).get2DDataValue(), 0, 3);
+        final BlockState state = te.getLevel().getBlockState(te.getBlockPos());
+        if(!(state.getBlock() instanceof EdCraftingTable.CraftingTableBlock)) return;
+        final int di = Mth.clamp(state.getValue(CraftingTableBlock.HORIZONTAL_FACING).get2DDataValue(), 0, 3);
         long posrnd = te.getBlockPos().asLong();
         posrnd = (posrnd>>16)^(posrnd<<1);
         for(int i=0; i<9; ++i) {
@@ -137,7 +138,7 @@ public class ModRenderers
   @OnlyIn(Dist.CLIENT)
   public static class DecorLabeledCrateTer implements BlockEntityRenderer<LabeledCrate.LabeledCrateTileEntity>
   {
-    private static int tesr_error_counter = 4;
+    private static int tesr_error_counter = 16;
     private static final float scaler = 0.35f;
     private static final double[][] tr = { // [hdirection=S-W-N-E][param]
       {  +8.0/32, -8.0/32, +15.5/32, 180.0 }, // N
@@ -158,7 +159,9 @@ public class ModRenderers
       try {
         final ItemStack stack = te.getItemFrameStack();
         if(stack.isEmpty()) return;
-        final int di = Mth.clamp(te.getLevel().getBlockState(te.getBlockPos()).getValue(LabeledCrate.LabeledCrateBlock.HORIZONTAL_FACING).get2DDataValue(), 0, 3);
+        final BlockState state = te.getLevel().getBlockState(te.getBlockPos());
+        if(!(state.getBlock() instanceof LabeledCrate.LabeledCrateBlock)) return;
+        final int di = Mth.clamp(state.getValue(LabeledCrate.LabeledCrateBlock.HORIZONTAL_FACING).get2DDataValue(), 0, 3);
         double ox = tr[di][0], oy = tr[di][1], oz = tr[di][2];
         float ry = (float)tr[di][3];
         mxs.pushPose();

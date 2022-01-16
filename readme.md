@@ -11,6 +11,9 @@ Mod sources for Minecraft version 1.18.x.
 
 ## Version history
 
+    ~ v1.1.1-b5  [A] Fixed Mind Squeezer recipe.
+                 [F] Fixed Crate rendering issue.
+
     - v1.1.1-b4  [A] Added Ariadne Coal (moved from Engineer's Tools mod).
                  [A] Added Crushing Hammer & Crushed Ores.
                  [A] Charged Lapis & Mind Squeezer.

@@ -45,8 +45,10 @@ import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import wile.wilescollection.blocks.*;
 import wile.wilescollection.detail.ModRenderers;
 import wile.wilescollection.items.*;
-import wile.wilescollection.libmc.blocks.*;
+import wile.wilescollection.libmc.blocks.StandardBlocks;
 import wile.wilescollection.libmc.blocks.StandardBlocks.IStandardBlock;
+import wile.wilescollection.libmc.blocks.StandardDoorBlock;
+import wile.wilescollection.libmc.blocks.StandardEntityBlocks;
 import wile.wilescollection.libmc.detail.Auxiliaries;
 import wile.wilescollection.libmc.detail.Materials;
 
@@ -70,38 +72,41 @@ public class ModContent
   // Registry auxiliary functions.
   //--------------------------------------------------------------------------------------------------------------------
 
-  private static class ModRegistry
+  private static <T extends StandardEntityBlocks.StandardBlockEntity> BlockEntityType<T> register(String name, BlockEntityType.BlockEntitySupplier<T> ctor, Block... blocks)
   {
-    private static <T extends StandardEntityBlocks.StandardBlockEntity> BlockEntityType<T> register(String name, BlockEntityType.BlockEntitySupplier<T> ctor, Block... blocks)
-    {
-      final BlockEntityType<T> tet =  BlockEntityType.Builder.of(ctor, blocks).build(null);
-      tet.setRegistryName(MODID, name);
-      return tet;
-    }
+    final BlockEntityType<T> tet =  BlockEntityType.Builder.of(ctor, blocks).build(null);
+    tet.setRegistryName(MODID, name);
+    return tet;
+  }
 
-    @SuppressWarnings("unchecked")
-    private static <T extends Entity> EntityType<T> register(String name, EntityType.Builder<?> builder)
-    {
-      final EntityType<T> et = (EntityType<T>)builder.build(new ResourceLocation(MODID, name).toString());
-      et.setRegistryName(MODID, name);
-      return et;
-    }
+  @SuppressWarnings("unchecked")
+  private static <T extends Entity> EntityType<T> register(String name, EntityType.Builder<?> builder)
+  {
+    final EntityType<T> et = (EntityType<T>)builder.build(new ResourceLocation(MODID, name).toString());
+    et.setRegistryName(MODID, name);
+    return et;
+  }
+
+  private static <T extends Block> T register(String name, T instance)
+  {
+    instance.setRegistryName(MODID, name);
+    return instance;
   }
 
   //--------------------------------------------------------------------------------------------------------------------
   // Blocks
   //--------------------------------------------------------------------------------------------------------------------
 
-  public static final EdCraftingTable.CraftingTableBlock CRAFTING_TABLE = (EdCraftingTable.CraftingTableBlock)(new EdCraftingTable.CraftingTableBlock(
+  public static final EdCraftingTable.CraftingTableBlock CRAFTING_TABLE = register("crafting_table", new EdCraftingTable.CraftingTableBlock(
     StandardBlocks.CFG_CUTOUT|StandardBlocks.CFG_HORIZIONTAL|StandardBlocks.CFG_LOOK_PLACEMENT|StandardBlocks.CFG_OPPOSITE_PLACEMENT,
     BlockBehaviour.Properties.of(Material.WOOD, MaterialColor.WOOD).strength(0.2f, 5f).sound(SoundType.WOOD).noOcclusion(),
     new AABB[]{
       Auxiliaries.getPixeledAABB(0,13,0, 16,16,16),
       Auxiliaries.getPixeledAABB(1, 0,1, 15,16,15)
     }
-  )).setRegistryName(new ResourceLocation(MODID, "crafting_table"));
+  ));
 
-  public static final FluidBarrel.FluidBarrelBlock FLUID_BARREL = (FluidBarrel.FluidBarrelBlock)(new FluidBarrel.FluidBarrelBlock(
+  public static final FluidBarrel.FluidBarrelBlock FLUID_BARREL = register("fluid_barrel", new FluidBarrel.FluidBarrelBlock(
     StandardBlocks.CFG_CUTOUT|StandardBlocks.CFG_LOOK_PLACEMENT|StandardBlocks.CFG_OPPOSITE_PLACEMENT,
     BlockBehaviour.Properties.of(Material.WOOD, MaterialColor.WOOD).strength(0.2f, 5f).sound(SoundType.WOOD).noOcclusion(),
     new AABB[] {
@@ -111,31 +116,31 @@ public class ModContent
       Auxiliaries.getPixeledAABB(1,14,0, 15,15,16),
       Auxiliaries.getPixeledAABB(2,15,0, 14,16,16),
     }
-  )).setRegistryName(new ResourceLocation(MODID, "fluid_barrel"));
+  ));
 
-  public static final LabeledCrate.LabeledCrateBlock LABELED_CRATE = (LabeledCrate.LabeledCrateBlock)(new LabeledCrate.LabeledCrateBlock(
+  public static final LabeledCrate.LabeledCrateBlock LABELED_CRATE = register("crate", new LabeledCrate.LabeledCrateBlock(
     StandardBlocks.CFG_HORIZIONTAL|StandardBlocks.CFG_LOOK_PLACEMENT|StandardBlocks.CFG_OPPOSITE_PLACEMENT,
     BlockBehaviour.Properties.of(Material.WOOD, MaterialColor.WOOD).strength(0.2f, 5f).sound(SoundType.WOOD).noOcclusion(),
     Auxiliaries.getPixeledAABB(0,0,0, 16,16,16)
-  )).setRegistryName(new ResourceLocation(MODID, "crate"));
+  ));
 
-  public static final ExtLadderBlock WOOD_LADDER = (ExtLadderBlock)(new ExtLadderBlock(
+  public static final ExtLadderBlock WOOD_LADDER = register("ladder", new ExtLadderBlock(
     StandardBlocks.CFG_DEFAULT,
     BlockBehaviour.Properties.of(Material.WOOD, MaterialColor.WOOD).strength(0.2f, 3f).sound(SoundType.WOOD).noOcclusion()
-  )).setRegistryName(new ResourceLocation(MODID, "ladder"));
+  ));
 
   // -------------------------------------------------------------------------------------------------------------------
 
-  public static final TableBlock WOOD_TABLE = (TableBlock)(new TableBlock(
+  public static final TableBlock WOOD_TABLE = register("wood_table", new TableBlock(
     StandardBlocks.CFG_CUTOUT,
     BlockBehaviour.Properties.of(Material.WOOD, MaterialColor.WOOD).strength(0.2f, 3f).sound(SoundType.WOOD).noOcclusion(),
     Auxiliaries.getPixeledAABB( 0,14, 0, 16,16,16), // top base aabb
     new AABB[]{ // side NORTH-EAST
       Auxiliaries.getPixeledAABB(14, 0, 0, 16,16, 2),
     }
-  )).setRegistryName(new ResourceLocation(MODID, "wood_table"));
+  ));
 
-  public static final Chair.ChairBlock WOOD_CHAIR = (Chair.ChairBlock)(new Chair.ChairBlock(
+  public static final Chair.ChairBlock WOOD_CHAIR = register("wood_chair", new Chair.ChairBlock(
     StandardBlocks.CFG_CUTOUT|StandardBlocks.CFG_HORIZIONTAL|StandardBlocks.CFG_LOOK_PLACEMENT,
     BlockBehaviour.Properties.of(Material.WOOD, MaterialColor.WOOD).strength(0.2f, 3f).sound(SoundType.WOOD).noOcclusion(),
     new AABB[]{
@@ -146,17 +151,17 @@ public class ModContent
       Auxiliaries.getPixeledAABB(2.5,7,3.5,13.5,8.875,13),
       Auxiliaries.getPixeledAABB(4,11.25,12,12,15.25,13),
     }
-  )).setRegistryName(new ResourceLocation(MODID, "wood_chair"));
+  ));
 
-  public static final StandardDoorBlock RUSTIC_WOOD_DOOR = (StandardDoorBlock)(new StandardDoorBlock(
+  public static final StandardDoorBlock RUSTIC_WOOD_DOOR = register("rustic_wood_door", new StandardDoorBlock(
     StandardBlocks.CFG_DEFAULT,
     BlockBehaviour.Properties.of(Material.WOOD, MaterialColor.WOOD).strength(0.2f, 6f).sound(SoundType.WOOD).noOcclusion(),
     Auxiliaries.getPixeledAABB(15,0, 0, 16,16,16),
     Auxiliaries.getPixeledAABB( 0,0,13, 16,16,16),
     SoundEvents.WOODEN_DOOR_OPEN, SoundEvents.WOODEN_DOOR_CLOSE
-  )).setRegistryName(new ResourceLocation(MODID, "rustic_wood_door"));
+  ));
 
-  public static final OmniLanternBlock RUSTIC_IRON_LANTERN = (OmniLanternBlock)(new OmniLanternBlock(
+  public static final OmniLanternBlock RUSTIC_IRON_LANTERN = register("rustic_iron_lantern", new OmniLanternBlock(
     StandardBlocks.CFG_CUTOUT|StandardBlocks.CFG_FACING_PLACEMENT|StandardBlocks.CFG_OPPOSITE_PLACEMENT|StandardBlocks.CFG_AI_PASSABLE,
     BlockBehaviour.Properties.of(Material.METAL, MaterialColor.METAL).strength(0.2f, 4f).sound(SoundType.LANTERN).lightLevel((state)->15).noOcclusion(),
     new AABB[]{
@@ -174,51 +179,51 @@ public class ModContent
       Auxiliaries.getPixeledAABB( 6, 11.75, 6, 10,12.75,10),
       Auxiliaries.getPixeledAABB( 7, 12.00, 7,  9,16.00, 9)
     }
-  )).setRegistryName(new ResourceLocation(MODID, "rustic_iron_lantern"));
+  ));
 
-  public static final StandardBlocks.AxisAlignedWaterLoggable RUSTIC_CHAIN = (StandardBlocks.AxisAlignedWaterLoggable)(new StandardBlocks.AxisAlignedWaterLoggable(
+  public static final StandardBlocks.AxisAlignedWaterLoggable RUSTIC_CHAIN = register("rustic_chain", new StandardBlocks.AxisAlignedWaterLoggable(
     StandardBlocks.CFG_CUTOUT|StandardBlocks.CFG_FACING_PLACEMENT,
     BlockBehaviour.Properties.of(Material.METAL, MaterialColor.NONE).strength(0.2f, 6.0F).sound(SoundType.CHAIN).noOcclusion(),
     new AABB[]{
       Auxiliaries.getPixeledAABB( 7,  7, 0, 9,9,16),
     }
-  )).setRegistryName(new ResourceLocation(MODID, "rustic_chain"));
+  ));
 
-  public static final WindowBlock RUSTIC_IRON_FRAMED_WINDOW = (WindowBlock)(new WindowBlock(
+  public static final WindowBlock RUSTIC_IRON_FRAMED_WINDOW = register("rustic_iron_framed_window", new WindowBlock(
     StandardBlocks.CFG_CUTOUT|StandardBlocks.CFG_LOOK_PLACEMENT,
     BlockBehaviour.Properties.of(Material.METAL, MaterialColor.METAL).strength(0.2f, 3f).sound(SoundType.METAL).noOcclusion(),
     Auxiliaries.getPixeledAABB(0,0,7.5, 16,16,8.5)
-  )).setRegistryName(new ResourceLocation(MODID, "rustic_iron_framed_window"));
+  ));
 
-  public static final WindowBlock RUSTIC_IRON_FRAMED_WINDOW_ASYM = (WindowBlock)(new WindowBlock(
+  public static final WindowBlock RUSTIC_IRON_FRAMED_WINDOW_ASYM = register("rustic_iron_framed_window_asym", new WindowBlock(
     StandardBlocks.CFG_CUTOUT|StandardBlocks.CFG_LOOK_PLACEMENT,
     BlockBehaviour.Properties.of(Material.METAL, MaterialColor.METAL).strength(0.2f, 3f).sound(SoundType.METAL).noOcclusion(),
     Auxiliaries.getPixeledAABB(0,0,7.5, 16,16,8.5)
-  )).setRegistryName(new ResourceLocation(MODID, "rustic_iron_framed_window_asym"));
+  ));
 
-  public static final WindowBlock RUSTIC_IRON_FRAMED_WINDOW_DIAG = (WindowBlock)(new WindowBlock(
+  public static final WindowBlock RUSTIC_IRON_FRAMED_WINDOW_DIAG = register("rustic_iron_framed_window_diag", new WindowBlock(
     StandardBlocks.CFG_CUTOUT|StandardBlocks.CFG_LOOK_PLACEMENT,
     BlockBehaviour.Properties.of(Material.METAL, MaterialColor.METAL).strength(0.2f, 3f).sound(SoundType.METAL).noOcclusion(),
     Auxiliaries.getPixeledAABB(0,0,7.5, 16,16,8.5)
-  )).setRegistryName(new ResourceLocation(MODID, "rustic_iron_framed_window_diag"));
+  ));
 
-  public static final WindowBlock RUSTIC_IRON_FRAMED_WINDOW_WIDE = (WindowBlock)(new WindowBlock(
+  public static final WindowBlock RUSTIC_IRON_FRAMED_WINDOW_WIDE = register("rustic_iron_framed_window_wide", new WindowBlock(
     StandardBlocks.CFG_CUTOUT|StandardBlocks.CFG_LOOK_PLACEMENT,
     BlockBehaviour.Properties.of(Material.METAL, MaterialColor.METAL).strength(0.2f, 3f).sound(SoundType.METAL).noOcclusion(),
     Auxiliaries.getPixeledAABB(0,0,7.5, 16,16,8.5)
-  )).setRegistryName(new ResourceLocation(MODID, "rustic_iron_framed_window_wide"));
+  ));
 
   // -------------------------------------------------------------------------------------------------------------------
 
-  public static final AriadneCoalBlock ARIADNE_COAL_BLOCK = (AriadneCoalBlock)(new AriadneCoalBlock(
+  public static final AriadneCoalBlock ARIADNE_COAL_BLOCK = register("ariadne_coal_block", new AriadneCoalBlock(
     StandardBlocks.CFG_TRANSLUCENT,
     BlockBehaviour.Properties.of(Material.STONE, MaterialColor.STONE).strength(0.2f, 2f).sound(SoundType.STONE).noCollission().noDrops()
-  )).setRegistryName(new ResourceLocation(MODID, "ariadne_coal_block"));
+  ));
 
-  public static final StandardBlocks.BaseBlock WEATHERED_STONE_BRICK_BLOCK = (StandardBlocks.BaseBlock)(new StandardBlocks.BaseBlock(
+  public static final StandardBlocks.BaseBlock WEATHERED_STONE_BRICK_BLOCK = register("weathered_stone_brick_block", new StandardBlocks.BaseBlock(
     StandardBlocks.CFG_DEFAULT,
     BlockBehaviour.Properties.of(Material.STONE, MaterialColor.STONE).strength(1.5F, 6.0F).sound(SoundType.STONE).requiresCorrectToolForDrops()
-  )).setRegistryName(new ResourceLocation(MODID, "weathered_stone_brick_block"));
+  ));
 
   // -------------------------------------------------------------------------------------------------------------------
 
@@ -247,9 +252,9 @@ public class ModContent
   // Tile entities bound exclusively to the blocks above
   //--------------------------------------------------------------------------------------------------------------------
 
-  public static final BlockEntityType<EdCraftingTable.CraftingTableTileEntity> TET_CRAFTING_TABLE = ModRegistry.register("te_crafting_table", EdCraftingTable.CraftingTableTileEntity::new, CRAFTING_TABLE);
-  public static final BlockEntityType<LabeledCrate.LabeledCrateTileEntity> TET_LABELED_CRATE = ModRegistry.register("te_crate", LabeledCrate.LabeledCrateTileEntity::new, LABELED_CRATE);
-  public static final BlockEntityType<FluidBarrel.FluidBarrelTileEntity> TET_FLUID_BARREL = ModRegistry.register("te_fluid_barrel", FluidBarrel.FluidBarrelTileEntity::new, FLUID_BARREL);
+  public static final BlockEntityType<EdCraftingTable.CraftingTableTileEntity> TET_CRAFTING_TABLE = register("te_crafting_table", EdCraftingTable.CraftingTableTileEntity::new, CRAFTING_TABLE);
+  public static final BlockEntityType<LabeledCrate.LabeledCrateTileEntity> TET_LABELED_CRATE = register("te_crate", LabeledCrate.LabeledCrateTileEntity::new, LABELED_CRATE);
+  public static final BlockEntityType<FluidBarrel.FluidBarrelTileEntity> TET_FLUID_BARREL = register("te_fluid_barrel", FluidBarrel.FluidBarrelTileEntity::new, FLUID_BARREL);
 
   private static final BlockEntityType<?>[] tile_entity_types = {
     TET_CRAFTING_TABLE,
@@ -364,7 +369,7 @@ public class ModContent
   //--------------------------------------------------------------------------------------------------------------------
 
   @SuppressWarnings("unchecked")
-  public static final EntityType<Chair.EntityChair> ET_CHAIR = ModRegistry.register("et_chair",
+  public static final EntityType<Chair.EntityChair> ET_CHAIR = register("et_chair",
     EntityType.Builder.of(Chair.EntityChair::new, MobCategory.MISC)
       .fireImmune().sized(1e-3f, 1e-3f).noSave()
       .setShouldReceiveVelocityUpdates(false).setUpdateInterval(4)

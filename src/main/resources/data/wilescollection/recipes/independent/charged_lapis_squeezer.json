@@ -7,14 +7,15 @@
   ],
   "type": "minecraft:crafting_shaped",
   "pattern": [
-    "DED",
-    "LHL"
+    " AA",
+    "NDA",
+    "SN "
   ],
   "key": {
-    "H": { "item": "minecraft:iron_helmet" },
-    "E": { "item": "minecraft:ender_eye" },
-    "L": { "item": "minecraft:lapis_lazuli" },
-    "D": { "item": "minecraft:diamond" }
+    "A": { "item": "minecraft:amethyst_shard" },
+    "D": { "item": "minecraft:diamond" },
+    "S": { "item": "minecraft:stick" },
+    "N": { "item": "wilescollection:rusty_iron_nugget" }
   },
   "result": {
     "item": "wilescollection:charged_lapis_squeezer",
