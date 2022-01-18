@@ -60,7 +60,7 @@ public class AriadneCoalBlock extends StandardBlocks.BaseBlock
   public AriadneCoalBlock(long config, BlockBehaviour.Properties properties)
   {
     super(config, properties);
-    registerDefaultState(this.getStateDefinition().any().setValue(ORIENTATION, 0));
+    registerDefaultState(super.defaultBlockState().setValue(ORIENTATION, 0));
     aabbs.put(Direction.Axis.X, new VoxelShape[] {
       Shapes.create(Auxiliaries.getPixeledAABB(0,0,0, 0.1,16,16)),
       Shapes.create(Auxiliaries.getPixeledAABB(0,0,0, 0.1,16,16)),

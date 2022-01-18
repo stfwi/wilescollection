@@ -1,20 +1,18 @@
-{
-  "variants": {
-      "east=false,north=false,south=false,west=false": { "model": "wilescollection:block/wood_table_model0", "y":   0, "uvlock":true },
-      "east=false,north=false,south=false,west=true" : { "model": "wilescollection:block/wood_table_model1", "y": 270, "uvlock":true  },
-      "east=false,north=false,south=true,west=false" : { "model": "wilescollection:block/wood_table_model1", "y": 180, "uvlock":true  },
-      "east=false,north=false,south=true,west=true"  : { "model": "wilescollection:block/wood_table_model2", "y": 180, "uvlock":true  },
-      "east=false,north=true,south=false,west=false" : { "model": "wilescollection:block/wood_table_model1", "y":   0, "uvlock":true  },
-      "east=false,north=true,south=false,west=true"  : { "model": "wilescollection:block/wood_table_model2", "y": 270, "uvlock":true  },
-      "east=false,north=true,south=true,west=false"  : { "model": "wilescollection:block/wood_table_model",  "y":   0, "uvlock":true  },
-      "east=false,north=true,south=true,west=true"   : { "model": "wilescollection:block/wood_table_model",  "y": 180, "uvlock":true  },
-      "east=true,north=false,south=false,west=false" : { "model": "wilescollection:block/wood_table_model1", "y":  90, "uvlock":true  },
-      "east=true,north=false,south=false,west=true"  : { "model": "wilescollection:block/wood_table_model",  "y":   0, "uvlock":true  },
-      "east=true,north=false,south=true,west=false"  : { "model": "wilescollection:block/wood_table_model2", "y":  90, "uvlock":true  },
-      "east=true,north=false,south=true,west=true"   : { "model": "wilescollection:block/wood_table_model0",  "y":  0, "uvlock":true  },
-      "east=true,north=true,south=false,west=false"  : { "model": "wilescollection:block/wood_table_model2", "y":   0, "uvlock":true  },
-      "east=true,north=true,south=false,west=true"   : { "model": "wilescollection:block/wood_table_model",  "y": 270, "uvlock":true  },
-      "east=true,north=true,south=true,west=false"   : { "model": "wilescollection:block/wood_table_model",  "y":   0, "uvlock":true  },
-      "east=true,north=true,south=true,west=true"    : { "model": "wilescollection:block/wood_table_model",  "y":   0, "uvlock":true  }
-  }
-}
+{"variants":{
+  "east=false,north=false,south=false,west=false": { "model": "wilescollection:block/wood_table_model0", "y":   0, "uvlock":true },
+  "east=false,north=false,south=false,west=true" : { "model": "wilescollection:block/wood_table_model1", "y": 270, "uvlock":true  },
+  "east=false,north=false,south=true,west=false" : { "model": "wilescollection:block/wood_table_model1", "y": 180, "uvlock":true  },
+  "east=false,north=false,south=true,west=true"  : { "model": "wilescollection:block/wood_table_model2", "y": 180, "uvlock":true  },
+  "east=false,north=true,south=false,west=false" : { "model": "wilescollection:block/wood_table_model1", "y":   0, "uvlock":true  },
+  "east=false,north=true,south=false,west=true"  : { "model": "wilescollection:block/wood_table_model2", "y": 270, "uvlock":true  },
+  "east=false,north=true,south=true,west=false"  : { "model": "wilescollection:block/wood_table_model",  "y":   0, "uvlock":true  },
+  "east=false,north=true,south=true,west=true"   : { "model": "wilescollection:block/wood_table_model",  "y": 180, "uvlock":true  },
+  "east=true,north=false,south=false,west=false" : { "model": "wilescollection:block/wood_table_model1", "y":  90, "uvlock":true  },
+  "east=true,north=false,south=false,west=true"  : { "model": "wilescollection:block/wood_table_model",  "y":   0, "uvlock":true  },
+  "east=true,north=false,south=true,west=false"  : { "model": "wilescollection:block/wood_table_model2", "y":  90, "uvlock":true  },
+  "east=true,north=false,south=true,west=true"   : { "model": "wilescollection:block/wood_table_model0",  "y":  0, "uvlock":true  },
+  "east=true,north=true,south=false,west=false"  : { "model": "wilescollection:block/wood_table_model2", "y":   0, "uvlock":true  },
+  "east=true,north=true,south=false,west=true"   : { "model": "wilescollection:block/wood_table_model",  "y": 270, "uvlock":true  },
+  "east=true,north=true,south=true,west=false"   : { "model": "wilescollection:block/wood_table_model",  "y":   0, "uvlock":true  },
+  "east=true,north=true,south=true,west=true"    : { "model": "wilescollection:block/wood_table_model",  "y":   0, "uvlock":true  }
+}}

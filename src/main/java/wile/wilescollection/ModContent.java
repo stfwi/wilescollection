@@ -227,6 +227,12 @@ public class ModContent
 
   // -------------------------------------------------------------------------------------------------------------------
 
+  public static final PlantBlock CALLOTY_PLANT = register("calloty", new PlantBlock(
+    StandardBlocks.CFG_DEFAULT,
+    BlockBehaviour.Properties.of(Material.PLANT).noCollission().instabreak().sound(SoundType.GRASS).randomTicks()
+  ));
+
+
   private static final Block modBlocks[] = {
     CRAFTING_TABLE,
     LABELED_CRATE,
@@ -243,6 +249,7 @@ public class ModContent
     RUSTIC_IRON_FRAMED_WINDOW_WIDE,
     WEATHERED_STONE_BRICK_BLOCK,
     ARIADNE_COAL_BLOCK
+    //CALLOTY_PLANT
   };
 
   private static final Block devBlocks[] = {

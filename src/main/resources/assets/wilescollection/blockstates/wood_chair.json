@@ -1,8 +1,6 @@
-{
-  "variants": {
-    "facing=north": { "model": "wilescollection:block/wood_chair_model"          },
-    "facing=south": { "model": "wilescollection:block/wood_chair_model", "y":180 },
-    "facing=west":  { "model": "wilescollection:block/wood_chair_model", "y":270 },
-    "facing=east":  { "model": "wilescollection:block/wood_chair_model", "y":90  }
-  }
-}
+{"variants":{
+  "facing=north": { "model": "wilescollection:block/wood_chair_model"          },
+  "facing=south": { "model": "wilescollection:block/wood_chair_model", "y":180 },
+  "facing=west":  { "model": "wilescollection:block/wood_chair_model", "y":270 },
+  "facing=east":  { "model": "wilescollection:block/wood_chair_model", "y":90  }
+}}

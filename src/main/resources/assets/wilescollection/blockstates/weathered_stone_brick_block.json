@@ -1,4 +1,4 @@
-{ "variants": {"":[
+{ "variants":{"":[
   { "model": "wilescollection:block/var/var_stone_brick_block_model0" },
   { "model": "wilescollection:block/var/var_stone_brick_block_model1" },
   { "model": "wilescollection:block/var/var_stone_brick_block_model2" },

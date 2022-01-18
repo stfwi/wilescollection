@@ -1,0 +1,6 @@
+{"variants":{
+  "mood=0": { "model": "wilescollection:block/plant/calloty_plant_model0" },
+  "mood=1": { "model": "wilescollection:block/plant/calloty_plant_model1" },
+  "mood=2":  { "model": "wilescollection:block/plant/calloty_plant_model2" },
+  "mood=3":  { "model": "wilescollection:block/plant/calloty_plant_model3" }
+}}

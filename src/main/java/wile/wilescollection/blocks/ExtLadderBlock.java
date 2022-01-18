@@ -57,7 +57,7 @@ public class ExtLadderBlock extends LadderBlock implements StandardBlocks.IStand
   }
 
   public ExtLadderBlock(long config, BlockBehaviour.Properties builder)
-  { super(builder); }
+  { super(builder); } // registerDefaultState() ok in Ladder.
 
   @Override
   public RenderTypeHint getRenderTypeHint()

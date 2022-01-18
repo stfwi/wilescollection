@@ -1,10 +1,8 @@
-{
-  "variants": {
-    "facing=north": { "model": "wilescollection:block/rustic_iron_lantern_model_wall"          },
-    "facing=south": { "model": "wilescollection:block/rustic_iron_lantern_model_wall", "y":180 },
-    "facing=west":  { "model": "wilescollection:block/rustic_iron_lantern_model_wall", "y":270 },
-    "facing=east":  { "model": "wilescollection:block/rustic_iron_lantern_model_wall", "y":90  },
-    "facing=up":    { "model": "wilescollection:block/rustic_iron_lantern_model_ceiling"       },
-    "facing=down":  { "model": "wilescollection:block/rustic_iron_lantern_model_standing"      }
-  }
-}
+{"variants":{
+  "facing=north": { "model": "wilescollection:block/rustic_iron_lantern_model_wall"          },
+  "facing=south": { "model": "wilescollection:block/rustic_iron_lantern_model_wall", "y":180 },
+  "facing=west":  { "model": "wilescollection:block/rustic_iron_lantern_model_wall", "y":270 },
+  "facing=east":  { "model": "wilescollection:block/rustic_iron_lantern_model_wall", "y":90  },
+  "facing=up":    { "model": "wilescollection:block/rustic_iron_lantern_model_ceiling"       },
+  "facing=down":  { "model": "wilescollection:block/rustic_iron_lantern_model_standing"      }
+}}
