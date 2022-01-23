@@ -39,7 +39,7 @@ public class Trinkets
   public static final long CFG_DEFAULT               = 0x0000000000000000L;
 
   private static int max_charges_ = 4096;
-  private static int repair_max_tick_damage_ = 50;
+  private static int repair_max_tick_damage_ = 100;
   private static Map<Item, Integer> charging_items_ = new HashMap<>();
   private static Set<Enchantment> allowed_enchantments_ = new HashSet<>();
 
@@ -261,15 +261,13 @@ public class Trinkets
       final int initial_repair_left = getCharge(trinket);
       if(initial_repair_left == 0) return false;
       int repair_left = initial_repair_left;
-      for(ItemStack armor:player.getArmorSlots()) {
-        if(repair_left > 0) repair_left = repair(trinket, world, player, repair_left, armor);
+      for(ItemStack armor:player.getArmorSlots()) repair_left = repair(trinket, world, player, repair_left, armor);
+      if(!player.swinging) {
+        repair_left = repair(trinket, world, player, repair_left, player.getMainHandItem());
+        repair_left = repair(trinket, world, player, repair_left, player.getOffhandItem());
       }
-      if(repair_left > 0) repair_left = repair(trinket, world, player, repair_left, player.getMainHandItem());
-      if(repair_left > 0) repair(trinket, world, player, repair_left, player.getOffhandItem());
       setCharge(trinket, repair_left);
-      if(repair_left <= 0) {
-        world.playSound(null, player.blockPosition(), SoundEvents.CHAIN_BREAK, SoundSource.PLAYERS,1f, 1.5f);
-      }
+      if(repair_left <= 0) world.playSound(null, player.blockPosition(), SoundEvents.CHAIN_BREAK, SoundSource.PLAYERS,1f, 1.5f);
       return repair_left != initial_repair_left;
     }
 
@@ -277,7 +275,7 @@ public class Trinkets
     {
       if((repair_left<=0) || item.isEmpty() || (!item.isDamaged()) || (!item.isDamageableItem())) return repair_left;
       if(!(item.getItem() instanceof ArmorItem) && !(item.getItem() instanceof TieredItem) && !(item.getItem() instanceof ProjectileWeaponItem)) return repair_left;
-      final int max_repair = Mth.clamp(Math.min(repair_max_tick_damage_, item.getMaxDamage()/40), 1, repair_left);
+      final int max_repair = Mth.clamp(Math.min(repair_max_tick_damage_, item.getMaxDamage()/10), 1, repair_left);
       final int repair = Math.min(item.getDamageValue(), max_repair);
       item.setDamageValue(item.getDamageValue() - repair);
       return Math.max(repair_left - repair, 0);

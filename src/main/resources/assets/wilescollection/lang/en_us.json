@@ -66,5 +66,18 @@
   "item.wilescollection.prospecting_dowser": "Prospecting Dowser",
   "item.wilescollection.prospecting_dowser.status": "Sensing: §6%1$s§r",
   "item.wilescollection.rusty_iron_ingot": "Rusty Iron Ingot",
-  "item.wilescollection.rusty_iron_nugget": "Rusty Iron Nugget"
+  "item.wilescollection.rusty_iron_nugget": "Rusty Iron Nugget",
+  "item.wilescollection.tracking_compass": "Tracking Compass",
+  "item.wilescollection.tracking_compass.help": "Helps to find friends and\n locations again. Click a block\n or entity with the device to\n track it. The built-in compass\n will then show the way. When you\n are close, the compass also\n points up or down. When the\n target is not in your dimension\n or died, it will rotate 180\n degrees (the 'dot' position).\n To clear the current target,\n click straight down on the ground.",
+  "item.wilescollection.tracking_compass.hint.cleared": "Current tracking target cleared.",
+  "item.wilescollection.tracking_compass.hint.clearfirst": "First click on the ground below you to clear the current tracking target.",
+  "item.wilescollection.tracking_compass.msg.entityset": "Now tracking %1$s.",
+  "item.wilescollection.tracking_compass.msg.locationset": "Tracking location set.",
+  "item.wilescollection.tracking_compass.tip.dimension.end": " in the End",
+  "item.wilescollection.tracking_compass.tip.dimension.nether": " in the Nether",
+  "item.wilescollection.tracking_compass.tip.dimension.other": ", untraceable at the moment",
+  "item.wilescollection.tracking_compass.tip.dimension.overworld": " in the Overworld",
+  "item.wilescollection.tracking_compass.tip.target.distance": " | %1$s blocks away",
+  "item.wilescollection.tracking_compass.tip.target.entity": "Entity: %1$s",
+  "item.wilescollection.tracking_compass.tip.target.location": "Location: %1$s"
 }

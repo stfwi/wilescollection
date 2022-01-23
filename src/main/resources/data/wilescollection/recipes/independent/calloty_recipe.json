@@ -1,0 +1,25 @@
+{
+  "type": "forge:conditional",
+  "recipes": [
+    {
+      "conditions": [
+        {
+          "type": "wilescollection:optional",
+          "result": "wilescollection:calloty",
+          "required": ["wilescollection:charged_lapis"]
+        }
+      ],
+      "recipe": {
+        "type": "minecraft:crafting_shapeless",
+        "ingredients": [
+          { "item": "minecraft:oxeye_daisy" },
+          { "item": "minecraft:dandelion" },
+          { "item": "wilescollection:charged_lapis" }
+        ],
+        "result": {
+          "item": "wilescollection:calloty"
+        }
+      }
+    }
+  ]
+}

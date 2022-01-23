@@ -1,0 +1,23 @@
+{
+  "conditions": [
+    {
+      "type": "wilescollection:optional",
+      "result": "wilescollection:tracking_compass"
+    }
+  ],
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "CR",
+    "HI"
+  ],
+  "key": {
+    "C": { "item": "minecraft:compass" },
+    "H": { "item": "minecraft:heart_of_the_sea" },
+    "I": { "item": "wilescollection:rusty_iron_ingot" },
+    "R": { "item": "minecraft:redstone" }
+  },
+  "result": {
+    "item": "wilescollection:tracking_compass",
+    "count": 1
+  }
+}

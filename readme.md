@@ -11,6 +11,8 @@ Mod sources for Minecraft version 1.18.x.
 
 ## Version history
 
+    - v1.1.1-b6  [A] Added Tracking Compass (moved from Engineer's Tools mod).
+
     - v1.1.1-b5  [A] Fixed Mind Squeezer recipe.
                  [F] Fixed Crate rendering issue.
 

@@ -227,7 +227,7 @@ public class ModContent
 
   // -------------------------------------------------------------------------------------------------------------------
 
-  public static final PlantBlock CALLOTY_PLANT = register("calloty", new PlantBlock(
+  public static final SpecialFlowerBlock CALLOTY_PLANT = register("calloty", new SpecialFlowerBlock(
     StandardBlocks.CFG_DEFAULT,
     BlockBehaviour.Properties.of(Material.PLANT).noCollission().instabreak().sound(SoundType.GRASS).randomTicks()
   ));
@@ -248,8 +248,8 @@ public class ModContent
     RUSTIC_IRON_FRAMED_WINDOW_ASYM,
     RUSTIC_IRON_FRAMED_WINDOW_WIDE,
     WEATHERED_STONE_BRICK_BLOCK,
-    ARIADNE_COAL_BLOCK
-    //CALLOTY_PLANT
+    ARIADNE_COAL_BLOCK,
+    CALLOTY_PLANT
   };
 
   private static final Block devBlocks[] = {
@@ -359,6 +359,11 @@ public class ModContent
     default_item_properties()
   ).setRegistryName(MODID, "crushed_copper")));
 
+  public static final TrackerItem TRACKER = (TrackerItem)((new TrackerItem(
+    default_item_properties()
+  ).setRegistryName(MODID, "tracking_compass")));
+
+
 
   @SuppressWarnings("all")
   private static final Item modItems[] = {
@@ -368,7 +373,8 @@ public class ModContent
     PLATED_NETHERITE_HELMET, PLATED_NETHERITE_CHESTPLATE, PLATED_NETHERITE_LEGGINGS, PLATED_NETHERITE_BOOTS,
     ARIADNE_COAL,
     CHARGED_LAPIS, CHARGED_LAPIS_SQUEEZER,
-    CRUSHING_HAMMER, CRUSHED_COPPER, CRUSHED_IRON, CRUSHED_GOLD
+    CRUSHING_HAMMER, CRUSHED_COPPER, CRUSHED_IRON, CRUSHED_GOLD,
+    TRACKER
   };
 
   //--------------------------------------------------------------------------------------------------------------------
@@ -494,6 +500,7 @@ public class ModContent
   public static void registerModels()
   {
     PROSPECTING_DOWSER.registerModels();
+    TRACKER.registerModels();
   }
 
   @OnlyIn(Dist.CLIENT)

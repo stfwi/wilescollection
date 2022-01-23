@@ -28,6 +28,7 @@ import net.minecraft.client.resources.model.ModelResourceLocation;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
+import net.minecraft.util.Tuple;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.state.BlockState;
@@ -38,7 +39,10 @@ import wile.wilescollection.ModWilesCollection;
 import wile.wilescollection.blocks.EdCraftingTable;
 import wile.wilescollection.blocks.EdCraftingTable.CraftingTableBlock;
 import wile.wilescollection.blocks.LabeledCrate;
+import wile.wilescollection.items.TrackerItem;
 import wile.wilescollection.libmc.detail.Auxiliaries;
+
+import java.util.Optional;
 
 
 public class ModRenderers
@@ -207,4 +211,38 @@ public class ModRenderers
       mx.popPose();
     }
   }
+
+  //--------------------------------------------------------------------------------------------------------------------
+  // Tracker
+  //--------------------------------------------------------------------------------------------------------------------
+
+  @OnlyIn(Dist.CLIENT)
+  public static class TrackerIster extends BlockEntityWithoutLevelRenderer
+  {
+    public TrackerIster()
+    { super(Minecraft.getInstance().getBlockEntityRenderDispatcher(), Minecraft.getInstance().getEntityModels()); }
+
+    @Override
+    public void renderByItem(ItemStack stack, ItemTransforms.TransformType ctt, PoseStack mx, MultiBufferSource buf, int combinedLight, int combinedOverlay)
+    {
+      if(ctt == ItemTransforms.TransformType.FIRST_PERSON_LEFT_HAND || ctt == ItemTransforms.TransformType.FIRST_PERSON_RIGHT_HAND) return;
+      Optional<Tuple<Integer,Integer>> rotations = TrackerItem.getUiAngles(stack);
+      mx.pushPose();
+      final ItemRenderer ir = Minecraft.getInstance().getItemRenderer();
+      VertexConsumer vb = ItemRenderer.getFoilBuffer(buf, RenderType.cutout(), true, false);
+      BakedModel model = Minecraft.getInstance().getModelManager().getModel(new ModelResourceLocation(new ResourceLocation(Auxiliaries.modid(), "tracking_compass_pointer_model"), "inventory"));
+      mx.translate(0.5,0.5,0.5);
+      if(rotations.isEmpty()) {
+        mx.mulPose(Vector3f.YP.rotationDegrees(180));
+      } else {
+        mx.mulPose(Vector3f.YP.rotationDegrees(rotations.get().getB()));
+        mx.mulPose(Vector3f.XP.rotationDegrees(rotations.get().getA()));
+      }
+      mx.scale(0.6f, 0.6f, 0.6f);
+      mx.translate(-0.5,-0.5,-0.5);
+      ir.renderModelLists(model, stack, combinedLight, combinedOverlay, mx, vb);
+      mx.popPose();
+    }
+  }
+
 }
