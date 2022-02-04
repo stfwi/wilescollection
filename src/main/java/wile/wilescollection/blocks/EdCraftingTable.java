@@ -36,20 +36,18 @@ import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.*;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelReader;
-import net.minecraft.world.ticks.TickPriority;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntity;
-import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.BlockHitResult;
+import net.minecraft.world.ticks.TickPriority;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.event.ForgeEventFactory;
 import net.minecraftforge.registries.ForgeRegistries;
 import wile.wilescollection.ModConfig;
-import wile.wilescollection.ModContent;
 import wile.wilescollection.libmc.blocks.StandardBlocks;
 import wile.wilescollection.libmc.blocks.StandardEntityBlocks;
 import wile.wilescollection.libmc.detail.Auxiliaries;
@@ -57,8 +55,9 @@ import wile.wilescollection.libmc.detail.Inventories;
 import wile.wilescollection.libmc.detail.Inventories.InventoryRange;
 import wile.wilescollection.libmc.detail.Inventories.StorageInventory;
 import wile.wilescollection.libmc.detail.Networking;
-import wile.wilescollection.libmc.detail.TooltipDisplay.TipRange;
+import wile.wilescollection.libmc.detail.Registries;
 import wile.wilescollection.libmc.ui.Guis;
+import wile.wilescollection.libmc.ui.TooltipDisplay.TipRange;
 
 import javax.annotation.Nullable;
 import java.util.*;
@@ -80,7 +79,7 @@ public class EdCraftingTable
     with_outslot_defined_refab = with_assist;
     CraftingHistory.max_history_size(32);
     ModConfig.log("Config crafting table: assist:" + with_assist + ", direct-refab:" + with_assist_direct_history_refab +
-                               ", scrolling:"+with_crafting_slot_mouse_scrolling);
+      ", scrolling:"+with_crafting_slot_mouse_scrolling);
   }
 
   //--------------------------------------------------------------------------------------------------------------------
@@ -92,10 +91,9 @@ public class EdCraftingTable
     public CraftingTableBlock(long config, BlockBehaviour.Properties builder, final AABB[] unrotatedAABBs)
     { super(config, builder, unrotatedAABBs); }
 
-    @Nullable
     @Override
-    public BlockEntityType<EdCraftingTable.CraftingTableTileEntity> getBlockEntityType()
-    { return ModContent.TET_CRAFTING_TABLE; }
+    public ResourceLocation getBlockRegistryName()
+    { return getRegistryName(); }
 
     @Override
     public boolean isBlockEntityTicking(Level world, BlockState state)
@@ -178,7 +176,7 @@ public class EdCraftingTable
 
     public CraftingTableTileEntity(BlockPos pos, BlockState state)
     {
-      super(ModContent.TET_CRAFTING_TABLE, pos, state);
+      super(Registries.getBlockEntityTypeOfBlock(state.getBlock().getRegistryName().getPath()), pos, state);
       inventory_ = new StorageInventory(this, NUM_OF_SLOTS, 1);
       inventory_.setCloseAction((player)->{
         if(getLevel() instanceof Level) {
@@ -328,7 +326,7 @@ public class EdCraftingTable
 
     private CraftingTableUiContainer(int cid, Inventory pinv, Container block_inventory, ContainerLevelAccess wpc)
     {
-      super(ModContent.CT_TREATED_WOOD_CRAFTING_TABLE, cid);
+      super(Registries.getMenuTypeOfBlock("crafting_table"), cid);
       wpc_ = wpc;
       player_ = pinv.player;
       inventory_ = block_inventory;
@@ -462,7 +460,7 @@ public class EdCraftingTable
       super.clicked(slotId, button, clickType, player);
       if((with_outslot_defined_refab) && (slotId == 0) && (clickType == ClickType.PICKUP)) {
         if((!crafting_matrix_changed_now_) && (!player.level.isClientSide()) && (crafting_grid_empty())) {
-          final ItemStack dragged = player.inventoryMenu.getCarried();
+          final ItemStack dragged = getCarried();
           if((dragged != null) && (!dragged.isEmpty())) {
             try_result_stack_refab(dragged, player.level);
           } else if(!history().current().isEmpty()) {
@@ -802,6 +800,9 @@ public class EdCraftingTable
       if(recipe != null) {
         sync();
         onCraftMatrixChanged();
+      } else {
+        history().reset_current();
+        sync();
       }
     }
 
@@ -1039,7 +1040,6 @@ public class EdCraftingTable
       final int x0=leftPos, y0=topPos;
       buttons.clear();
       if(with_assist) {
-        // @todo: Mod Wrapped ImageButton.
         buttons.add(addRenderableWidget(new ImageButton(x0+158,y0+30, 12,12, 194,44, 12, getBackgroundImage(), (bt)->action(CraftingTableUiContainer.BUTTON_NEXT))));
         buttons.add(addRenderableWidget(new ImageButton(x0+158,y0+16, 12,12, 180,30, 12, getBackgroundImage(), (bt)->action(CraftingTableUiContainer.BUTTON_PREV))));
         buttons.add(addRenderableWidget(new ImageButton(x0+158,y0+44, 12,12, 194,8,  12, getBackgroundImage(), (bt)->action(CraftingTableUiContainer.BUTTON_CLEAR_GRID))));
@@ -1047,7 +1047,8 @@ public class EdCraftingTable
       }
       {
         List<TipRange> tooltips = new ArrayList<>();
-        final String prefix = ModContent.CRAFTING_TABLE.getDescriptionId() + ".tooltips.";
+        final Block block = Registries.getBlock(getMenu().getType().getRegistryName().getPath().replaceAll("^ct_",""));
+        final String prefix = block.getDescriptionId() + ".tooltips.";
         String[] translation_keys = { "next", "prev", "clear", "nextcollisionrecipe", "fromstorage", "tostorage", "fromplayer", "toplayer" };
         for(int i=0; (i<buttons.size()) && (i<translation_keys.length); ++i) {
           Button bt = buttons.get(i);

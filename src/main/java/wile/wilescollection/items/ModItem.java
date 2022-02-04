@@ -8,7 +8,6 @@
  */
 package wile.wilescollection.items;
 
-import net.minecraft.client.renderer.BlockEntityWithoutLevelRenderer;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.Item;
@@ -18,8 +17,8 @@ import net.minecraft.world.level.Level;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import wile.wilescollection.ModConfig;
-import wile.wilescollection.ModWilesCollection;
 import wile.wilescollection.libmc.detail.Auxiliaries;
+import wile.wilescollection.libmc.detail.Registries;
 
 import javax.annotation.Nullable;
 import java.util.ArrayList;
@@ -30,11 +29,10 @@ import java.util.List;
 
 public class ModItem extends Item
 {
-  public static final Collection<CreativeModeTab> ENABLED_TABS  = Collections.singletonList(ModWilesCollection.ITEMGROUP);
-  public static final Collection<CreativeModeTab> DISABLED_TABS = new ArrayList<CreativeModeTab>();
+  public static final Collection<CreativeModeTab> DISABLED_TABS = new ArrayList<>();
 
   public ModItem(Item.Properties properties)
-  { super(properties.tab(ModWilesCollection.ITEMGROUP)); }
+  { super(properties.tab(Registries.getCreativeModeTab())); }
 
   @Override
   @OnlyIn(Dist.CLIENT)
@@ -43,6 +41,6 @@ public class ModItem extends Item
 
   @Override
   public Collection<CreativeModeTab> getCreativeTabs()
-  { return ModConfig.isOptedOut(this) ? (DISABLED_TABS) : (ENABLED_TABS); }
+  { return ModConfig.isOptedOut(this) ? (DISABLED_TABS) : (Collections.singletonList(Registries.getCreativeModeTab())); }
 
 }

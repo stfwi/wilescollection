@@ -146,7 +146,7 @@ public class TrackerItem extends ModItem
     nbt.putUUID("entity", target.getUUID());
     nbt.putString("entityname", target.getDisplayName().getString());
     stack.addTagElement("trackerdata", nbt);
-    Overlay.show(player, Auxiliaries.localizable("item."+Auxiliaries.modid()+".tracking_compass.msg.entityset", null, target.getDisplayName()));
+    Overlay.show(player, Auxiliaries.localizable("item."+Auxiliaries.modid()+".tracking_compass.msg.entityset", target.getDisplayName()));
     return InteractionResult.SUCCESS;
   }
 
@@ -264,12 +264,12 @@ public class TrackerItem extends ModItem
       } else {
         BlockPos uipos = BlockPos.of(nbt.getLong("target"));
         if(player.distanceToSqr(target) > 200) {
-          if(uipos.distSqr(target.position(), false) > 10) {
+          if(uipos.distToCenterSqr(target.position()) > 10) {
             nbt.putLong("target", (new BlockPos(target.position())).asLong());
             changed = true;
           }
         } else {
-          if(uipos.distSqr(target.position(), false) > 2.78) {
+          if(uipos.distToCenterSqr(target.position()) > 2.78) {
             nbt.putLong("target", (new BlockPos(target.position())).asLong());
             changed = true;
           }

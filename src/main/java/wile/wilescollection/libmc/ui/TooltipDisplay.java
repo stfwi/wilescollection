@@ -7,7 +7,7 @@
  * Delayed tooltip for a selected area. Constructed with a
  * GUI, invoked in `render()`.
  */
-package wile.wilescollection.libmc.detail;
+package wile.wilescollection.libmc.ui;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
@@ -16,6 +16,7 @@ import net.minecraft.util.Mth;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
+import wile.wilescollection.libmc.detail.Auxiliaries;
 
 import java.util.ArrayList;
 import java.util.Arrays;

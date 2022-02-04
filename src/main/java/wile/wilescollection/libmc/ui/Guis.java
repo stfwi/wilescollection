@@ -20,7 +20,6 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import wile.wilescollection.libmc.detail.Auxiliaries;
-import wile.wilescollection.libmc.detail.TooltipDisplay;
 
 import java.util.function.Consumer;
 import java.util.function.Function;

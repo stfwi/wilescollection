@@ -20,14 +20,11 @@ import net.minecraft.world.level.Level;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import wile.wilescollection.ModConfig;
-import wile.wilescollection.ModWilesCollection;
 import wile.wilescollection.libmc.detail.Auxiliaries;
+import wile.wilescollection.libmc.detail.Registries;
 
 import javax.annotation.Nullable;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.function.Supplier;
 
 
@@ -43,7 +40,7 @@ public class Armors
 
     public ModArmorItem(long config, ArmorMaterial material, EquipmentSlot slot, Properties properties)
     {
-      super(material, slot, properties.tab(ModWilesCollection.ITEMGROUP));
+      super(material, slot, properties.tab(Registries.getCreativeModeTab()));
       armor_config = config;
     }
 
@@ -54,7 +51,7 @@ public class Armors
 
     @Override
     public Collection<CreativeModeTab> getCreativeTabs()
-    { return ModConfig.isOptedOut(this) ? (ModItem.DISABLED_TABS) : (ModItem.ENABLED_TABS); }
+    { return ModConfig.isOptedOut(this) ? (ModItem.DISABLED_TABS) : (Collections.singletonList(Registries.getCreativeModeTab())); }
 
     @Override
     @SuppressWarnings("all")
@@ -76,6 +73,10 @@ public class Armors
     @Override
     public boolean makesPiglinsNeutral(ItemStack stack, LivingEntity wearer)
     { return (armor_config & CFG_MAKES_PIGLINS_NEUTRAL)!=0; }
+
+    @Override
+    public boolean isFoil(ItemStack stack)
+    { return false; }
 
   }
 

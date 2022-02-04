@@ -18,9 +18,8 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.TextComponent;
 import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.tags.BlockTags;
-import net.minecraft.tags.Tag;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.BlockGetter;
@@ -31,12 +30,12 @@ import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.shapes.BooleanOp;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
-import net.minecraftforge.fml.ModList;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
+import net.minecraftforge.fml.ModList;
+import net.minecraftforge.registries.ForgeRegistries;
 import org.apache.logging.log4j.Logger;
 import org.lwjgl.glfw.GLFW;
-import wile.wilescollection.ModConfig;
 
 import javax.annotation.Nullable;
 import java.io.BufferedReader;
@@ -117,20 +116,22 @@ public class Auxiliaries
   public static void logError(final String msg)
   { logger.error(msg); }
 
-  public static void logDebug(final String msg)
-  { if(ModConfig.withDebugLogging()) logger.info(msg); }
-
   // -------------------------------------------------------------------------------------------------------------------
   // Localization, text formatting
   // -------------------------------------------------------------------------------------------------------------------
 
   /**
-   * Text localisation wrapper, implicitly prepends `MODID` to the
+   * Text localization wrapper, implicitly prepends `MODID` to the
    * translation keys. Forces formatting argument, nullable if no special formatting shall be applied..
    */
   public static TranslatableComponent localizable(String modtrkey, Object... args)
+  { return new TranslatableComponent((modtrkey.startsWith("block.") || (modtrkey.startsWith("item."))) ? (modtrkey) : (modid+"."+modtrkey), args); }
+
+  public static TranslatableComponent localizable(String modtrkey, @Nullable ChatFormatting color, Object... args)
   {
-    return new TranslatableComponent((modtrkey.startsWith("block.") || (modtrkey.startsWith("item."))) ? (modtrkey) : (modid+"."+modtrkey), args);
+    TranslatableComponent tr = new TranslatableComponent(modid+"."+modtrkey, args);
+    if(color!=null) tr.withStyle(color);
+    return tr;
   }
 
   public static TranslatableComponent localizable(String modtrkey)
@@ -254,6 +255,20 @@ public class Auxiliaries
   { return (tc==null) ? ("") : (Component.Serializer.toJson(tc)); }
 
   // -------------------------------------------------------------------------------------------------------------------
+  // Tag Handling
+  // -------------------------------------------------------------------------------------------------------------------
+
+  @SuppressWarnings("deprecation")
+  public static boolean isInItemTag(Item item, ResourceLocation tag)
+  {
+    return ForgeRegistries.ITEMS.tags().stream().filter(tg->tg.getKey().location().equals(tag)).anyMatch(tk->tk.contains(item));
+  }
+
+  @SuppressWarnings("deprecation")
+  public static boolean isInBlockTag(Block block, ResourceLocation tag)
+  { return ForgeRegistries.BLOCKS.tags().stream().filter(tg->tg.getKey().location().equals(tag)).anyMatch(tk->tk.contains(block)); }
+
+  // -------------------------------------------------------------------------------------------------------------------
   // Item NBT data
   // -------------------------------------------------------------------------------------------------------------------
 
@@ -285,14 +300,6 @@ public class Auxiliaries
     }
     return stack;
   }
-
-  // -------------------------------------------------------------------------------------------------------------------
-  // Block/Item tags
-  // -------------------------------------------------------------------------------------------------------------------
-
-  @Nullable
-  public static Tag<Block> getTag(String mod_tag_path)
-  { return BlockTags.getAllTags().getTag(new ResourceLocation(modid, mod_tag_path)); }
 
   // -------------------------------------------------------------------------------------------------------------------
   // Block handling
@@ -386,7 +393,7 @@ public class Auxiliaries
     return shape;
   }
 
-  public static final AABB[] getMappedAABB(AABB[] bbs, Function<AABB,AABB> mapper) {
+  public static AABB[] getMappedAABB(AABB[] bbs, Function<AABB,AABB> mapper) {
     final AABB[] transformed = new AABB[bbs.length];
     for(int i=0; i<bbs.length; ++i) transformed[i] = mapper.apply(bbs[i]);
     return transformed;

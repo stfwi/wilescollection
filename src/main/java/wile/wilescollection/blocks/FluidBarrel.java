@@ -1,5 +1,5 @@
 /*
- * @file FluidBarrel.java
+ * @file EdFluidBarrel.java
  * @author Stefan Wilhelm (wile)
  * @copyright (C) 2020 Stefan Wilhelm
  * @license MIT (see https://opensource.org/licenses/MIT)
@@ -11,8 +11,10 @@ package wile.wilescollection.blocks;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.Tag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
@@ -32,7 +34,6 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntity;
-import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
@@ -47,18 +48,17 @@ import net.minecraft.world.phys.shapes.VoxelShape;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.common.capabilities.ICapabilityProvider;
-import net.minecraft.nbt.Tag;
 import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
 import net.minecraftforge.fluids.capability.IFluidHandler;
 import wile.wilescollection.ModConfig;
-import wile.wilescollection.ModContent;
 import wile.wilescollection.libmc.blocks.StandardBlocks;
 import wile.wilescollection.libmc.blocks.StandardEntityBlocks;
 import wile.wilescollection.libmc.detail.Auxiliaries;
 import wile.wilescollection.libmc.detail.Fluidics;
 import wile.wilescollection.libmc.detail.Overlay;
+import wile.wilescollection.libmc.detail.Registries;
 
 import javax.annotation.Nullable;
 import java.util.ArrayList;
@@ -98,10 +98,9 @@ public class FluidBarrel
       registerDefaultState(super.defaultBlockState().setValue(FACING, Direction.UP).setValue(FILL_LEVEL, 0));
     }
 
-    @Nullable
     @Override
-    public BlockEntityType<FluidBarrel.FluidBarrelTileEntity> getBlockEntityType()
-    { return ModContent.TET_FLUID_BARREL; }
+    public ResourceLocation getBlockRegistryName()
+    { return getRegistryName(); }
 
     @Override
     public boolean isBlockEntityTicking(Level world, BlockState state)
@@ -225,7 +224,7 @@ public class FluidBarrel
     private final LazyOptional<IFluidHandler> fluid_handler_ = tank_.createFluidHandler();
 
     public FluidBarrelTileEntity(BlockPos pos, BlockState state)
-    { super(ModContent.TET_FLUID_BARREL, pos, state); }
+    { super(Registries.getBlockEntityTypeOfBlock(state.getBlock().getRegistryName().getPath()), pos, state); }
 
     public void readnbt(CompoundTag nbt)
     { tank_.load(nbt); }
@@ -253,9 +252,9 @@ public class FluidBarrel
         int cap = tank_.getCapacity();
         String name = (new TranslatableComponent(tank_.getFluid().getTranslationKey())).getString();
         if((vol>0) && (cap>0)) {
-          Overlay.show(player, Auxiliaries.localizable("block.wilescollection.fluid_barrel.status", Integer.toString(vol), Integer.toString(cap), name));
+          Overlay.show(player, Auxiliaries.localizable("block.engineersdecor.fluid_barrel.status", Integer.toString(vol), Integer.toString(cap), name));
         } else {
-          Overlay.show(player, Auxiliaries.localizable("block.wilescollection.fluid_barrel.status.empty", Integer.toString(vol), Integer.toString(cap)));
+          Overlay.show(player, Auxiliaries.localizable("block.engineersdecor.fluid_barrel.status.empty", Integer.toString(vol), Integer.toString(cap)));
         }
       }
       return true;

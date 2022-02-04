@@ -8,7 +8,7 @@
  * Mainly needed for:
  * - MC block defaults.
  * - Tooltip functionality
- * - Model initialisation
+ * - Model initialization
  */
 package wile.wilescollection.libmc.blocks;
 
@@ -27,7 +27,10 @@ import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelAccessor;
-import net.minecraft.world.level.block.*;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.Mirror;
+import net.minecraft.world.level.block.Rotation;
+import net.minecraft.world.level.block.SimpleWaterloggedBlock;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
@@ -528,7 +531,7 @@ public class StandardBlocks
   public static class DirectedWaterLoggable extends Directed implements IStandardBlock
   {
     public DirectedWaterLoggable(long config, BlockBehaviour.Properties properties, AABB aabb)
-    { super(config|CFG_WATERLOGGABLE, properties, aabb);  }
+    { super(config|CFG_WATERLOGGABLE, properties, aabb); }
 
     public DirectedWaterLoggable(long config, BlockBehaviour.Properties properties, AABB[] aabbs)
     { super(config|CFG_WATERLOGGABLE, properties, aabbs); }

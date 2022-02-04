@@ -21,9 +21,11 @@ import wile.wilescollection.items.Trinkets;
 import wile.wilescollection.libmc.blocks.VariantSlabBlock;
 import wile.wilescollection.libmc.detail.Auxiliaries;
 import wile.wilescollection.libmc.detail.OptionalRecipeCondition;
+import wile.wilescollection.libmc.detail.Registries;
 
 import javax.annotation.Nullable;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashSet;
 
 
 public class ModConfig
@@ -137,10 +139,10 @@ public class ModConfig
   //--------------------------------------------------------------------------------------------------------------------
 
   public static final boolean isOptedOut(final @Nullable Block block)
-  { return isOptedOut(block.asItem()); }
+  { return (block==null) || isOptedOut(block.asItem()); }
 
   public static final boolean isOptedOut(final @Nullable Item item)
-  { return (item!=null) && optouts_.contains(item.getRegistryName().getPath()); }
+  { return (item==null) || optouts_.contains(item.getRegistryName().getPath()); }
 
   public static boolean withExperimental()
   { return with_experimental_features_; }
@@ -210,15 +212,10 @@ public class ModConfig
     if(!includes.isEmpty()) log("Config pattern includes: '" + String.join(",", includes) + "'");
     {
       HashSet<String> optouts = new HashSet<>();
-      ModContent.getRegisteredItems().stream().filter((item)->(item!=null)).forEach(
-        e -> optouts.add(e.getRegistryName().getPath())
-      );
-      ModContent.getRegisteredBlocks().stream().filter((Block block) -> {
-        if(block==null) return true;
+      Registries.getRegisteredBlocks().stream().filter((Block block) -> {
         try {
           if(!with_experimental_features_) {
             if(block instanceof Auxiliaries.IExperimentalFeature) return true;
-            if(ModContent.isExperimentalBlock(block)) return true;
           }
           // Force-include/exclude pattern matching
           final String rn = block.getRegistryName().getPath();

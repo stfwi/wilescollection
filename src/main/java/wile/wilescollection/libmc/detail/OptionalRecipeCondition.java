@@ -25,8 +25,10 @@ import org.apache.logging.log4j.Logger;
 import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 import java.util.function.Predicate;
+import java.util.stream.Collectors;
 
 
 public class OptionalRecipeCondition implements ICondition
@@ -97,7 +99,9 @@ public class OptionalRecipeCondition implements ICondition
     if(without_recipes) return false;
     if((experimental) && (!with_experimental)) return false;
     final IForgeRegistry<Item> item_registry = ForgeRegistries.ITEMS;
-    final Collection<ResourceLocation> item_tags = SerializationTags.getInstance().getOrEmpty(Registry.ITEM_REGISTRY).getAvailableTags();
+    final Collection<ResourceLocation> item_tags = new ArrayList<>();
+
+      // @TODO: SerializationTags.getInstance().getOrEmpty(Registry.ITEM_REGISTRY).getAvailableTags();
     if(result != null) {
       boolean item_registered = item_registry.containsKey(result);
       if(!item_registered) return false; // required result not registered

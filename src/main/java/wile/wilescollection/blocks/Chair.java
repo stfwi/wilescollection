@@ -28,11 +28,11 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.Vec3;
-import net.minecraftforge.network.PlayMessages;
 import net.minecraftforge.network.NetworkHooks;
+import net.minecraftforge.network.PlayMessages;
 import wile.wilescollection.ModConfig;
-import wile.wilescollection.ModContent;
 import wile.wilescollection.libmc.blocks.StandardBlocks;
+import wile.wilescollection.libmc.detail.Registries;
 
 import java.util.List;
 import java.util.Random;
@@ -113,7 +113,7 @@ public class Chair
     }
 
     public EntityChair(Level world)
-    { this(ModContent.ET_CHAIR, world); }
+    { this(Registries.getEntityType("et_chair"), world); }
 
     public static EntityChair customClientFactory(PlayMessages.SpawnEntity spkt, Level world)
     { return new EntityChair(world); }

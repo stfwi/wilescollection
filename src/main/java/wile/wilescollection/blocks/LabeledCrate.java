@@ -1,5 +1,5 @@
 /*
- * @file LabeledCrate.java
+ * @file EdLabeledCrate.java
  * @author Stefan Wilhelm (wile)
  * @copyright (C) 2020 Stefan Wilhelm
  * @license MIT (see https://opensource.org/licenses/MIT)
@@ -13,11 +13,13 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.NonNullList;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.Tag;
 import net.minecraft.network.Connection;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.TextComponent;
 import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Tuple;
 import net.minecraft.world.*;
 import net.minecraft.world.entity.LivingEntity;
@@ -33,7 +35,6 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntity;
-import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.material.PushReaction;
@@ -41,7 +42,6 @@ import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-import net.minecraft.nbt.Tag;
 import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.IItemHandler;
@@ -49,10 +49,7 @@ import wile.wilescollection.ModConfig;
 import wile.wilescollection.ModContent;
 import wile.wilescollection.libmc.blocks.StandardBlocks;
 import wile.wilescollection.libmc.blocks.StandardEntityBlocks;
-import wile.wilescollection.libmc.detail.Auxiliaries;
-import wile.wilescollection.libmc.detail.Inventories;
-import wile.wilescollection.libmc.detail.Networking;
-import wile.wilescollection.libmc.detail.RsSignals;
+import wile.wilescollection.libmc.detail.*;
 import wile.wilescollection.libmc.ui.Guis;
 
 import javax.annotation.Nullable;
@@ -71,7 +68,7 @@ public class LabeledCrate
     with_gui_mouse_handling = !without_gui_mouse_handling;
     // Currently no config, using a tag for this small feature may be uselessly stressing the registry.
     unstorable_containers.clear();
-    unstorable_containers.add(ModContent.LABELED_CRATE.asItem());
+    unstorable_containers.add(Registries.getBlock("crate").asItem());
     unstorable_containers.add(Items.SHULKER_BOX);
     ModConfig.log("Config crate: unstorable:" + unstorable_containers.stream().map(e->e.getRegistryName().toString()).collect(Collectors.joining(",")));
   }
@@ -86,9 +83,8 @@ public class LabeledCrate
     { super(config, builder, unrotatedAABB); }
 
     @Override
-    @Nullable
-    public BlockEntityType<LabeledCrate.LabeledCrateTileEntity> getBlockEntityType()
-    { return ModContent.TET_LABELED_CRATE; }
+    public ResourceLocation getBlockRegistryName()
+    { return getRegistryName(); }
 
     @Override
     public boolean isBlockEntityTicking(Level world, BlockState state)
@@ -171,7 +167,7 @@ public class LabeledCrate
       if(stack.hasTag() && stack.getTag().contains("tedata")) {
         final CompoundTag nbt = stack.getTag().getCompound("tedata");
         if(nbt.contains("Items")) {
-          final NonNullList<ItemStack> all_items = Inventories.readNbtStacks(nbt, "Items", LabeledCrateTileEntity.NUM_OF_SLOTS);
+          final NonNullList<ItemStack> all_items = Inventories.readNbtStacks(nbt, LabeledCrateTileEntity.NUM_OF_SLOTS);
           frameStack = all_items.get(LabeledCrateTileEntity.ITEMFRAME_SLOTNO);
           all_items.set(LabeledCrateTileEntity.ITEMFRAME_SLOTNO, ItemStack.EMPTY);
           Map<Item,Integer> item_map = new HashMap<>();
@@ -192,13 +188,12 @@ public class LabeledCrate
         }
       }
       int num_free_slots = LabeledCrateTileEntity.ITEMFRAME_SLOTNO - num_used_slots;
-      String[] lines = Auxiliaries.localize(getDescriptionId()+".tip", new Object[] {
+      String[] lines = Auxiliaries.localize(getDescriptionId()+".tip",
         (frameStack.isEmpty() ? (new TextComponent("-/-")) : (new TranslatableComponent(frameStack.getDescriptionId()))),
         num_used_slots,
         num_free_slots,
         total_items,
-        stats
-      }).split("\n");
+        stats).split("\n");
       for(String line:lines) {
         tooltip.add(new TextComponent(line.trim()));
       }
@@ -225,7 +220,7 @@ public class LabeledCrate
 
     public LabeledCrateTileEntity(BlockPos pos, BlockState state)
     {
-      super(ModContent.TET_LABELED_CRATE, pos, state);
+      super(Registries.getBlockEntityTypeOfBlock(state.getBlock().getRegistryName().getPath()), pos, state);
       main_inventory_.setCloseAction((player)->Networking.PacketTileNotifyServerToClient.sendToPlayers(this, writenbt(new CompoundTag())));
       main_inventory_.setSlotChangeAction((index,stack)->{
         if(index==ITEMFRAME_SLOTNO) Networking.PacketTileNotifyServerToClient.sendToPlayers(this, writenbt(new CompoundTag()));
@@ -423,7 +418,7 @@ public class LabeledCrate
 
     private LabeledCrateContainer(int cid, Inventory player_inventory, Container block_inventory, ContainerLevelAccess wpc, ContainerData fields)
     {
-      super(ModContent.CT_LABELED_CRATE, cid);
+      super(Registries.getMenuTypeOfBlock("crate"), cid);
       player_ = player_inventory.player;
       inventory_ = block_inventory;
       wpc_ = wpc;
@@ -542,7 +537,7 @@ public class LabeledCrate
   {
     public LabeledCrateGui(LabeledCrateContainer container, Inventory player_inventory, Component title)
     {
-      super(container, player_inventory, title,"textures/gui/crate_gui.png", 213, 206);
+      super(container, player_inventory, title,"textures/gui/labeled_crate_gui.png", 213, 206);
       titleLabelX = 23;
       titleLabelY = -10;
     }

@@ -14,7 +14,7 @@ apply plugin: 'eclipse'
 apply plugin: 'maven-publish'
 java.toolchain.languageVersion = JavaLanguageVersion.of(17)
 //-----------------------------------------------------------------------------
-version = "${version_mod}"
+version = "${version_wilescollection}"
 group = "wile.wilescollection"
 archivesBaseName = "wilescollection-${version_minecraft}"
 
@@ -25,7 +25,7 @@ repositories {
 }
 
 minecraft {
-  mappings channel: "official", version: "1.18.1"
+  mappings channel: "official", version: "${version_minecraft}"
   runs {
     client {
       workingDirectory project.file('run')
@@ -59,7 +59,7 @@ jar {
       "Specification-Vendor": "wilechaote",
       "Specification-Version": "1", // We are version 1 of ourselves
       "Implementation-Title": project.name,
-      "Implementation-Version": "${version_mod}",
+      "Implementation-Version": "${version_wilescollection}",
       "Implementation-Vendor" :"wilechaote",
       "Implementation-Timestamp": new Date().format("yyyy-MM-dd'T'HH:mm:ssZ")
     ])

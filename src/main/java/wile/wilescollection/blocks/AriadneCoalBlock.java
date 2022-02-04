@@ -39,9 +39,9 @@ import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-import wile.wilescollection.ModContent;
 import wile.wilescollection.libmc.blocks.StandardBlocks;
 import wile.wilescollection.libmc.detail.Auxiliaries;
+import wile.wilescollection.libmc.detail.Registries;
 
 import javax.annotation.Nullable;
 import java.util.Collections;
@@ -119,7 +119,7 @@ public class AriadneCoalBlock extends StandardBlocks.BaseBlock
 
   @Override
   public Item asItem()
-  { return ModContent.ARIADNE_COAL; }
+  { return Registries.getItem("ariadne_coal"); }
 
   @Override
   @OnlyIn(Dist.CLIENT)

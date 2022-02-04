@@ -22,11 +22,10 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.enchantment.Enchantment;
 import net.minecraft.world.level.Level;
-
-import wile.wilescollection.ModContent;
 import wile.wilescollection.libmc.detail.Auxiliaries;
 import wile.wilescollection.libmc.detail.Inventories;
 import wile.wilescollection.libmc.detail.Overlay;
+import wile.wilescollection.libmc.detail.Registries;
 
 public class ChargedLapisSqueezerItem extends ModItem
 {
@@ -66,6 +65,7 @@ public class ChargedLapisSqueezerItem extends ModItem
   }
 
   @Override
+  @SuppressWarnings("deprecation")
   public void onUseTick(Level world, LivingEntity entity, ItemStack squeezer, int count)
   {
     if(!(entity instanceof final Player player) || (world.isClientSide())) return;
@@ -87,7 +87,7 @@ public class ChargedLapisSqueezerItem extends ModItem
     }
     world.playSound(null, player.blockPosition(), SoundEvents.PLAYER_HURT, SoundSource.PLAYERS, 0.2f, 1.4f);
     world.playSound(null, player.blockPosition(), SoundEvents.ENCHANTMENT_TABLE_USE, SoundSource.PLAYERS, 0.5f, 1.4f);
-    Inventories.give(player, new ItemStack(ModContent.CHARGED_LAPIS));
+    Inventories.give(player, new ItemStack(Registries.getItem("charged_lapis")));
     player.giveExperienceLevels(-1);
     player.causeFoodExhaustion(4f);
     player.setHealth(player.getHealth()-(player.getMaxHealth()/10));

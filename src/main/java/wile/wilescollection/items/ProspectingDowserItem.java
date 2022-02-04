@@ -14,7 +14,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.tags.Tag;
+import net.minecraft.tags.TagKey;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.item.Item;
@@ -30,6 +30,7 @@ import net.minecraftforge.registries.ForgeRegistries;
 import wile.wilescollection.ModWilesCollection;
 import wile.wilescollection.detail.ModRenderers;
 import wile.wilescollection.libmc.detail.Auxiliaries;
+import wile.wilescollection.libmc.detail.Registries;
 
 import javax.annotation.Nullable;
 import java.util.List;
@@ -99,7 +100,7 @@ public class ProspectingDowserItem extends ModItem
   {
     if(!world.isClientSide()) return; // client only
     final CompoundTag tag = stack.getOrCreateTag();
-    final Tag<Block> searches = Auxiliaries.getTag("prospectible");
+    final TagKey<Block> searches = Registries.getBlockTagKey("prospectible");
     if(isSelected && (searches!=null)) {
       final ResourceLocation rl = ResourceLocation.tryParse(tag.getString("target"));
       if(rl != null) {
@@ -124,7 +125,7 @@ public class ProspectingDowserItem extends ModItem
   // ------------------------------------------------------------------------------------------------------
 
   @Nullable
-  private BlockPos blockSearchPN(Level world, BlockPos origin, Tag<Block> match_block, int x, int y, int z)
+  private BlockPos blockSearchPN(Level world, BlockPos origin, TagKey<Block> match_block, int x, int y, int z)
   {
     if(world.getBlockState(origin.offset( x, y, z)).is(match_block)) return origin.offset( x, y, z);
     if(world.getBlockState(origin.offset(-x, y, z)).is(match_block)) return origin.offset(-x, y, z);
@@ -138,7 +139,7 @@ public class ProspectingDowserItem extends ModItem
   }
 
   @Nullable
-  private BlockPos blockSearch(Level world, BlockPos origin, Tag<Block> match_block)
+  private BlockPos blockSearch(Level world, BlockPos origin, TagKey<Block> match_block)
   {
     for(int y=0; y<search_range; ++y) {
       for(int x=0; x<search_range; ++x) {

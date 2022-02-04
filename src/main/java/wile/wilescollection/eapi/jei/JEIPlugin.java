@@ -10,21 +10,22 @@ package wile.wilescollection.eapi.jei;
 /*
 public class JEIPlugin {}
 */
+
+import mezz.jei.api.constants.RecipeTypes;
+import mezz.jei.api.constants.VanillaTypes;
+import mezz.jei.api.registration.IRecipeCatalystRegistration;
+import mezz.jei.api.registration.IRecipeTransferRegistration;
+import mezz.jei.api.runtime.IJeiRuntime;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.Block;
-import mezz.jei.api.registration.IRecipeCatalystRegistration;
-import mezz.jei.api.constants.VanillaRecipeCategoryUid;
-import mezz.jei.api.registration.IRecipeTransferRegistration;
-import mezz.jei.api.constants.VanillaTypes;
-import mezz.jei.api.runtime.IJeiRuntime;
+import wile.wilescollection.ModConfig;
+import wile.wilescollection.blocks.EdCraftingTable;
 import wile.wilescollection.blocks.EdCraftingTable.CraftingTableTileEntity;
 import wile.wilescollection.libmc.detail.Auxiliaries;
-import wile.wilescollection.ModConfig;
-import wile.wilescollection.ModContent;
-import wile.wilescollection.blocks.EdCraftingTable;
+import wile.wilescollection.libmc.detail.Registries;
 
 import java.util.HashSet;
 import java.util.List;
@@ -41,11 +42,11 @@ public class JEIPlugin implements mezz.jei.api.IModPlugin
   @Override
   public void registerRecipeTransferHandlers(IRecipeTransferRegistration registration)
   {
-    if(!ModConfig.isOptedOut(ModContent.CRAFTING_TABLE)) {
+    if(!ModConfig.isOptedOut(Registries.getBlock("crafting_table"))) {
       try {
         registration.addRecipeTransferHandler(
           EdCraftingTable.CraftingTableUiContainer.class,
-          VanillaRecipeCategoryUid.CRAFTING,
+          RecipeTypes.CRAFTING,
           1, 9, 10, 36+CraftingTableTileEntity.NUM_OF_STORAGE_SLOTS
         );
       } catch(Throwable e) {
@@ -58,12 +59,12 @@ public class JEIPlugin implements mezz.jei.api.IModPlugin
   public void onRuntimeAvailable(IJeiRuntime jeiRuntime)
   {
     HashSet<Item> blacklisted = new HashSet<>();
-    for(Block e: ModContent.getRegisteredBlocks()) {
+    for(Block e: Registries.getRegisteredBlocks()) {
       if(ModConfig.isOptedOut(e) && (e.asItem().getRegistryName().getPath()).equals((e.getRegistryName().getPath()))) {
         blacklisted.add(e.asItem());
       }
     }
-    for(Item e: ModContent.getRegisteredItems()) {
+    for(Item e: Registries.getRegisteredItems()) {
       if(ModConfig.isOptedOut(e) && (!(e instanceof BlockItem))) {
         blacklisted.add(e);
       }
@@ -81,8 +82,8 @@ public class JEIPlugin implements mezz.jei.api.IModPlugin
   @Override
   public void registerRecipeCatalysts(IRecipeCatalystRegistration registration)
   {
-    if(!ModConfig.isOptedOut(ModContent.CRAFTING_TABLE)) {
-      registration.addRecipeCatalyst(new ItemStack(ModContent.CRAFTING_TABLE), VanillaRecipeCategoryUid.CRAFTING);
+    if(!ModConfig.isOptedOut(Registries.getBlock("crafting_table"))) {
+      registration.addRecipeCatalyst(new ItemStack(Registries.getBlock("crafting_table")), RecipeTypes.CRAFTING);
     }
   }
 }

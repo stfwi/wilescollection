@@ -29,6 +29,7 @@ import org.apache.logging.log4j.Logger;
 import wile.wilescollection.blocks.ExtLadderBlock;
 import wile.wilescollection.libmc.detail.Auxiliaries;
 import wile.wilescollection.libmc.detail.OptionalRecipeCondition;
+import wile.wilescollection.libmc.detail.Registries;
 
 
 @Mod("wilescollection")
@@ -43,6 +44,8 @@ public class ModWilesCollection
   {
     Auxiliaries.init(MODID, LOGGER, ModConfig::getServerConfig);
     Auxiliaries.logGitVersion(MODNAME);
+    Registries.init(MODID, "sign_decor");
+    ModContent.init(MODID);
     OptionalRecipeCondition.init(MODID, LOGGER);
     ModLoadingContext.get().registerConfig(net.minecraftforge.fml.config.ModConfig.Type.COMMON, ModConfig.COMMON_CONFIG_SPEC);
     FMLJavaModLoadingContext.get().getModEventBus().addListener(this::onSetup);
@@ -64,8 +67,8 @@ public class ModWilesCollection
 
   private void onClientSetup(final FMLClientSetupEvent event)
   {
-    ModContent.registerContainerGuis(event);
-    ModContent.registerTileEntityRenderers(event);
+    ModContent.registerMenuGuis(event);
+    ModContent.registerBlockEntityRenderers(event);
     ModContent.processContentClientSide(event);
     wile.wilescollection.libmc.detail.Overlay.register();
   }
@@ -74,31 +77,31 @@ public class ModWilesCollection
   public static class ForgeEvents
   {
     @SubscribeEvent
-    public static void onBlocksRegistry(final RegistryEvent.Register<Block> event)
-    { ModContent.registerBlocks(event); }
+    public static void onRegisterBlocks(final RegistryEvent.Register<Block> event)
+    { Registries.onBlockRegistry((rl, block)->event.getRegistry().register(block)); }
 
     @SubscribeEvent
-    public static void onItemRegistry(final RegistryEvent.Register<Item> event)
-    { ModContent.registerItems(event); ModContent.registerBlockItems(event); }
+    public static void onRegistryItems(final RegistryEvent.Register<Item> event)
+    { Registries.onItemRegistry((rl, item)->event.getRegistry().register(item)); }
 
     @SubscribeEvent
-    public static void onTileEntityRegistry(final RegistryEvent.Register<BlockEntityType<?>> event)
-    { ModContent.registerTileEntities(event); }
+    public static void onRegisterBlockEntities(final RegistryEvent.Register<BlockEntityType<?>> event)
+    { Registries.onBlockEntityRegistry((rl, tet)->event.getRegistry().register(tet)); }
 
     @SubscribeEvent
     public static void onRegisterEntityTypes(final RegistryEvent.Register<EntityType<?>> event)
-    { ModContent.registerEntities(event); }
+    { Registries.onEntityRegistry((rl, et)->event.getRegistry().register(et)); }
 
     @SubscribeEvent
-    public static void onRegisterContainerTypes(final RegistryEvent.Register<MenuType<?>> event)
-    { ModContent.registerContainers(event); }
+    public static void onRegisterMenuTypes(final RegistryEvent.Register<MenuType<?>> event)
+    { Registries.onMenuTypeRegistry((rl, ct)->event.getRegistry().register(ct)); }
 
     @SubscribeEvent
     public static final void onRegisterModels(final ModelRegistryEvent event)
     { ModContent.registerModels(); }
 
     @SubscribeEvent
-    public static final void onRecipeRegistry(final RegistryEvent.Register<RecipeSerializer<?>> event)
+    public static final void onRegisterRecipes(final RegistryEvent.Register<RecipeSerializer<?>> event)
     { event.getRegistry().register(wile.wilescollection.libmc.detail.ExtendedShapelessRecipe.SERIALIZER); }
 
     @SubscribeEvent
@@ -116,15 +119,6 @@ public class ModWilesCollection
       }
     }
   }
-
-  //
-  // Item group / creative tab
-  //
-  public static final CreativeModeTab ITEMGROUP = (new CreativeModeTab("tab" + MODID) {
-    @OnlyIn(Dist.CLIENT)
-    public ItemStack makeIcon()
-    { return new ItemStack(ModContent.CRAFTING_TABLE); }
-  });
 
   //
   // Player update event

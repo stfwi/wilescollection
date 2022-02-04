@@ -6,25 +6,30 @@
  */
 package wile.wilescollection.libmc.detail;
 
-import com.google.common.collect.Lists;
-import com.google.gson.*;
+import com.google.gson.GsonBuilder;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParseException;
 import net.minecraft.core.NonNullList;
-import net.minecraft.core.Registry;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.TagParser;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.tags.SerializationTags;
-import net.minecraft.tags.Tag;
+import net.minecraft.tags.TagKey;
 import net.minecraft.util.GsonHelper;
 import net.minecraft.util.Mth;
+import net.minecraft.util.Tuple;
 import net.minecraft.world.inventory.CraftingContainer;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.*;
+import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.ForgeRegistryEntry;
+import net.minecraftforge.registries.tags.ITag;
 
-import java.util.List;
+import javax.annotation.Nullable;
+import java.util.HashMap;
+import java.util.Map;
 
 public class ExtendedShapelessRecipe extends ShapelessRecipe implements CraftingRecipe
 {
@@ -60,6 +65,67 @@ public class ExtendedShapelessRecipe extends ShapelessRecipe implements Crafting
   private boolean isRepair()
   { return getToolDamage() < 0; }
 
+  private Tuple<ItemStack, NonNullList<ItemStack>> getRepaired(CraftingContainer inv)
+  {
+    final String tool_name = aspects.getString("tool");
+    final Map<Item, Integer> repair_items = new HashMap<>();
+    final NonNullList<ItemStack> remaining = NonNullList.withSize(inv.getContainerSize(), ItemStack.EMPTY);
+    ItemStack tool_item = ItemStack.EMPTY;
+    for(int i=0; i<inv.getContainerSize(); ++i) {
+      final ItemStack stack = inv.getItem(i);
+      if(stack.isEmpty()) {
+        continue;
+      } else if(stack.getItem().getRegistryName().toString().equals(tool_name)) {
+        tool_item = stack.copy();
+      } else {
+        remaining.set(i, stack.copy());
+        repair_items.put(stack.getItem(), stack.getCount() + repair_items.getOrDefault(stack.getItem(), 0));
+      }
+    }
+    if(tool_item.isEmpty()) {
+      return new Tuple<>(ItemStack.EMPTY, remaining);
+    } else if(!tool_item.isDamageableItem()) {
+      Auxiliaries.logWarn("Repairing '"+tool_item.getItem().getRegistryName().toString()+"' can't work, the item is not damageable.");
+      return new Tuple<>(ItemStack.EMPTY, remaining);
+    } else {
+      final int dmg = tool_item.getDamageValue();
+      if((dmg <= 0) && (!aspects.getBoolean("over_repair"))) return new Tuple<>(ItemStack.EMPTY, remaining);
+      final int min_repair_item_count = repair_items.values().stream().mapToInt(Integer::intValue).min().orElse(0);
+      if(min_repair_item_count <= 0) return new Tuple<>(ItemStack.EMPTY, remaining);
+      final int single_repair_dur = aspects.getBoolean("relative_repair_damage")
+        ? Math.max(1, -getToolDamage() * tool_item.getMaxDamage() / 100)
+        : Math.max(1, -getToolDamage());
+      int num_repairs = dmg/single_repair_dur;
+      if(num_repairs*single_repair_dur < dmg) ++num_repairs;
+      num_repairs = Math.min(num_repairs, min_repair_item_count);
+      for(Item ki: repair_items.keySet()) repair_items.put(ki, num_repairs);
+      tool_item.setDamageValue(Math.max(dmg-(single_repair_dur*num_repairs), 0));
+      for(int i=0; i<remaining.size(); ++i) {
+        ItemStack stack = inv.getItem(i);
+        if(stack.isEmpty()) continue;
+        if(stack.getItem().getRegistryName().toString().equals(tool_name)) continue;
+        remaining.set(i, stack.hasContainerItem() ? stack.getContainerItem() : stack.copy());
+      }
+      for(int i=0; i<remaining.size(); ++i) {
+        final ItemStack stack = remaining.get(i);
+        final Item item = stack.getItem();
+        if(!repair_items.containsKey(item)) continue;
+        int n = repair_items.get(item);
+        if(stack.getCount() >= n) {
+          stack.shrink(n);
+          repair_items.remove(item);
+        } else {
+          repair_items.put(item, n-stack.getCount());
+          remaining.set(i, ItemStack.EMPTY);
+        }
+      }
+      if((tool_item.getItem() instanceof IRepairableToolItem)) {
+        tool_item = ((IRepairableToolItem)(tool_item.getItem())).onShapelessRecipeRepaired(tool_item, dmg, tool_item.getDamageValue());
+      }
+      return new Tuple<>(tool_item, remaining);
+    }
+  }
+
   @Override
   public boolean isSpecial()
   { return isRepair() || aspects.getBoolean("dynamic"); }
@@ -71,47 +137,60 @@ public class ExtendedShapelessRecipe extends ShapelessRecipe implements Crafting
   @Override
   public NonNullList<ItemStack> getRemainingItems(CraftingContainer inv)
   {
-    final String tool_name = aspects.getString("tool");
-    final int tool_damage = getToolDamage();
-    NonNullList<ItemStack> remaining = NonNullList.withSize(inv.getContainerSize(), ItemStack.EMPTY);
-    for(int i=0; i<remaining.size(); ++i) {
-      final ItemStack stack = inv.getItem(i);
-      if(stack.getItem().getRegistryName().toString().equals(tool_name)) {
-        if(!stack.isDamageableItem()) {
-          remaining.set(i, stack);
-        } else if(!isRepair()) {
-          ItemStack rstack = stack.copy();
-          rstack.setDamageValue(rstack.getDamageValue()+tool_damage);
-          if(rstack.getDamageValue() < rstack.getMaxDamage()) {
-            remaining.set(i, rstack);
-          }
-        }
-      } else if(stack.hasContainerItem()) {
-        remaining.set(i, stack.getContainerItem());
+    if(isRepair()) {
+      NonNullList<ItemStack> remaining = getRepaired(inv).getB();
+      for(int i=0; i<remaining.size(); ++i) {
+        ItemStack rem_stack = remaining.get(i);
+        ItemStack inv_stack = inv.getItem(i);
+        if(inv_stack.isEmpty()) continue;
+        if(!rem_stack.isEmpty() && !inv.getItem(i).sameItem(rem_stack)) continue;
+        remaining.set(i, ItemStack.EMPTY);
+        rem_stack.grow(1);
+        inv.setItem(i, rem_stack);
       }
+      return remaining;
+    } else {
+      final String tool_name = aspects.getString("tool");
+      final int tool_damage = getToolDamage();
+      NonNullList<ItemStack> remaining = NonNullList.withSize(inv.getContainerSize(), ItemStack.EMPTY);
+      for(int i=0; i<remaining.size(); ++i) {
+        final ItemStack stack = inv.getItem(i);
+        if(stack.getItem().getRegistryName().toString().equals(tool_name)) {
+          if(!stack.isDamageableItem()) {
+            remaining.set(i, stack);
+          } else { // implicitly !repair
+            ItemStack rstack = stack.copy();
+            rstack.setDamageValue(rstack.getDamageValue()+tool_damage);
+            if(rstack.getDamageValue() < rstack.getMaxDamage()) {
+              remaining.set(i, rstack);
+            }
+          }
+        } else if(stack.hasContainerItem()) {
+          remaining.set(i, stack.getContainerItem());
+        }
+      }
+      return remaining;
     }
-    return remaining;
   }
 
   @Override
   public ItemStack assemble(CraftingContainer inv)
   {
-    if(!isRepair()) return super.assemble(inv);
-    // Tool repair
-    final String tool_name = aspects.getString("tool");
-    for(int i=0; i<inv.getContainerSize(); ++i) {
-      final ItemStack stack = inv.getItem(i);
-      if(!stack.getItem().getRegistryName().toString().equals(tool_name)) continue;
-      ItemStack rstack = stack.copy();
-      final int dmg = rstack.getDamageValue();
-      final int repair_negative_dmg = Math.min(-1, getToolDamage() * rstack.getMaxDamage() / 100);
-      rstack.setDamageValue(Math.max(dmg+repair_negative_dmg, 0));
-      if((rstack.getItem() instanceof IRepairableToolItem)) {
-        rstack = ((IRepairableToolItem)(rstack.getItem())).onShapelessRecipeRepaired(rstack, dmg, rstack.getDamageValue());
+    if(isRepair()) {
+      return getRepaired(inv).getA();
+    } else {
+      // Initial item crafting
+      ItemStack rstack = super.assemble(inv);
+      if(rstack.isEmpty()) return ItemStack.EMPTY;
+      if(aspects.getInt("initial_durability") > 0) {
+        int dmg = Math.max(0, rstack.getMaxDamage() - aspects.getInt("initial_durability"));
+        if(dmg > 0) rstack.setDamageValue(dmg);
+      } else if(aspects.getInt("initial_damage") > 0) {
+        int dmg = Math.min(aspects.getInt("initial_damage"), rstack.getMaxDamage());
+        if(dmg > 0) rstack.setDamageValue(dmg);
       }
       return rstack;
     }
-    return ItemStack.EMPTY; // in doubt prevent duping, people will complain soon enough.
   }
 
   @Override
@@ -122,8 +201,8 @@ public class ExtendedShapelessRecipe extends ShapelessRecipe implements Crafting
 
   public static class Serializer extends ForgeRegistryEntry<RecipeSerializer<?>> implements RecipeSerializer<ExtendedShapelessRecipe>
   {
-    private static int MAX_WIDTH = 3;
-    private static int MAX_HEIGHT = 3;
+    private static final int MAX_WIDTH = 3;
+    private static final int MAX_HEIGHT = 3;
 
     public Serializer()
     {}
@@ -159,13 +238,15 @@ public class ExtendedShapelessRecipe extends ShapelessRecipe implements Crafting
       if(res.has("tag")) {
         // Tag based item picking
         ResourceLocation rl = new ResourceLocation(res.get("tag").getAsString());
-        Tag<Item> tag = SerializationTags.getInstance().getOrEmpty(Registry.ITEM_REGISTRY).getAllTags().getOrDefault(rl, null);
-        if(tag==null) throw new JsonParseException(this.getRegistryName().getPath() + ": Result tag does not exist: #" + rl);
-        if(tag.getValues().isEmpty()) throw new JsonParseException(this.getRegistryName().getPath() + ": Result tag has no items: #" + rl);
+        // yaa that is also gone already: final @Nullable Tag<Item> tag = ItemTags.getAllTags().getTag(rl); // there was something with reload tag availability, Smithies made a fix or so?:::: TagCollectionManager.getInstance().getItems().getAllTags().getOrDefault(rl, null);
+        final @Nullable TagKey<Item> key = ForgeRegistries.ITEMS.tags().getTagNames().filter((tag_key->tag_key.location().equals(rl))).findFirst().orElse(null);
+        if(key==null) throw new JsonParseException(this.getRegistryName().getPath() + ": Result tag does not exist: #" + rl);
+        final ITag<Item> tag = ForgeRegistries.ITEMS.tags().getTag(key);
+        final @Nullable Item item = tag.stream().findFirst().orElse(null);
+        if(item==null) throw new JsonParseException(this.getRegistryName().getPath() + ": Result tag has no items: #" + rl);
         if(res.has("item")) res.remove("item");
         resultTag = rl;
-        List<Item> lst = Lists.newArrayList(tag.getValues());
-        res.addProperty("item", lst.get(0).getRegistryName().toString());
+        res.addProperty("item", item.getRegistryName().toString());
       }
       ItemStack result_stack = ShapedRecipe.itemStackFromJson(res);
       return new ExtendedShapelessRecipe(recipeId, group, result_stack, list, aspects_nbt, resultTag);

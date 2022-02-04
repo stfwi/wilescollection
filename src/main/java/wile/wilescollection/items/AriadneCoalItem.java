@@ -25,8 +25,8 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.phys.shapes.CollisionContext;
-import wile.wilescollection.ModContent;
 import wile.wilescollection.blocks.AriadneCoalBlock;
+import wile.wilescollection.libmc.detail.Registries;
 
 
 public class AriadneCoalItem extends ModItem
@@ -75,7 +75,7 @@ public class AriadneCoalItem extends ModItem
     };
     v = v.subtract(0.5, 0.5, 0);
     final int orientation = (((int)(Math.rint(4.0/Math.PI * Math.atan2(v.y, v.x) + 16) ) % 8) + ((facing.getAxisDirection()== Direction.AxisDirection.NEGATIVE) ? 8 : 0)) & 0xf;
-    BlockState setstate =ModContent.ARIADNE_COAL_BLOCK.defaultBlockState().setValue(AriadneCoalBlock.AXIS, facing.getAxis());
+    BlockState setstate = Registries.getBlock("ariadne_coal_block").defaultBlockState().setValue(AriadneCoalBlock.AXIS, facing.getAxis());
     if(world.setBlock(markpos, setstate.setValue(AriadneCoalBlock.ORIENTATION, orientation), 1|2)) {
       stack.setDamageValue(stack.getDamageValue()+1);
       if(stack.getDamageValue() >= stack.getMaxDamage()) {
