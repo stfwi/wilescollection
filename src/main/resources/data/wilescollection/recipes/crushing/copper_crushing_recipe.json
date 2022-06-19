@@ -33,6 +33,35 @@
       {
         "type": "wilescollection:optional",
         "result": "wilescollection:crushed_copper",
+        "requires": ["wilescollection:crushing_hammer", "#forge:ores/copper", "wilescollection:crushed_copper"]
+      }
+    ],
+    "recipe": {
+      "type": "wilescollection:crafting_extended_shapeless",
+      "group": "grit",
+      "ingredients": [
+        {
+          "tag": "forge:ores/copper"
+        },
+        {
+          "item": "wilescollection:crushing_hammer"
+        }
+      ],
+      "result": {
+        "item": "wilescollection:crushed_copper",
+        "count": 2
+      },
+      "aspects": {
+        "tool": "wilescollection:crushing_hammer",
+        "tool_damage": 8
+      }
+    }
+  },
+  {
+    "conditions": [
+      {
+        "type": "wilescollection:optional",
+        "result": "wilescollection:crushed_copper",
         "requires": ["wilescollection:crushing_hammer", "minecraft:copper_ore", "wilescollection:crushed_copper"]
       }
     ],

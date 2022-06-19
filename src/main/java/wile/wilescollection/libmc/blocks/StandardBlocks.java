@@ -5,12 +5,9 @@
  * @license MIT (see https://opensource.org/licenses/MIT)
  *
  * Common functionality class for decor blocks.
- * Mainly needed for:
- * - MC block defaults.
- * - Tooltip functionality
- * - Model initialization
  */
 package wile.wilescollection.libmc.blocks;
+import wile.wilescollection.libmc.detail.Auxiliaries;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -19,8 +16,6 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.SpawnPlacements;
-import net.minecraft.world.item.BlockItem;
-import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.item.context.BlockPlaceContext;
@@ -53,7 +48,6 @@ import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-import wile.wilescollection.libmc.detail.Auxiliaries;
 
 import javax.annotation.Nullable;
 import java.util.*;
@@ -61,6 +55,7 @@ import java.util.function.Function;
 import java.util.function.Supplier;
 
 
+@SuppressWarnings("deprecation")
 public class StandardBlocks
 {
   public static final long CFG_DEFAULT                    = 0x0000000000000000L; // no special config
@@ -100,12 +95,6 @@ public class StandardBlocks
       if((config & CFG_TRANSLUCENT)!=0) return RenderTypeHint.TRANSLUCENT;
       return RenderTypeHint.SOLID;
     }
-  }
-
-  public interface IBlockItemFactory
-  {
-    // BlockItem factory for item registry. Only invoked once.
-    BlockItem getBlockItem(Block block, Item.Properties builder);
   }
 
   public static class BaseBlock extends Block implements IStandardBlock, SimpleWaterloggedBlock

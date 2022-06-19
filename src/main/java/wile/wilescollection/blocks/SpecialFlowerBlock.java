@@ -12,6 +12,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
@@ -40,7 +41,6 @@ import wile.wilescollection.libmc.detail.Effects;
 
 import javax.annotation.Nullable;
 import java.util.List;
-import java.util.Random;
 
 
 public class SpecialFlowerBlock extends FlowerBlock implements StandardBlocks.IStandardBlock
@@ -98,7 +98,7 @@ public class SpecialFlowerBlock extends FlowerBlock implements StandardBlocks.IS
 
   @Override
   @OnlyIn(Dist.CLIENT)
-  public void animateTick(BlockState state, Level world, BlockPos pos, Random rand)
+  public void animateTick(BlockState state, Level world, BlockPos pos, RandomSource rand)
   {
     switch(state.getValue(MOOD)) {
       case MOOD_NORMAL     -> {
@@ -125,7 +125,7 @@ public class SpecialFlowerBlock extends FlowerBlock implements StandardBlocks.IS
 
   @Override
   @SuppressWarnings("deprecation")
-  public void tick(BlockState state, ServerLevel world, BlockPos pos, Random rnd)
+  public void tick(BlockState state, ServerLevel world, BlockPos pos, RandomSource rnd)
   {
     if(!world.getEntitiesOfClass(LivingEntity.class, AABB.unitCubeFromLowerCorner(Vec3.atLowerCornerOf(pos))).isEmpty()) return;
     final BlockState new_state = getAdaptedState(state, world, pos);

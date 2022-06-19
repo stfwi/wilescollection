@@ -10,7 +10,6 @@ package wile.wilescollection.items;
 
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.TextComponent;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
@@ -48,17 +47,6 @@ public class Trinkets
     charging_items_.clear();
     charging_items_.put(Items.LAPIS_LAZULI, 25);
     charging_items_.put(Items.LAPIS_BLOCK, 25*9);
-    // @todo: Implement corresponding effects
-    //    allowed_enchantments_.add(Enchantments.RESPIRATION);
-    //    allowed_enchantments_.add(Enchantments.AQUA_AFFINITY);
-    //    allowed_enchantments_.add(Enchantments.THORNS);
-    //    allowed_enchantments_.add(Enchantments.PROJECTILE_PROTECTION);
-    //    allowed_enchantments_.add(Enchantments.BLAST_PROTECTION);
-    //    allowed_enchantments_.add(Enchantments.FALL_PROTECTION);
-    //    allowed_enchantments_.add(Enchantments.FIRE_PROTECTION);
-    //    allowed_enchantments_.add(Enchantments.ALL_DAMAGE_PROTECTION);
-    //    allowed_enchantments_.add(Enchantments.FROST_WALKER);
-    //    allowed_enchantments_.add(Enchantments.SOUL_SPEED);
   }
 
   //--------------------------------------------------------------------------------------------------------------------
@@ -82,7 +70,7 @@ public class Trinkets
       if(!Auxiliaries.Tooltip.extendedTipCondition() && !Auxiliaries.Tooltip.helpCondition()) {
         final int charges = getCharge(stack);
         if(charges > 0) {
-          tooltip.add(new TextComponent(
+          tooltip.add(Component.translatable(
             Auxiliaries.localize(getDescriptionId()+".tip.charge", new Object[]{charges})
           ));
         }

@@ -8,27 +8,23 @@
  */
 package wile.wilescollection.libmc.detail;
 
-import net.minecraft.core.Registry;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.tags.*;
 import net.minecraft.util.GsonHelper;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
 import net.minecraftforge.common.crafting.conditions.ICondition;
 import net.minecraftforge.common.crafting.conditions.IConditionSerializer;
 import net.minecraftforge.registries.ForgeRegistries;
-import com.google.gson.JsonArray;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
 import net.minecraftforge.registries.IForgeRegistry;
-import org.apache.logging.log4j.Logger;
+import org.slf4j.Logger;
+
 import javax.annotation.Nullable;
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
 import java.util.List;
 import java.util.function.Predicate;
-import java.util.stream.Collectors;
 
 
 public class OptionalRecipeCondition implements ICondition
@@ -94,18 +90,16 @@ public class OptionalRecipeCondition implements ICondition
   }
 
   @Override
-  public boolean test()
+  public boolean test(IContext context)
   {
     if(without_recipes) return false;
     if((experimental) && (!with_experimental)) return false;
     final IForgeRegistry<Item> item_registry = ForgeRegistries.ITEMS;
-    final Collection<ResourceLocation> item_tags = new ArrayList<>();
-
-      // @TODO: SerializationTags.getInstance().getOrEmpty(Registry.ITEM_REGISTRY).getAvailableTags();
+    //final Collection<ResourceLocation> item_tags = SerializationTags.getInstance().getOrEmpty(Registry.ITEM_REGISTRY).getAvailableTags();
     if(result != null) {
       boolean item_registered = item_registry.containsKey(result);
       if(!item_registered) return false; // required result not registered
-      if(item_registered && item_optouts.test(item_registry.getValue(result))) return false;
+      if(item_optouts.test(item_registry.getValue(result))) return false;
       if(ForgeRegistries.BLOCKS.containsKey(result) && block_optouts.test(ForgeRegistries.BLOCKS.getValue(result))) return false;
     }
     if(!all_required.isEmpty()) {
@@ -115,7 +109,7 @@ public class OptionalRecipeCondition implements ICondition
     }
     if(!all_required_tags.isEmpty()) {
       for(ResourceLocation rl:all_required_tags) {
-        if(!item_tags.contains(rl)) return false;
+        if(item_registry.tags().getTagNames().noneMatch(tk->tk.location().equals(rl))) return false;  // if(!item_tags.contains(rl)) return false;
       }
     }
     if(!any_missing.isEmpty()) {
@@ -126,7 +120,7 @@ public class OptionalRecipeCondition implements ICondition
     }
     if(!any_missing_tags.isEmpty()) {
       for(ResourceLocation rl:any_missing_tags) {
-        if(!item_tags.contains(rl)) return true;
+        if(item_registry.tags().getTagNames().noneMatch(tk->tk.location().equals(rl))) return true; // if(!item_tags.contains(rl)) return true;
       }
       return false;
     }

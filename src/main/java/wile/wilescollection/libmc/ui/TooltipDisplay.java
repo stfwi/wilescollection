@@ -8,6 +8,8 @@
  * GUI, invoked in `render()`.
  */
 package wile.wilescollection.libmc.ui;
+import net.minecraft.network.chat.Style;
+import wile.wilescollection.libmc.detail.Auxiliaries;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
@@ -16,7 +18,6 @@ import net.minecraft.util.Mth;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-import wile.wilescollection.libmc.detail.Auxiliaries;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -98,10 +99,11 @@ public class TooltipDisplay
     } else if(ranges.stream().noneMatch(
       (tip)->{
         if((x<tip.x0) || (x>tip.x1) || (y<tip.y0) || (y>tip.y1)) return false;
-        String text = tip.text.get().getString();
+        Component tip_component = tip.text.get();
+        final String text = tip_component.getString();
         if(text.isEmpty()) return false;
         try {
-          gui.renderTooltip(mx, tip.text.get(), x, y);
+          gui.renderComponentTooltip(mx, tip.text.get().toFlatList(Style.EMPTY), x, y);
         } catch(Exception ex) {
           had_render_exception = true;
           Auxiliaries.logError("Tooltip rendering disabled due to exception: '" + ex.getMessage() + "'");

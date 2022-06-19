@@ -146,7 +146,7 @@ public class StandardFenceBlock extends WallBlock implements StandardBlocks.ISta
 
   protected WallSide selectWallHeight(LevelReader world, BlockPos pos, Direction direction)
   {
-    return WallSide.LOW; // @todo: implement
+    return WallSide.LOW;
   }
 
   public BlockState getStateForPlacement(BlockPlaceContext context)

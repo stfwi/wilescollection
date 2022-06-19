@@ -18,12 +18,12 @@ import net.minecraft.core.NonNullList;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.Connection;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.TextComponent;
 import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.util.Mth;
+import net.minecraft.util.RandomSource;
 import net.minecraft.util.Tuple;
 import net.minecraft.world.*;
 import net.minecraft.world.entity.LivingEntity;
@@ -92,10 +92,6 @@ public class EdCraftingTable
     { super(config, builder, unrotatedAABBs); }
 
     @Override
-    public ResourceLocation getBlockRegistryName()
-    { return getRegistryName(); }
-
-    @Override
     public boolean isBlockEntityTicking(Level world, BlockState state)
     { return false; }
 
@@ -152,7 +148,7 @@ public class EdCraftingTable
 
     @Override
     @SuppressWarnings("deprecation")
-    public void tick(BlockState state, ServerLevel world, BlockPos pos, Random rand)
+    public void tick(BlockState state, ServerLevel world, BlockPos pos, RandomSource rand)
     {
       BlockEntity te = world.getBlockEntity(pos);
       if(!(te instanceof CraftingTableTileEntity)) return;
@@ -176,7 +172,7 @@ public class EdCraftingTable
 
     public CraftingTableTileEntity(BlockPos pos, BlockState state)
     {
-      super(Registries.getBlockEntityTypeOfBlock(state.getBlock().getRegistryName().getPath()), pos, state);
+      super(Registries.getBlockEntityTypeOfBlock(state.getBlock()), pos, state);
       inventory_ = new StorageInventory(this, NUM_OF_SLOTS, 1);
       inventory_.setCloseAction((player)->{
         if(getLevel() instanceof Level) {
@@ -239,7 +235,7 @@ public class EdCraftingTable
 
     @Override
     public Component getName()
-    { final Block block=getBlockState().getBlock(); return new TextComponent((block!=null) ? block.getDescriptionId() : "Treated wood crafting table"); }
+    { final Block block=getBlockState().getBlock(); return Component.translatable((block!=null) ? block.getDescriptionId() : "Treated wood crafting table"); }
 
     @Override
     public boolean hasCustomName()
@@ -332,7 +328,7 @@ public class EdCraftingTable
       inventory_ = block_inventory;
       inventory_.startOpen(player_);
       Level world = player_.level;
-      if((inventory_ instanceof StorageInventory) && ((((StorageInventory)inventory_).getTileEntity()) instanceof final CraftingTableTileEntity te)) {
+      if((inventory_ instanceof StorageInventory) && ((((StorageInventory)inventory_).getBlockEntity()) instanceof final CraftingTableTileEntity te)) {
         te_ = te;
       } else {
         te_ = null;
@@ -742,7 +738,6 @@ public class EdCraftingTable
           grid.add(preferred);
         }
       } else if(recipe instanceof ShapelessRecipe) {
-        // todo: check if a collision resolver with shaped recipes makes sense here.
         for(int ingredient_index=0; ingredient_index<recipe.getIngredients().size(); ++ingredient_index) {
           ItemStack[] match_stacks = recipe.getIngredients().get(ingredient_index).getItems();
           if(match_stacks.length == 0) { grid.add(ItemStack.EMPTY); continue; }
@@ -1047,7 +1042,7 @@ public class EdCraftingTable
       }
       {
         List<TipRange> tooltips = new ArrayList<>();
-        final Block block = Registries.getBlock(getMenu().getType().getRegistryName().getPath().replaceAll("^ct_",""));
+        final Block block = Registries.getBlock(Auxiliaries.getResourceLocation(getMenu().getType()).getPath().replaceAll("^ct_",""));
         final String prefix = block.getDescriptionId() + ".tooltips.";
         String[] translation_keys = { "next", "prev", "clear", "nextcollisionrecipe", "fromstorage", "tostorage", "fromplayer", "toplayer" };
         for(int i=0; (i<buttons.size()) && (i<translation_keys.length); ++i) {
@@ -1352,12 +1347,12 @@ public class EdCraftingTable
       if((num_stacks < 9) || (num_stacks > 10)) return "";
       final ArrayList<String> items = new ArrayList<>();
       items.add(recipe.getId().toString());
-      if(num_stacks < 10) items.add(recipe.getResultItem().getItem().getRegistryName().toString());
+      if(num_stacks < 10) items.add(Auxiliaries.getResourceLocation(recipe.getResultItem().getItem()).toString());
       for(ItemStack st:grid_stacks) {
         if(st.isEmpty()) {
           items.add("");
         } else {
-          ResourceLocation rl = st.getItem().getRegistryName();
+          ResourceLocation rl = Auxiliaries.getResourceLocation(st.getItem());
           items.add( rl.getNamespace().equals("minecraft") ? rl.getPath() : rl.toString());
         }
       }

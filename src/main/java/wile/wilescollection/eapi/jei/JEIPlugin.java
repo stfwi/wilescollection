@@ -7,10 +7,9 @@
  * JEI plugin (see https://github.com/mezz/JustEnoughItems/wiki/Creating-Plugins)
  */
 package wile.wilescollection.eapi.jei;
-/*
-public class JEIPlugin {}
-*/
 
+public class JEIPlugin {}
+/*
 import mezz.jei.api.constants.RecipeTypes;
 import mezz.jei.api.constants.VanillaTypes;
 import mezz.jei.api.registration.IRecipeCatalystRegistration;
@@ -87,3 +86,4 @@ public class JEIPlugin implements mezz.jei.api.IModPlugin
     }
   }
 }
+*/

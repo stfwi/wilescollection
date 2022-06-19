@@ -16,10 +16,7 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.Tag;
 import net.minecraft.network.Connection;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.TextComponent;
-import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Tuple;
 import net.minecraft.world.*;
 import net.minecraft.world.entity.LivingEntity;
@@ -45,8 +42,6 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.IItemHandler;
-import wile.wilescollection.ModConfig;
-import wile.wilescollection.ModContent;
 import wile.wilescollection.libmc.blocks.StandardBlocks;
 import wile.wilescollection.libmc.blocks.StandardEntityBlocks;
 import wile.wilescollection.libmc.detail.*;
@@ -70,7 +65,7 @@ public class LabeledCrate
     unstorable_containers.clear();
     unstorable_containers.add(Registries.getBlock("crate").asItem());
     unstorable_containers.add(Items.SHULKER_BOX);
-    ModConfig.log("Config crate: unstorable:" + unstorable_containers.stream().map(e->e.getRegistryName().toString()).collect(Collectors.joining(",")));
+    Auxiliaries.logDebug("Config crate: unstorable:" + unstorable_containers.stream().map(e->Auxiliaries.getResourceLocation(e).toString()).collect(Collectors.joining(",")));
   }
 
   //--------------------------------------------------------------------------------------------------------------------
@@ -81,10 +76,6 @@ public class LabeledCrate
   {
     public LabeledCrateBlock(long config, BlockBehaviour.Properties builder, final AABB unrotatedAABB)
     { super(config, builder, unrotatedAABB); }
-
-    @Override
-    public ResourceLocation getBlockRegistryName()
-    { return getRegistryName(); }
 
     @Override
     public boolean isBlockEntityTicking(Level world, BlockState state)
@@ -189,13 +180,13 @@ public class LabeledCrate
       }
       int num_free_slots = LabeledCrateTileEntity.ITEMFRAME_SLOTNO - num_used_slots;
       String[] lines = Auxiliaries.localize(getDescriptionId()+".tip",
-        (frameStack.isEmpty() ? (new TextComponent("-/-")) : (new TranslatableComponent(frameStack.getDescriptionId()))),
+        (frameStack.isEmpty() ? (Component.translatable("-/-")) : (Component.translatable(frameStack.getDescriptionId()))),
         num_used_slots,
         num_free_slots,
         total_items,
         stats).split("\n");
       for(String line:lines) {
-        tooltip.add(new TextComponent(line.trim()));
+        tooltip.add(Component.translatable(line.trim()));
       }
     }
   }
@@ -220,7 +211,7 @@ public class LabeledCrate
 
     public LabeledCrateTileEntity(BlockPos pos, BlockState state)
     {
-      super(Registries.getBlockEntityTypeOfBlock(state.getBlock().getRegistryName().getPath()), pos, state);
+      super(Registries.getBlockEntityTypeOfBlock(state.getBlock()), pos, state);
       main_inventory_.setCloseAction((player)->Networking.PacketTileNotifyServerToClient.sendToPlayers(this, writenbt(new CompoundTag())));
       main_inventory_.setSlotChangeAction((index,stack)->{
         if(index==ITEMFRAME_SLOTNO) Networking.PacketTileNotifyServerToClient.sendToPlayers(this, writenbt(new CompoundTag()));
@@ -315,8 +306,8 @@ public class LabeledCrate
     {
       if(custom_name_ != null) return custom_name_;
       final Block block = getBlockState().getBlock();
-      if(block!=null) return new TranslatableComponent(block.getDescriptionId());
-      return new TextComponent("Labeled Crate");
+      if(block!=null) return Component.translatable(block.getDescriptionId());
+      return Component.translatable("Labeled Crate");
     }
 
     @Override
@@ -537,7 +528,7 @@ public class LabeledCrate
   {
     public LabeledCrateGui(LabeledCrateContainer container, Inventory player_inventory, Component title)
     {
-      super(container, player_inventory, title,"textures/gui/labeled_crate_gui.png", 213, 206);
+      super(container, player_inventory, title,"textures/gui/crate_gui.png", 213, 206);
       titleLabelX = 23;
       titleLabelY = -10;
     }

@@ -42,7 +42,9 @@ import wile.wilescollection.blocks.LabeledCrate;
 import wile.wilescollection.items.TrackerItem;
 import wile.wilescollection.libmc.detail.Auxiliaries;
 
+import java.util.Arrays;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 
 public class ModRenderers
@@ -129,7 +131,7 @@ public class ModRenderers
       } catch(Throwable e) {
         if(--tesr_error_counter<=0) {
           Auxiliaries.logger().error("TER was disabled because broken, exception was: " + e.getMessage());
-          Auxiliaries.logger().error(e.getStackTrace());
+          Auxiliaries.logger().error(Arrays.stream(e.getStackTrace()).map(l->l.toString()).collect(Collectors.joining("\n,")));
         }
       }
     }

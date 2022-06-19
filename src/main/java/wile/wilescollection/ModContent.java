@@ -83,11 +83,12 @@ public class ModContent
     initBlocks();
     initItems();
     initEntities();
+    Registries.addRecipeSerializer("crafting_extended_shapeless", ()->wile.wilescollection.libmc.detail.ExtendedShapelessRecipe.SERIALIZER);
   }
 
   public static void initTags()
   {
-    Registries.addOptionalBlockTag("prospectible", "minecraft:diamond_ore"); // , "minecraft:ancient_debres"
+    Registries.addOptionalBlockTag("prospectible", new ResourceLocation("minecraft:diamond_ore")); // , "minecraft:ancient_debres"
   }
 
   public static void initBlocks()
@@ -117,6 +118,7 @@ public class ModContent
           Auxiliaries.getPixeledAABB(2,15,0, 14,16,16),
         }
       ),
+      FluidBarrel.FluidBarrelItem::new,
       FluidBarrel.FluidBarrelTileEntity::new
     );
     Registries.addBlock("crate",
@@ -207,7 +209,7 @@ public class ModContent
     ));
     Registries.addBlock("ariadne_coal_block", ()->new AriadneCoalBlock(
       StandardBlocks.CFG_TRANSLUCENT,
-      BlockBehaviour.Properties.of(Material.STONE, MaterialColor.STONE).strength(0.2f, 2f).sound(SoundType.STONE).noCollission().noDrops()
+      BlockBehaviour.Properties.of(Material.STONE, MaterialColor.STONE).strength(0.2f, 2f).sound(SoundType.STONE).noCollission().noLootTable()
     ));
     Registries.addBlock("weathered_stone_brick_block", ()->new StandardBlocks.BaseBlock(
       StandardBlocks.CFG_DEFAULT,

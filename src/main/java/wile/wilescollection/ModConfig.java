@@ -14,7 +14,7 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
 import net.minecraftforge.common.ForgeConfigSpec;
 import org.apache.commons.lang3.tuple.Pair;
-import org.apache.logging.log4j.Logger;
+import org.slf4j.Logger;
 import wile.wilescollection.blocks.*;
 import wile.wilescollection.items.ChargedLapisSqueezerItem;
 import wile.wilescollection.items.Trinkets;
@@ -142,7 +142,7 @@ public class ModConfig
   { return (block==null) || isOptedOut(block.asItem()); }
 
   public static final boolean isOptedOut(final @Nullable Item item)
-  { return (item==null) || optouts_.contains(item.getRegistryName().getPath()); }
+  { return (item!=null) && optouts_.contains(Auxiliaries.getResourceLocation(item).getPath()); }
 
   public static boolean withExperimental()
   { return with_experimental_features_; }
@@ -218,7 +218,7 @@ public class ModConfig
             if(block instanceof Auxiliaries.IExperimentalFeature) return true;
           }
           // Force-include/exclude pattern matching
-          final String rn = block.getRegistryName().getPath();
+          final String rn = Auxiliaries.getResourceLocation(block).getPath();
           try {
             for(String e : includes) {
               if(rn.matches(e)) {
@@ -242,7 +242,7 @@ public class ModConfig
         }
         return false;
       }).forEach(
-        e -> optouts.add(e.getRegistryName().getPath())
+        e -> optouts.add(Auxiliaries.getResourceLocation(e).getPath())
       );
       optouts_ = optouts;
     }

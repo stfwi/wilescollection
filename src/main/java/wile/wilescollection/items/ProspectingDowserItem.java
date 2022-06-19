@@ -112,7 +112,7 @@ public class ProspectingDowserItem extends ModItem
             final double look = (entity.getLookAngle().subtract(dist_vec.normalize()).lengthSqr() * 2); // 0..8
             final int intensity = (int)Mth.clamp((dist * dist * 4) + (look * (Math.min(dist + 0.5, 1))), 0, 15);
             tag.putInt("rotation", (tag.getInt("rotation") + intensity * 8) % 360);
-            tag.putString("target", world.getBlockState(pos_found).getBlock().getRegistryName().toString());
+            tag.putString("target", Auxiliaries.getResourceLocation(world.getBlockState(pos_found).getBlock()).toString());
             return;
           }
         }

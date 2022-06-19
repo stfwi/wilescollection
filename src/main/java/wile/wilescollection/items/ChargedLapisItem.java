@@ -47,6 +47,7 @@ public class ChargedLapisItem extends ModItem
   }
 
   @Override
+  @SuppressWarnings("deprecation")
   public void onUseTick(Level world, LivingEntity entity, ItemStack stack, int count)
   {
     if(!(entity instanceof Player player)) return;

@@ -33,6 +33,35 @@
       {
         "type": "wilescollection:optional",
         "result": "wilescollection:crushed_gold",
+        "requires": ["wilescollection:crushing_hammer", "#forge:ores/gold", "wilescollection:crushed_gold"]
+      }
+    ],
+    "recipe": {
+      "type": "wilescollection:crafting_extended_shapeless",
+      "group": "grit",
+      "ingredients": [
+        {
+          "tag": "forge:ores/gold"
+        },
+        {
+          "item": "wilescollection:crushing_hammer"
+        }
+      ],
+      "result": {
+        "item": "wilescollection:crushed_gold",
+        "count": 2
+      },
+      "aspects": {
+        "tool": "wilescollection:crushing_hammer",
+        "tool_damage": 6
+      }
+    }
+  },
+  {
+    "conditions": [
+      {
+        "type": "wilescollection:optional",
+        "result": "wilescollection:crushed_gold",
         "requires": ["wilescollection:crushing_hammer", "minecraft:gold_ore", "wilescollection:crushed_gold"]
       }
     ],

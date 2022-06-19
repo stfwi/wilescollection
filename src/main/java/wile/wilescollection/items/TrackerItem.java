@@ -11,7 +11,6 @@ import net.minecraft.client.resources.model.ModelResourceLocation;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.TextComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.Tuple;
@@ -119,7 +118,7 @@ public class TrackerItem extends ModItem
     } else if(!dimension_name.isEmpty()) {
       text += Auxiliaries.localizable("item."+Auxiliaries.modid()+".tracking_compass.tip.dimension."+dimension_name, distance).getString();
     }
-    tooltip.add(new TextComponent(text));
+    tooltip.add(Component.translatable(text));
   }
 
   @Override
