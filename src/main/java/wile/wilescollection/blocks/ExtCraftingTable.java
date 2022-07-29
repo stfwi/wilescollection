@@ -1,5 +1,5 @@
 /*
- * @file EdCraftingTable.java
+ * @file ExtCraftingTable.java
  * @author Stefan Wilhelm (wile)
  * @copyright (C) 2020 Stefan Wilhelm
  * @license MIT (see https://opensource.org/licenses/MIT)
@@ -50,12 +50,12 @@ import net.minecraftforge.registries.ForgeRegistries;
 import wile.wilescollection.ModConfig;
 import wile.wilescollection.libmc.blocks.StandardBlocks;
 import wile.wilescollection.libmc.blocks.StandardEntityBlocks;
-import wile.wilescollection.libmc.detail.Auxiliaries;
-import wile.wilescollection.libmc.detail.Inventories;
-import wile.wilescollection.libmc.detail.Inventories.InventoryRange;
-import wile.wilescollection.libmc.detail.Inventories.StorageInventory;
-import wile.wilescollection.libmc.detail.Networking;
-import wile.wilescollection.libmc.detail.Registries;
+import wile.wilescollection.libmc.Auxiliaries;
+import wile.wilescollection.libmc.Inventories;
+import wile.wilescollection.libmc.Inventories.InventoryRange;
+import wile.wilescollection.libmc.Inventories.StorageInventory;
+import wile.wilescollection.libmc.Networking;
+import wile.wilescollection.libmc.Registries;
 import wile.wilescollection.libmc.ui.Guis;
 import wile.wilescollection.libmc.ui.TooltipDisplay.TipRange;
 
@@ -64,7 +64,7 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 
-public class EdCraftingTable
+public class ExtCraftingTable
 {
   public static boolean with_assist = true;
   public static boolean with_assist_direct_history_refab = false;

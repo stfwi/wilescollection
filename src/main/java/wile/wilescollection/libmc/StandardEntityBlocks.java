@@ -7,7 +7,7 @@
  * Common functionality class for blocks with block entities.
  */
 package wile.wilescollection.libmc.blocks;
-import wile.wilescollection.libmc.detail.Registries;
+import wile.wilescollection.libmc.Registries;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;

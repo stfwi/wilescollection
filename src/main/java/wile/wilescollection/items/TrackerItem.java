@@ -7,11 +7,9 @@
 package wile.wilescollection.items;
 
 import net.minecraft.client.renderer.BlockEntityWithoutLevelRenderer;
-import net.minecraft.client.resources.model.ModelResourceLocation;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.Tuple;
 import net.minecraft.world.InteractionHand;
@@ -27,10 +25,10 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-import net.minecraftforge.client.IItemRenderProperties;
+import net.minecraftforge.client.extensions.common.IClientItemExtensions;
 import wile.wilescollection.detail.ModRenderers;
-import wile.wilescollection.libmc.detail.Auxiliaries;
-import wile.wilescollection.libmc.detail.Overlay;
+import wile.wilescollection.libmc.Auxiliaries;
+import wile.wilescollection.libmc.Overlay;
 
 import javax.annotation.Nullable;
 import java.util.List;
@@ -49,18 +47,12 @@ public class TrackerItem extends ModItem
   //--------------------------------------------------------------------------------------------------------------------
 
   @Override
-  public void initializeClient(Consumer<IItemRenderProperties> consumer)
-  {
-    consumer.accept(new IItemRenderProperties() {
-      @Override public BlockEntityWithoutLevelRenderer getItemStackRenderer()
-      { return new ModRenderers.TrackerIster();
-      }});
-  }
-
   @OnlyIn(Dist.CLIENT)
-  public void registerModels()
+  public void initializeClient(Consumer<IClientItemExtensions> consumer)
   {
-    net.minecraftforge.client.model.ForgeModelBakery.addSpecialModel(new ModelResourceLocation(new ResourceLocation(Auxiliaries.modid(), "tracking_compass_pointer_model"), "inventory"));
+    consumer.accept(new net.minecraftforge.client.extensions.common.IClientItemExtensions(){
+      @Override public BlockEntityWithoutLevelRenderer getCustomRenderer() { return new ModRenderers.TrackerIster();
+    }});
   }
 
   @Override

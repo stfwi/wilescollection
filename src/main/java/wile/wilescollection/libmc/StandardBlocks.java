@@ -7,7 +7,7 @@
  * Common functionality class for decor blocks.
  */
 package wile.wilescollection.libmc.blocks;
-import wile.wilescollection.libmc.detail.Auxiliaries;
+import wile.wilescollection.libmc.Auxiliaries;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;

@@ -22,7 +22,7 @@ import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import wile.wilescollection.libmc.blocks.StandardBlocks;
-import wile.wilescollection.libmc.detail.Auxiliaries;
+import wile.wilescollection.libmc.Auxiliaries;
 
 import javax.annotation.Nullable;
 import java.util.ArrayList;

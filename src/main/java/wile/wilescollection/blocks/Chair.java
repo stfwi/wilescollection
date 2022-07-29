@@ -33,7 +33,7 @@ import net.minecraftforge.network.NetworkHooks;
 import net.minecraftforge.network.PlayMessages;
 import wile.wilescollection.ModConfig;
 import wile.wilescollection.libmc.blocks.StandardBlocks;
-import wile.wilescollection.libmc.detail.Registries;
+import wile.wilescollection.libmc.Registries;
 
 import java.util.List;
 

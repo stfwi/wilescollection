@@ -1,4 +1,5 @@
 {
+  "render_type": "translucent",
 	"parent": "block/cube",
 	"textures": {
 		"s": "wilescollection:block/ariadne_coal/ariadne_coal_block_texture_0",

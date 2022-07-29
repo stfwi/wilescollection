@@ -6,7 +6,7 @@
  *
  * Material handling.
  */
-package wile.wilescollection.libmc.detail;
+package wile.wilescollection.libmc;
 
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.world.entity.EquipmentSlot;

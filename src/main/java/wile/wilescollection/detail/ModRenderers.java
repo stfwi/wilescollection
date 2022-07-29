@@ -1,5 +1,5 @@
 /*
- * @file ModTesrs.java
+ * @file ModRenderers.java
  * @author Stefan Wilhelm (wile)
  * @copyright (C) 2020 Stefan Wilhelm
  * @license MIT (see https://opensource.org/licenses/MIT)
@@ -36,13 +36,15 @@ import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import wile.wilescollection.ModWilesCollection;
-import wile.wilescollection.blocks.EdCraftingTable;
-import wile.wilescollection.blocks.EdCraftingTable.CraftingTableBlock;
+import wile.wilescollection.blocks.ExtCraftingTable;
+import wile.wilescollection.blocks.ExtCraftingTable.CraftingTableBlock;
 import wile.wilescollection.blocks.LabeledCrate;
 import wile.wilescollection.items.TrackerItem;
-import wile.wilescollection.libmc.detail.Auxiliaries;
+import wile.wilescollection.libmc.Auxiliaries;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -82,7 +84,7 @@ public class ModRenderers
   //--------------------------------------------------------------------------------------------------------------------
 
   @OnlyIn(Dist.CLIENT)
-  public static class CraftingTableTer implements BlockEntityRenderer<EdCraftingTable.CraftingTableTileEntity>
+  public static class CraftingTableTer implements BlockEntityRenderer<ExtCraftingTable.CraftingTableTileEntity>
   {
     private static int tesr_error_counter = 4;
     private static final float scaler = 0.1f;
@@ -96,17 +98,23 @@ public class ModRenderers
     };
     private final BlockEntityRendererProvider.Context renderer_;
 
+    public static List<ModelResourceLocation> registerModels()
+    {
+      List<ModelResourceLocation> resources_to_register = new ArrayList<>();
+      return resources_to_register;
+    }
+
     public CraftingTableTer(BlockEntityRendererProvider.Context renderer)
     { this.renderer_ = renderer; }
 
     @Override
     @SuppressWarnings("deprecation")
-    public void render(final EdCraftingTable.CraftingTableTileEntity te, float unused1, PoseStack mxs, MultiBufferSource buf, int i5, int overlayTexture)
+    public void render(final ExtCraftingTable.CraftingTableTileEntity te, float unused1, PoseStack mxs, MultiBufferSource buf, int i5, int overlayTexture)
     {
       if(tesr_error_counter <= 0) return;
       try {
         final BlockState state = te.getLevel().getBlockState(te.getBlockPos());
-        if(!(state.getBlock() instanceof EdCraftingTable.CraftingTableBlock)) return;
+        if(!(state.getBlock() instanceof ExtCraftingTable.CraftingTableBlock)) return;
         final int di = Mth.clamp(state.getValue(CraftingTableBlock.HORIZONTAL_FACING).get2DDataValue(), 0, 3);
         long posrnd = te.getBlockPos().asLong();
         posrnd = (posrnd>>16)^(posrnd<<1);
@@ -142,19 +150,25 @@ public class ModRenderers
   //--------------------------------------------------------------------------------------------------------------------
 
   @OnlyIn(Dist.CLIENT)
-  public static class DecorLabeledCrateTer implements BlockEntityRenderer<LabeledCrate.LabeledCrateTileEntity>
+  public static class LabeledCrateTer implements BlockEntityRenderer<LabeledCrate.LabeledCrateTileEntity>
   {
     private static int tesr_error_counter = 16;
     private static final float scaler = 0.35f;
     private static final double[][] tr = { // [hdirection=S-W-N-E][param]
-      {  +8.0/32, -8.0/32, +15.5/32, 180.0 }, // N
-      { -15.5/32, -8.0/32,  +8.0/32,  90.0 }, // E
+      {   8.0/32, -8.0/32,  15.5/32, 180.0 }, // N
+      { -15.5/32, -8.0/32,   8.0/32,  90.0 }, // E
       {  -8.0/32, -8.0/32, -15.5/32,   0.0 }, // S param=tx,ty,tz,ry
-      { +15.5/32, -8.0/32,  -8.0/32, 270.0 }, // W
+      {  15.5/32, -8.0/32,  -8.0/32, 270.0 }, // W
     };
     private final BlockEntityRendererProvider.Context renderer_;
 
-    public DecorLabeledCrateTer(BlockEntityRendererProvider.Context renderer)
+    public static List<ModelResourceLocation> registerModels()
+    {
+      List<ModelResourceLocation> resources_to_register = new ArrayList<>();
+      return resources_to_register;
+    }
+
+    public LabeledCrateTer(BlockEntityRendererProvider.Context renderer)
     { this.renderer_ = renderer; }
 
     @Override
@@ -191,6 +205,14 @@ public class ModRenderers
   @OnlyIn(Dist.CLIENT)
   public static class ProspectingDowserIster extends BlockEntityWithoutLevelRenderer
   {
+    public static List<ModelResourceLocation> registerModels()
+    {
+      return List.of(
+        new ModelResourceLocation(new ResourceLocation(ModWilesCollection.MODID, "prospecting_dowser_model"), "inventory"),
+        new ModelResourceLocation(new ResourceLocation(ModWilesCollection.MODID, "prospecting_dowser_model_e"), "inventory")
+      );
+    }
+
     public ProspectingDowserIster()
     { super(Minecraft.getInstance().getBlockEntityRenderDispatcher(), Minecraft.getInstance().getEntityModels()); }
 
@@ -221,6 +243,13 @@ public class ModRenderers
   @OnlyIn(Dist.CLIENT)
   public static class TrackerIster extends BlockEntityWithoutLevelRenderer
   {
+    public static List<ModelResourceLocation> registerModels()
+    {
+      return List.of(
+        new ModelResourceLocation(new ResourceLocation(Auxiliaries.modid(), "tracking_compass_pointer_model"), "inventory")
+      );
+    }
+
     public TrackerIster()
     { super(Minecraft.getInstance().getBlockEntityRenderDispatcher(), Minecraft.getInstance().getEntityModels()); }
 

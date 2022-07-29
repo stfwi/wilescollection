@@ -6,7 +6,7 @@
  *
  * General redstone signal related functionality.
  */
-package wile.wilescollection.libmc.detail;
+package wile.wilescollection.libmc;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;

@@ -4,7 +4,7 @@
  * @copyright (C) 2020 Stefan Wilhelm
  * @license MIT (see https://opensource.org/licenses/MIT)
  */
-package wile.wilescollection.libmc.detail;
+package wile.wilescollection.libmc;
 
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonArray;
@@ -102,7 +102,7 @@ public class ExtendedShapelessRecipe extends ShapelessRecipe implements Crafting
         ItemStack stack = inv.getItem(i);
         if(stack.isEmpty()) continue;
         if(Auxiliaries.getResourceLocation(stack.getItem()).toString().equals(tool_name)) continue;
-        remaining.set(i, stack.hasContainerItem() ? stack.getContainerItem() : stack.copy());
+        remaining.set(i, stack.hasCraftingRemainingItem() ? stack.getCraftingRemainingItem() : stack.copy());
       }
       for(int i=0; i<remaining.size(); ++i) {
         final ItemStack stack = remaining.get(i);
@@ -163,8 +163,8 @@ public class ExtendedShapelessRecipe extends ShapelessRecipe implements Crafting
               remaining.set(i, rstack);
             }
           }
-        } else if(stack.hasContainerItem()) {
-          remaining.set(i, stack.getContainerItem());
+        } else if(stack.hasCraftingRemainingItem()) {
+          remaining.set(i, stack.getCraftingRemainingItem());
         }
       }
       return remaining;
@@ -257,7 +257,7 @@ public class ExtendedShapelessRecipe extends ShapelessRecipe implements Crafting
       String group = pkt.readUtf(0x7fff);
       final int size = pkt.readVarInt();
       NonNullList<Ingredient> list = NonNullList.withSize(size, Ingredient.EMPTY);
-      for(int i=0; i<list.size(); ++i) list.set(i, Ingredient.fromNetwork(pkt));
+      list.replaceAll(ignored->Ingredient.fromNetwork(pkt));
       ItemStack stack = pkt.readItem();
       CompoundTag aspects = pkt.readNbt();
       ResourceLocation resultTag = pkt.readResourceLocation();

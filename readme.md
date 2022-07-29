@@ -9,6 +9,9 @@
 
 ## Version history
 
+    - v1.1.1-b9  [U] Forge updated to 1.19-41.1.0.
+                 [B] Known issue: JEI integration missing.
+
     - v1.1.1-b8  [U] Updated to 1.19.
 
     - v1.1.1-b7  [U] Updated to 1.18.2.

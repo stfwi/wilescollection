@@ -6,7 +6,7 @@
  *
  * Effect handling.
  */
-package wile.wilescollection.libmc.detail;
+package wile.wilescollection.libmc;
 
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectInstance;

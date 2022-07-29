@@ -19,9 +19,9 @@ import wile.wilescollection.blocks.*;
 import wile.wilescollection.items.ChargedLapisSqueezerItem;
 import wile.wilescollection.items.Trinkets;
 import wile.wilescollection.libmc.blocks.VariantSlabBlock;
-import wile.wilescollection.libmc.detail.Auxiliaries;
-import wile.wilescollection.libmc.detail.OptionalRecipeCondition;
-import wile.wilescollection.libmc.detail.Registries;
+import wile.wilescollection.libmc.Auxiliaries;
+import wile.wilescollection.libmc.OptionalRecipeCondition;
+import wile.wilescollection.libmc.Registries;
 
 import javax.annotation.Nullable;
 import java.util.ArrayList;
@@ -264,7 +264,7 @@ public class ModConfig
     ExtLadderBlock.on_config(COMMON.without_ladder_speed_boost.get());
     VariantSlabBlock.on_config(!COMMON.without_direct_slab_pickup.get());
     LabeledCrate.on_config(false);
-    EdCraftingTable.on_config(COMMON.without_crafting_table_history.get(), false, COMMON.without_crafting_mouse_scrolling.get());
+    ExtCraftingTable.on_config(COMMON.without_crafting_table_history.get(), false, COMMON.without_crafting_mouse_scrolling.get());
     FluidBarrel.on_config(12000, 1000);
     Trinkets.on_config();
     ChargedLapisSqueezerItem.on_config(15);

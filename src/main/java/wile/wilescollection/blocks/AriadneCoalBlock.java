@@ -40,8 +40,8 @@ import net.minecraft.world.phys.shapes.VoxelShape;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import wile.wilescollection.libmc.blocks.StandardBlocks;
-import wile.wilescollection.libmc.detail.Auxiliaries;
-import wile.wilescollection.libmc.detail.Registries;
+import wile.wilescollection.libmc.Auxiliaries;
+import wile.wilescollection.libmc.Registries;
 
 import javax.annotation.Nullable;
 import java.util.Collections;

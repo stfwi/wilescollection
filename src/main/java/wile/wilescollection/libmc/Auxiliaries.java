@@ -6,7 +6,7 @@
  *
  * General commonly used functionality.
  */
-package wile.wilescollection.libmc.detail;
+package wile.wilescollection.libmc;
 
 import com.mojang.blaze3d.platform.InputConstants;
 import net.minecraft.ChatFormatting;

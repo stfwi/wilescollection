@@ -37,7 +37,7 @@ import net.minecraft.world.ticks.TickPriority;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import wile.wilescollection.libmc.blocks.StandardBlocks;
-import wile.wilescollection.libmc.detail.Effects;
+import wile.wilescollection.libmc.Effects;
 
 import javax.annotation.Nullable;
 import java.util.List;

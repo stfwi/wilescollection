@@ -10,6 +10,7 @@ package wile.wilescollection.eapi.jei;
 
 public class JEIPlugin {}
 /*
+
 import mezz.jei.api.constants.RecipeTypes;
 import mezz.jei.api.constants.VanillaTypes;
 import mezz.jei.api.registration.IRecipeCatalystRegistration;
@@ -21,10 +22,10 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.Block;
 import wile.wilescollection.ModConfig;
-import wile.wilescollection.blocks.EdCraftingTable;
-import wile.wilescollection.blocks.EdCraftingTable.CraftingTableTileEntity;
-import wile.wilescollection.libmc.detail.Auxiliaries;
-import wile.wilescollection.libmc.detail.Registries;
+import wile.wilescollection.blocks.ExtCraftingTable;
+import wile.wilescollection.blocks.ExtCraftingTable.CraftingTableTileEntity;
+import wile.wilescollection.libmc.Auxiliaries;
+import wile.wilescollection.libmc.Registries;
 
 import java.util.HashSet;
 import java.util.List;
@@ -44,7 +45,8 @@ public class JEIPlugin implements mezz.jei.api.IModPlugin
     if(!ModConfig.isOptedOut(Registries.getBlock("crafting_table"))) {
       try {
         registration.addRecipeTransferHandler(
-          EdCraftingTable.CraftingTableUiContainer.class,
+          ExtCraftingTable.CraftingTableUiContainer.class,
+          null,
           RecipeTypes.CRAFTING,
           1, 9, 10, 36+CraftingTableTileEntity.NUM_OF_STORAGE_SLOTS
         );
@@ -59,7 +61,7 @@ public class JEIPlugin implements mezz.jei.api.IModPlugin
   {
     HashSet<Item> blacklisted = new HashSet<>();
     for(Block e: Registries.getRegisteredBlocks()) {
-      if(ModConfig.isOptedOut(e) && (e.asItem().getRegistryName().getPath()).equals((e.getRegistryName().getPath()))) {
+      if(ModConfig.isOptedOut(e) && (Auxiliaries.getResourceLocation(e.asItem()).getPath()).equals((Auxiliaries.getResourceLocation(e).getPath()))) {
         blacklisted.add(e.asItem());
       }
     }
@@ -71,7 +73,7 @@ public class JEIPlugin implements mezz.jei.api.IModPlugin
     if(!blacklisted.isEmpty()) {
       List<ItemStack> blacklist = blacklisted.stream().map(ItemStack::new).collect(Collectors.toList());
       try {
-        jeiRuntime.getIngredientManager().removeIngredientsAtRuntime(VanillaTypes.ITEM, blacklist);
+        jeiRuntime.getIngredientManager().removeIngredientsAtRuntime(VanillaTypes.ITEM_STACK, blacklist);
       } catch(Exception e) {
         Auxiliaries.logger().warn("Exception in JEI opt-out processing: '" + e.getMessage() + "', skipping further JEI optout processing.");
       }

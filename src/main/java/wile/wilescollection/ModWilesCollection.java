@@ -1,7 +1,9 @@
 package wile.wilescollection;
 
 import net.minecraft.world.entity.player.Player;
-import net.minecraftforge.client.event.ModelRegistryEvent;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
+import net.minecraftforge.client.event.ModelEvent;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.crafting.CraftingHelper;
 import net.minecraftforge.event.entity.living.LivingEvent;
@@ -14,9 +16,11 @@ import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import org.slf4j.Logger;
 import wile.wilescollection.blocks.ExtLadderBlock;
-import wile.wilescollection.libmc.detail.Auxiliaries;
-import wile.wilescollection.libmc.detail.OptionalRecipeCondition;
-import wile.wilescollection.libmc.detail.Registries;
+import wile.wilescollection.detail.ModRenderers;
+import wile.wilescollection.libmc.Auxiliaries;
+import wile.wilescollection.libmc.OptionalRecipeCondition;
+import wile.wilescollection.libmc.Overlay;
+import wile.wilescollection.libmc.Registries;
 
 
 @Mod("wilescollection")
@@ -37,36 +41,39 @@ public class ModWilesCollection
     ModLoadingContext.get().registerConfig(net.minecraftforge.fml.config.ModConfig.Type.COMMON, ModConfig.COMMON_CONFIG_SPEC);
     FMLJavaModLoadingContext.get().getModEventBus().addListener(this::onSetup);
     FMLJavaModLoadingContext.get().getModEventBus().addListener(this::onClientSetup);
+    FMLJavaModLoadingContext.get().getModEventBus().addListener(this::onRegisterModels);
     MinecraftForge.EVENT_BUS.register(this);
   }
 
   public static final Logger logger() { return LOGGER; }
 
-  //
-  // Events
-  //
 
   private void onSetup(final FMLCommonSetupEvent event)
   {
     CraftingHelper.register(OptionalRecipeCondition.Serializer.INSTANCE);
-    wile.wilescollection.libmc.detail.Networking.init(MODID);
+    wile.wilescollection.libmc.Networking.init(MODID);
   }
 
   private void onClientSetup(final FMLClientSetupEvent event)
   {
+    Overlay.TextOverlayGui.on_config(0.75, 0x00ffaa00, 0x55333333, 0x55333333, 0x55444444);
+    wile.wilescollection.libmc.Networking.OverlayTextMessage.setHandler(Overlay.TextOverlayGui::show);
     ModContent.registerMenuGuis(event);
     ModContent.registerBlockEntityRenderers(event);
     ModContent.processContentClientSide(event);
-    wile.wilescollection.libmc.detail.Overlay.register();
+  }
+
+  private void onRegisterModels(final ModelEvent.RegisterAdditional event)
+  {
+    ModRenderers.CraftingTableTer.registerModels().forEach(event::register);
+    ModRenderers.LabeledCrateTer.registerModels().forEach(event::register);
+    ModRenderers.TrackerIster.registerModels().forEach(event::register);
+    ModRenderers.ProspectingDowserIster.registerModels().forEach(event::register);
   }
 
   @Mod.EventBusSubscriber(bus=Mod.EventBusSubscriber.Bus.MOD)
   public static class ForgeEvents
   {
-    @SubscribeEvent
-    public static final void onRegisterModels(final ModelRegistryEvent event)
-    { ModContent.registerModels(); }
-
     @SubscribeEvent
     public static void onConfigLoad(final ModConfigEvent.Loading event)
     { ModConfig.apply(); }
@@ -76,13 +83,28 @@ public class ModWilesCollection
     { try { ModConfig.apply(); } catch(Throwable e) { logger().error("Failed to load changed config: " + e.getMessage()); } }
   }
 
-  //
-  // Player update event
-  //
-  @SubscribeEvent
-  public void onPlayerEvent(final LivingEvent.LivingUpdateEvent event)
+  @OnlyIn(Dist.CLIENT)
+  @Mod.EventBusSubscriber(Dist.CLIENT)
+  public static class ForgeClientEvents
   {
-    if((event.getEntity().level == null) || (!(event.getEntity() instanceof final Player player))) return;
+    @SubscribeEvent
+    public static void onRenderGui(net.minecraftforge.client.event.RenderGuiOverlayEvent.Post event)
+    { Overlay.TextOverlayGui.INSTANCE.onRenderGui(event.getPoseStack()); }
+
+    @SubscribeEvent
+    @OnlyIn(Dist.CLIENT)
+    public static void onRenderWorldOverlay(net.minecraftforge.client.event.RenderLevelStageEvent event)
+    {
+      if(event.getStage() == net.minecraftforge.client.event.RenderLevelStageEvent.Stage.AFTER_WEATHER) {
+        Overlay.TextOverlayGui.INSTANCE.onRenderWorldOverlay(event.getPoseStack(), event.getPartialTick());
+      }
+    }
+  }
+
+  @SubscribeEvent
+  public void onPlayerEvent(final LivingEvent.LivingTickEvent event)
+  {
+    if(!(event.getEntity() instanceof final Player player)) return;
     if(player.onClimbable()) ExtLadderBlock.onPlayerUpdateEvent(player);
   }
 

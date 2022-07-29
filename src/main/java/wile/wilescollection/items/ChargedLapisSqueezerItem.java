@@ -22,10 +22,10 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.enchantment.Enchantment;
 import net.minecraft.world.level.Level;
-import wile.wilescollection.libmc.detail.Auxiliaries;
-import wile.wilescollection.libmc.detail.Inventories;
-import wile.wilescollection.libmc.detail.Overlay;
-import wile.wilescollection.libmc.detail.Registries;
+import wile.wilescollection.libmc.Auxiliaries;
+import wile.wilescollection.libmc.Inventories;
+import wile.wilescollection.libmc.Overlay;
+import wile.wilescollection.libmc.Registries;
 
 public class ChargedLapisSqueezerItem extends ModItem
 {

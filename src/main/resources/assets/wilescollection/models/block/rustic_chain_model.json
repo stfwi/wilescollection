@@ -1,4 +1,5 @@
 {
+  "render_type": "cutout",
 	"parent": "block/block",
 	"textures": {
 		"particle": "wilescollection:block/misc/rustic_chain_texture",

@@ -44,7 +44,7 @@ import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.IItemHandler;
 import wile.wilescollection.libmc.blocks.StandardBlocks;
 import wile.wilescollection.libmc.blocks.StandardEntityBlocks;
-import wile.wilescollection.libmc.detail.*;
+import wile.wilescollection.libmc.*;
 import wile.wilescollection.libmc.ui.Guis;
 
 import javax.annotation.Nullable;

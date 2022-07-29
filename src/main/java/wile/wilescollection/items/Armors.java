@@ -20,8 +20,8 @@ import net.minecraft.world.level.Level;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import wile.wilescollection.ModConfig;
-import wile.wilescollection.libmc.detail.Auxiliaries;
-import wile.wilescollection.libmc.detail.Registries;
+import wile.wilescollection.libmc.Auxiliaries;
+import wile.wilescollection.libmc.Registries;
 
 import javax.annotation.Nullable;
 import java.util.*;

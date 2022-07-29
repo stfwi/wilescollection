@@ -6,7 +6,7 @@
  *
  * Main client/server message handling.
  */
-package wile.wilescollection.libmc.detail;
+package wile.wilescollection.libmc;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;

@@ -1,5 +1,6 @@
 {
 	"parent": "minecraft:block/block",
+  "render_type": "translucent",
 	"ambientocclusion": false,
 	"textures": {
 		"particle": "wilescollection:block/misc/rustic_iron_framed_window_texture",

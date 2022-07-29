@@ -26,7 +26,7 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import wile.wilescollection.blocks.AriadneCoalBlock;
-import wile.wilescollection.libmc.detail.Registries;
+import wile.wilescollection.libmc.Registries;
 
 
 public class AriadneCoalItem extends ModItem

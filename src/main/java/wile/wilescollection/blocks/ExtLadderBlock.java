@@ -35,7 +35,7 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import wile.wilescollection.ModConfig;
 import wile.wilescollection.libmc.blocks.StandardBlocks;
-import wile.wilescollection.libmc.detail.Auxiliaries;
+import wile.wilescollection.libmc.Auxiliaries;
 
 import javax.annotation.Nullable;
 import java.util.List;

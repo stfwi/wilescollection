@@ -9,7 +9,7 @@
  */
 package wile.wilescollection.libmc.ui;
 import net.minecraft.network.chat.Style;
-import wile.wilescollection.libmc.detail.Auxiliaries;
+import wile.wilescollection.libmc.Auxiliaries;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;

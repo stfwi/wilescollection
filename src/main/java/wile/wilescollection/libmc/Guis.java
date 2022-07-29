@@ -7,7 +7,7 @@
  * Gui Wrappers and Widgets.
  */
 package wile.wilescollection.libmc.ui;
-import wile.wilescollection.libmc.detail.Auxiliaries;
+import wile.wilescollection.libmc.Auxiliaries;
 
 import com.mojang.blaze3d.platform.Window;
 import com.mojang.blaze3d.systems.RenderSystem;

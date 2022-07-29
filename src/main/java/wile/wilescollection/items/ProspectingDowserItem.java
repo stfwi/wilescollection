@@ -9,7 +9,6 @@
 package wile.wilescollection.items;
 
 import net.minecraft.client.renderer.BlockEntityWithoutLevelRenderer;
-import net.minecraft.client.resources.model.ModelResourceLocation;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
@@ -25,12 +24,12 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-import net.minecraftforge.client.IItemRenderProperties;
+
+import net.minecraftforge.client.extensions.common.IClientItemExtensions;
 import net.minecraftforge.registries.ForgeRegistries;
-import wile.wilescollection.ModWilesCollection;
 import wile.wilescollection.detail.ModRenderers;
-import wile.wilescollection.libmc.detail.Auxiliaries;
-import wile.wilescollection.libmc.detail.Registries;
+import wile.wilescollection.libmc.Auxiliaries;
+import wile.wilescollection.libmc.Registries;
 
 import javax.annotation.Nullable;
 import java.util.List;
@@ -44,20 +43,13 @@ public class ProspectingDowserItem extends ModItem
   public ProspectingDowserItem(Item.Properties properties)
   { super(properties.stacksTo(1)); }
 
-  @OnlyIn(Dist.CLIENT)
-  public void registerModels()
-  {
-    net.minecraftforge.client.model.ForgeModelBakery.addSpecialModel(new ModelResourceLocation(new ResourceLocation(ModWilesCollection.MODID, "prospecting_dowser_model"), "inventory"));
-    net.minecraftforge.client.model.ForgeModelBakery.addSpecialModel(new ModelResourceLocation(new ResourceLocation(ModWilesCollection.MODID, "prospecting_dowser_model_e"), "inventory"));
-  }
-
   @Override
-  public void initializeClient(Consumer<IItemRenderProperties> consumer)
+  @OnlyIn(Dist.CLIENT)
+  public void initializeClient(Consumer<IClientItemExtensions> consumer)
   {
-    consumer.accept(new IItemRenderProperties() {
-      @Override public BlockEntityWithoutLevelRenderer getItemStackRenderer()
-      { return new ModRenderers.ProspectingDowserIster();
-      }});
+    consumer.accept(new net.minecraftforge.client.extensions.common.IClientItemExtensions(){
+      @Override public BlockEntityWithoutLevelRenderer getCustomRenderer() { return new ModRenderers.ProspectingDowserIster();
+    }});
   }
 
   @Override

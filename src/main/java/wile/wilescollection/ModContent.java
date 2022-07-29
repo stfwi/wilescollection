@@ -9,8 +9,6 @@
 package wile.wilescollection;
 
 import net.minecraft.client.gui.screens.MenuScreens;
-import net.minecraft.client.renderer.ItemBlockRenderTypes;
-import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderers;
 import net.minecraft.client.renderer.entity.EntityRenderers;
 import net.minecraft.core.BlockPos;
@@ -24,7 +22,6 @@ import net.minecraft.world.item.Items;
 import net.minecraft.world.item.Rarity;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.BlockGetter;
-import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockBehaviour;
@@ -39,11 +36,10 @@ import wile.wilescollection.blocks.*;
 import wile.wilescollection.detail.ModRenderers;
 import wile.wilescollection.items.*;
 import wile.wilescollection.libmc.blocks.StandardBlocks;
-import wile.wilescollection.libmc.blocks.StandardBlocks.IStandardBlock;
 import wile.wilescollection.libmc.blocks.StandardDoorBlock;
-import wile.wilescollection.libmc.detail.Auxiliaries;
-import wile.wilescollection.libmc.detail.Materials;
-import wile.wilescollection.libmc.detail.Registries;
+import wile.wilescollection.libmc.Auxiliaries;
+import wile.wilescollection.libmc.Materials;
+import wile.wilescollection.libmc.Registries;
 
 
 @SuppressWarnings("unused")
@@ -83,7 +79,7 @@ public class ModContent
     initBlocks();
     initItems();
     initEntities();
-    Registries.addRecipeSerializer("crafting_extended_shapeless", ()->wile.wilescollection.libmc.detail.ExtendedShapelessRecipe.SERIALIZER);
+    Registries.addRecipeSerializer("crafting_extended_shapeless", ()->wile.wilescollection.libmc.ExtendedShapelessRecipe.SERIALIZER);
   }
 
   public static void initTags()
@@ -94,7 +90,7 @@ public class ModContent
   public static void initBlocks()
   {
     Registries.addBlock("crafting_table",
-      ()->new EdCraftingTable.CraftingTableBlock(
+      ()->new ExtCraftingTable.CraftingTableBlock(
         StandardBlocks.CFG_CUTOUT|StandardBlocks.CFG_HORIZIONTAL|StandardBlocks.CFG_LOOK_PLACEMENT|StandardBlocks.CFG_OPPOSITE_PLACEMENT,
         BlockBehaviour.Properties.of(Material.WOOD, MaterialColor.WOOD).strength(0.2f, 5f).sound(SoundType.WOOD).noOcclusion(),
         new AABB[]{
@@ -102,9 +98,9 @@ public class ModContent
           Auxiliaries.getPixeledAABB(1, 0,1, 15,16,15)
         }
       ),
-      EdCraftingTable.CraftingTableTileEntity::new,
-      EdCraftingTable.CraftingTableUiContainer::new
-      //MenuScreens.register(CT_CRAFTING_TABLE, EdCraftingTable.CraftingTableGui::new);
+      ExtCraftingTable.CraftingTableTileEntity::new,
+      ExtCraftingTable.CraftingTableUiContainer::new
+      //MenuScreens.register(CT_CRAFTING_TABLE, ExtCraftingTable.CraftingTableGui::new);
     );
     Registries.addBlock("fluid_barrel",
       ()->new FluidBarrel.FluidBarrelBlock(
@@ -301,7 +297,7 @@ public class ModContent
   @SuppressWarnings("unchecked")
   public static void registerMenuGuis(final FMLClientSetupEvent event)
   {
-    MenuScreens.register((MenuType<EdCraftingTable.CraftingTableUiContainer>)Registries.getMenuTypeOfBlock("crafting_table"), EdCraftingTable.CraftingTableGui::new);
+    MenuScreens.register((MenuType<ExtCraftingTable.CraftingTableUiContainer>)Registries.getMenuTypeOfBlock("crafting_table"), ExtCraftingTable.CraftingTableGui::new);
     MenuScreens.register((MenuType<LabeledCrate.LabeledCrateContainer>)Registries.getMenuTypeOfBlock("crate"), LabeledCrate.LabeledCrateGui::new);
   }
 
@@ -309,32 +305,26 @@ public class ModContent
   @SuppressWarnings("unchecked")
   public static void registerBlockEntityRenderers(final FMLClientSetupEvent event)
   {
-    BlockEntityRenderers.register((BlockEntityType<EdCraftingTable.CraftingTableTileEntity>)Registries.getBlockEntityTypeOfBlock("crafting_table"), wile.wilescollection.detail.ModRenderers.CraftingTableTer::new);
-    BlockEntityRenderers.register((BlockEntityType<LabeledCrate.LabeledCrateTileEntity>)Registries.getBlockEntityTypeOfBlock("crate"), wile.wilescollection.detail.ModRenderers.DecorLabeledCrateTer::new);
-  }
-
-  @OnlyIn(Dist.CLIENT)
-  public static void registerModels()
-  {
-    ((ProspectingDowserItem)Registries.getItem("prospecting_dowser")).registerModels();
-    ((TrackerItem)Registries.getItem("tracking_compass")).registerModels();
+    BlockEntityRenderers.register((BlockEntityType<ExtCraftingTable.CraftingTableTileEntity>)Registries.getBlockEntityTypeOfBlock("crafting_table"), wile.wilescollection.detail.ModRenderers.CraftingTableTer::new);
+    BlockEntityRenderers.register((BlockEntityType<LabeledCrate.LabeledCrateTileEntity>)Registries.getBlockEntityTypeOfBlock("crate"), wile.wilescollection.detail.ModRenderers.LabeledCrateTer::new);
   }
 
   @OnlyIn(Dist.CLIENT)
   public static void processContentClientSide(final FMLClientSetupEvent event)
   {
     // Block renderer selection
-    for(Block block: Registries.getRegisteredBlocks()) {
-      if(block instanceof IStandardBlock) {
-        switch(((IStandardBlock)block).getRenderTypeHint()) {
-          case CUTOUT: ItemBlockRenderTypes.setRenderLayer(block, RenderType.cutout()); break;
-          case CUTOUT_MIPPED: ItemBlockRenderTypes.setRenderLayer(block, RenderType.cutoutMipped()); break;
-          case TRANSLUCENT: ItemBlockRenderTypes.setRenderLayer(block, RenderType.translucent()); break;
-          case TRANSLUCENT_NO_CRUMBLING: ItemBlockRenderTypes.setRenderLayer(block, RenderType.translucentNoCrumbling()); break;
-          case SOLID: break;
-        }
-      }
-    }
+    // -> Disabled/removed in Forge. -> JSON model file root {"render_type":"cutout"/"translucent"}
+    //  for(Block block: Registries.getRegisteredBlocks()) {
+    //    if(block instanceof IStandardBlock) {
+    //      switch(((IStandardBlock)block).getRenderTypeHint()) {
+    //        case CUTOUT: ItemBlockRenderTypes.setRenderLayer(block, RenderType.cutout()); break;
+    //        case CUTOUT_MIPPED: ItemBlockRenderTypes.setRenderLayer(block, RenderType.cutoutMipped()); break;
+    //        case TRANSLUCENT: ItemBlockRenderTypes.setRenderLayer(block, RenderType.translucent()); break;
+    //        case TRANSLUCENT_NO_CRUMBLING: ItemBlockRenderTypes.setRenderLayer(block, RenderType.translucentNoCrumbling()); break;
+    //        case SOLID: break;
+    //      }
+    //    }
+    //  }
     // Entity renderers
     EntityRenderers.register(Registries.getEntityType("et_chair"), ModRenderers.InvisibleEntityRenderer::new);
   }

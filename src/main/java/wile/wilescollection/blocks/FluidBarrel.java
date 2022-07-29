@@ -53,10 +53,10 @@ import net.minecraftforge.fluids.capability.IFluidHandler;
 import wile.wilescollection.ModConfig;
 import wile.wilescollection.libmc.blocks.StandardBlocks;
 import wile.wilescollection.libmc.blocks.StandardEntityBlocks;
-import wile.wilescollection.libmc.detail.Auxiliaries;
-import wile.wilescollection.libmc.detail.Fluidics;
-import wile.wilescollection.libmc.detail.Overlay;
-import wile.wilescollection.libmc.detail.Registries;
+import wile.wilescollection.libmc.Auxiliaries;
+import wile.wilescollection.libmc.Fluidics;
+import wile.wilescollection.libmc.Overlay;
+import wile.wilescollection.libmc.Registries;
 
 import javax.annotation.Nullable;
 import java.util.ArrayList;
@@ -362,8 +362,8 @@ public class FluidBarrel
     { write_fluid_nbt(stack, fs.writeToNBT(new CompoundTag())); return stack; }
 
     @Override
-    public int getItemStackLimit(ItemStack stack)
-    { return (!getFluid(stack).isEmpty()) ? 1 : super.getItemStackLimit(stack); }
+    public int getMaxStackSize(ItemStack stack)
+    { return (!getFluid(stack).isEmpty()) ? 1 : super.getMaxStackSize(stack); }
 
     @Override
     public boolean isBarVisible(ItemStack stack)
@@ -382,11 +382,11 @@ public class FluidBarrel
     { return new Fluidics.FluidContainerItemCapabilityWrapper(stack, capacity_, item_fluid_handler_transfer_rate_, FluidBarrelItem::read_fluid_nbt, FluidBarrelItem::write_fluid_nbt, e->true); }
 
     @Override
-    public boolean hasContainerItem(ItemStack stack)
+    public boolean hasCraftingRemainingItem(ItemStack stack)
     { return (stack.getCount()==1) && (!getFluid(stack).isEmpty()); }
 
     @Override
-    public ItemStack getContainerItem(ItemStack stack)
+    public ItemStack getCraftingRemainingItem(ItemStack stack)
     {
       if(stack.getCount()!=1) return ItemStack.EMPTY;
       FluidStack fs = getFluid(stack);
