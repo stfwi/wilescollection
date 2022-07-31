@@ -1,6 +1,7 @@
 {
  "homepage": "https://www.curseforge.com/minecraft/mc-mods/wiles-collection/",
- "1.19": {
+ "1.19.1": {
+  "1.2.2": "[U] Ported to 1.19.1.",
   "1.1.1-b9": "[U] Forge updated to 1.19-41.1.0.\n[B] Known issue: JEI integration missing.",
   "1.1.1-b8": "[U] Updated to 1.19.",
   "1.1.1-b7": "[U] Updated to 1.18.2.",
@@ -16,7 +17,7 @@
   "1.1.0-a1": "[A] Initial Alpha."
  },
  "promos": {
-  "1.19-recommended": "",
-  "1.19-latest": "1.1.1-b9"
+  "1.19.1-recommended": "1.2.2",
+  "1.19.1-latest": "1.2.2"
  }
 }
