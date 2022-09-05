@@ -9,6 +9,8 @@
 
 ## Version history
 
+    - v1.3.2     [U] Ported to 1.19.2.
+
     - v1.2.2     [U] Ported to 1.19.1.
 
     - v1.1.1-b9  [U] Forge updated to 1.19-41.1.0.
