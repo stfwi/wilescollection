@@ -1,0 +1,16 @@
+{
+	"ambientocclusion": false,
+	"textures": {
+		"particle": "wilescollection:block/material/dark_iron",
+		"post": "wilescollection:block/material/dark_iron"
+	},
+	"elements": [
+		{
+			"from": [7.9, 7.9, 7.9],
+			"to": [8, 8, 8],
+			"faces": {
+				"down": {"uv": [7.9, 8, 8, 8.1], "texture": "#post"}
+			}
+		}
+	]
+}

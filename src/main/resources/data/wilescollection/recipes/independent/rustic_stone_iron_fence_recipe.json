@@ -1,0 +1,22 @@
+{
+  "conditions": [
+    {
+      "type": "wilescollection:optional",
+      "result": "wilescollection:rustic_stone_iron_fence",
+      "required": ["wilescollection:rusty_iron_nugget"]
+    }
+  ],
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "PNP",
+    "PNP"
+  ],
+  "key": {
+    "N": { "item" : "wilescollection:rusty_iron_nugget" },
+    "P": { "item": "minecraft:stone_brick_wall" }
+  },
+  "result": {
+    "item": "wilescollection:rustic_stone_iron_fence",
+    "count": 6
+  }
+}

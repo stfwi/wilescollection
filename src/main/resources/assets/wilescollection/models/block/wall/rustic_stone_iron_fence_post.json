@@ -1,0 +1,55 @@
+{
+	"credit": "Made with Blockbench",
+	"parent": "block/block",
+	"textures": {
+		"post": "wilescollection:block/wall/rustic_stone_iron_fence_post_texture",
+		"particle": "wilescollection:block/material/dark_iron"
+	},
+	"elements": [
+		{
+			"from": [6, 0, 6],
+			"to": [10, 4, 10],
+			"rotation": {"angle": 0, "axis": "y", "origin": [8, 8, 8]},
+			"faces": {
+				"north": {"uv": [6, 12, 10, 16], "texture": "#post"},
+				"east": {"uv": [6, 12, 10, 16], "texture": "#post"},
+				"south": {"uv": [6, 12, 10, 16], "texture": "#post"},
+				"west": {"uv": [6, 12, 10, 16], "texture": "#post"},
+				"up": {"uv": [6, 6, 10, 10], "texture": "#post"},
+				"down": {"uv": [6, 6, 10, 10], "texture": "#post"}
+			}
+		},
+		{
+			"from": [6.5, 4, 6.5],
+			"to": [9.5, 16, 9.5],
+			"rotation": {"angle": 0, "axis": "y", "origin": [8, 8, 8]},
+			"faces": {
+				"north": {"uv": [6.5, 0, 9.5, 12], "texture": "#post"},
+				"east": {"uv": [6.5, 0, 9.5, 12], "texture": "#post"},
+				"south": {"uv": [6.5, 0, 9.5, 12], "texture": "#post"},
+				"west": {"uv": [6.5, 0, 9.5, 12], "texture": "#post"},
+				"up": {"uv": [6.5, 6.5, 9.5, 9.5], "texture": "#post"}
+			}
+		}
+	],
+	"display": {
+		"thirdperson_righthand": {
+			"rotation": [20, -9, 1],
+			"translation": [0.5, -1, -1.75],
+			"scale": [0.35, 0.35, 0.35]
+		},
+		"firstperson_righthand": {
+			"rotation": [14, 3, -5],
+			"translation": [1.25, 0, 0],
+			"scale": [0.35, 0.35, 0.35]
+		},
+		"gui": {
+			"rotation": [30, 135, 0],
+			"scale": [0.625, 0.625, 0.625]
+		},
+		"fixed": {
+			"rotation": [0, 90, 0],
+			"scale": [0.5, 0.5, 0.5]
+		}
+	}
+}

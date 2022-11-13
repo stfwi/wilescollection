@@ -59,9 +59,22 @@ public class VariantWallBlock extends WallBlock implements StandardBlocks.IStand
 
   public VariantWallBlock(long config, BlockBehaviour.Properties builder)
   {
+    this(config, builder,
+    4,16,4,0,16,16,
+    6,16,5,0,24,24,
+    false
+    );
+  }
+
+  public VariantWallBlock(
+    long config, BlockBehaviour.Properties builder,
+    double pole_width, double pole_height, double side_width, double side_min_y, double side_max_low_y, double side_max_tall_y,
+    double collision_pole_width, double collision_pole_height, double collision_side_width, double collision_side_min_y, double collision_side_max_low_y, double collision_side_max_tall_y,
+    boolean always_with_pole
+  ){
     super(builder);
-    shape_voxels = buildWallShapes(4, 16, 4, 0, 16, 16);
-    collision_shape_voxels = buildWallShapes(6, 16, 5, 0, 24, 24);
+    shape_voxels = buildWallShapes(pole_width, pole_height, side_width, side_min_y, side_max_low_y, side_max_tall_y, always_with_pole);
+    collision_shape_voxels = buildWallShapes(collision_pole_width, collision_pole_height, collision_side_width, collision_side_min_y, collision_side_max_low_y, collision_side_max_tall_y, always_with_pole);
     this.config = config;
   }
 
@@ -82,6 +95,9 @@ public class VariantWallBlock extends WallBlock implements StandardBlocks.IStand
   }
 
   protected Map<BlockState, VoxelShape> buildWallShapes(double pole_width, double pole_height, double side_width, double side_min_y, double side_max_low_y, double side_max_tall_y)
+  { return buildWallShapes(pole_width, pole_height, side_width, side_min_y, side_max_low_y, side_max_tall_y, false); }
+
+  protected Map<BlockState, VoxelShape> buildWallShapes(double pole_width, double pole_height, double side_width, double side_min_y, double side_max_low_y, double side_max_tall_y, boolean always_with_pole)
   {
     final double px0=8.0-pole_width, px1=8.0+pole_width, sx0=8.0-side_width, sx1=8.0+side_width;
     VoxelShape vp  = Block.box(px0, 0, px0, px1, pole_height, px1);
@@ -104,8 +120,9 @@ public class VariantWallBlock extends WallBlock implements StandardBlocks.IStand
               shape = combinedShape(shape, wh_west, vs3, vs7);
               shape = combinedShape(shape, wh_north, vs1, vs5);
               shape = combinedShape(shape, wh_south, vs2, vs6);
-              if(up) shape = Shapes.or(shape, vp);
-              BlockState bs = defaultBlockState().setValue(UP, up)
+              if(up || always_with_pole) shape = Shapes.or(shape, vp);
+              BlockState bs = defaultBlockState()
+                .setValue(UP, up)
                 .setValue(WALL_EAST, wh_east)
                 .setValue(WALL_NORTH, wh_north)
                 .setValue(WALL_WEST, wh_west)

@@ -9,6 +9,8 @@
 
 ## Version history
 
+    ~ v1.3.3     [A]
+
     - v1.3.2     [U] Ported to 1.19.2.
 
     - v1.2.2     [U] Ported to 1.19.1.

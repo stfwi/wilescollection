@@ -1,0 +1,14 @@
+{
+  "multipart": [
+    { "when": { "up":    "true" }, "apply": { "model": "wilescollection:block/wall/rustic_stone_iron_fence_post" } },
+    { "when": { "up":    "false"}, "apply": { "model": "wilescollection:block/wall/rustic_stone_iron_fence_post" } },
+    { "when": { "north": "low"  }, "apply": { "model": "wilescollection:block/wall/rustic_stone_iron_fence_side" } },
+    { "when": { "east":  "low"  }, "apply": { "model": "wilescollection:block/wall/rustic_stone_iron_fence_side", "y": 90 } },
+    { "when": { "south": "low"  }, "apply": { "model": "wilescollection:block/wall/rustic_stone_iron_fence_side", "y": 180 } },
+    { "when": { "west":  "low"  }, "apply": { "model": "wilescollection:block/wall/rustic_stone_iron_fence_side", "y": 270 } },
+    { "when": { "north": "tall" }, "apply": { "model": "wilescollection:block/wall/rustic_stone_iron_fence_side" } },
+    { "when": { "east":  "tall" }, "apply": { "model": "wilescollection:block/wall/rustic_stone_iron_fence_side", "y": 90 } },
+    { "when": { "south": "tall" }, "apply": { "model": "wilescollection:block/wall/rustic_stone_iron_fence_side", "y": 180 } },
+    { "when": { "west":  "tall" }, "apply": { "model": "wilescollection:block/wall/rustic_stone_iron_fence_side", "y": 270 } }
+  ]
+}

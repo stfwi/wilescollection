@@ -35,8 +35,7 @@ import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import wile.wilescollection.blocks.*;
 import wile.wilescollection.detail.ModRenderers;
 import wile.wilescollection.items.*;
-import wile.wilescollection.libmc.blocks.StandardBlocks;
-import wile.wilescollection.libmc.blocks.StandardDoorBlock;
+import wile.wilescollection.libmc.blocks.*;
 import wile.wilescollection.libmc.Auxiliaries;
 import wile.wilescollection.libmc.Materials;
 import wile.wilescollection.libmc.Registries;
@@ -202,6 +201,13 @@ public class ModContent
       StandardBlocks.CFG_CUTOUT|StandardBlocks.CFG_LOOK_PLACEMENT,
       BlockBehaviour.Properties.of(Material.METAL, MaterialColor.METAL).strength(0.2f, 3f).sound(SoundType.METAL).noOcclusion(),
       Auxiliaries.getPixeledAABB(0,0,7.5, 16,16,8.5)
+    ));
+    Registries.addBlock("rustic_stone_iron_fence", ()->new VariantWallBlock(
+      StandardBlocks.CFG_CUTOUT,
+      BlockBehaviour.Properties.of(Material.STONE, MaterialColor.STONE).strength(0.3f, 10f).sound(SoundType.STONE).isValidSpawn(detail::disallowSpawn),
+      1.5,16,1,10,14,16, // Visible shape -> pole_width, pole_height, side_width, side_min_y, side_max_low_y, side_max_tall_y,
+      3.0,24,3, 0,24,24, // Collision shape -> collision_pole_width, collision_pole_height, collision_side_width, collision_side_min_y, collision_side_max_low_y, collision_side_max_tall_y
+      true
     ));
     Registries.addBlock("ariadne_coal_block", ()->new AriadneCoalBlock(
       StandardBlocks.CFG_TRANSLUCENT,

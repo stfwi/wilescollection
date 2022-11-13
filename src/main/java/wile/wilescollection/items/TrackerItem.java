@@ -132,11 +132,11 @@ public class TrackerItem extends ModItem
   public InteractionResult interactLivingEntity(ItemStack stack, Player player, LivingEntity target, InteractionHand hand)
   {
     if(player.getCommandSenderWorld().isClientSide()) return InteractionResult.CONSUME;
-    if(!checkOverwrite(stack, player)) return InteractionResult.FAIL;
+    if(!checkOverwrite(player.getItemInHand(hand), player)) return InteractionResult.FAIL;
     CompoundTag nbt = new CompoundTag();
     nbt.putUUID("entity", target.getUUID());
     nbt.putString("entityname", target.getDisplayName().getString());
-    stack.addTagElement("trackerdata", nbt);
+    player.getItemInHand(hand).addTagElement("trackerdata", nbt);
     Overlay.show(player, Auxiliaries.localizable("item."+Auxiliaries.modid()+".tracking_compass.msg.entityset", target.getDisplayName()));
     return InteractionResult.SUCCESS;
   }
