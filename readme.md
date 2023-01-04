@@ -13,6 +13,7 @@
                  [F] JEI integration enabled.
                  [A] Added crushing for glowstone and quartz.
                  [A] Added name tag stamping using hammer.
+                 [M] Ariadne Coal texture reduced to 16x16.
 
     - v1.3.2     [U] Ported to 1.19.2.
 
