@@ -1,0 +1,23 @@
+{
+  "conditions": [
+    {
+      "type": "wilescollection:optional",
+      "result": "wilescollection:rustic_barrel",
+      "required": ["wilescollection:rusty_iron_ingot"]
+    }
+  ],
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "PSP",
+    "PNP",
+    "PSP"
+  ],
+  "key": {
+    "P": { "item": "minecraft:spruce_planks" },
+    "S": { "item": "minecraft:spruce_slab" },
+    "N": { "item": "wilescollection:rusty_iron_nugget" }
+  },
+  "result": {
+    "item": "wilescollection:rustic_barrel"
+  }
+}

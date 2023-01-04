@@ -9,11 +9,12 @@
 
 ## Version history
 
-    ~ v1.3.3     [A] Added ladder recipe from spruce fences.
-                 [F] JEI integration enabled.
+    - v1.3.3     [A] Added ladder recipe from spruce fences.
                  [A] Added crushing for glowstone and quartz.
                  [A] Added name tag stamping using hammer.
+                 [A] Added Rustic Barrel (simple item storage).
                  [M] Ariadne Coal texture reduced to 16x16.
+                 [M] JEI integration enabled.
 
     - v1.3.2     [U] Ported to 1.19.2.
 

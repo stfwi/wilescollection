@@ -22,6 +22,7 @@ import net.minecraft.world.item.Items;
 import net.minecraft.world.item.Rarity;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.BlockGetter;
+import net.minecraft.world.level.block.BarrelBlock;
 import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockBehaviour;
@@ -115,6 +116,9 @@ public class ModContent
       ),
       FluidBarrel.FluidBarrelItem::new,
       FluidBarrel.FluidBarrelTileEntity::new
+    );
+    Registries.addBlock("rustic_barrel",
+      ()->new BarrelBlock(BlockBehaviour.Properties.of(Material.WOOD, MaterialColor.WOOD).strength(3f).destroyTime(0.4f).sound(SoundType.WOOD))
     );
     Registries.addBlock("crate",
       ()->new LabeledCrate.LabeledCrateBlock(

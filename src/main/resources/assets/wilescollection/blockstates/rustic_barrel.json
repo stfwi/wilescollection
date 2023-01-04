@@ -1,0 +1,56 @@
+{
+  "variants": {
+    "facing=down,open=false": {
+      "x": 180,
+      "model": "wilescollection:block/rustic_barrel_model"
+    },
+    "facing=down,open=true": {
+      "x": 180,
+      "model": "wilescollection:block/rustic_barrel_model_open"
+    },
+    "facing=east,open=false": {
+      "x": 90,
+      "y": 90,
+      "model": "wilescollection:block/rustic_barrel_model"
+    },
+    "facing=east,open=true": {
+      "x": 90,
+      "y": 90,
+      "model": "wilescollection:block/rustic_barrel_model_open"
+    },
+    "facing=north,open=false": {
+      "x": 90,
+      "model": "wilescollection:block/rustic_barrel_model"
+    },
+    "facing=north,open=true": {
+      "x": 90,
+      "model": "wilescollection:block/rustic_barrel_model_open"
+    },
+    "facing=south,open=false": {
+      "x": 90,
+      "y": 180,
+      "model": "wilescollection:block/rustic_barrel_model"
+    },
+    "facing=south,open=true": {
+      "x": 90,
+      "y": 180,
+      "model": "wilescollection:block/rustic_barrel_model_open"
+    },
+    "facing=up,open=false": {
+      "model": "wilescollection:block/rustic_barrel_model"
+    },
+    "facing=up,open=true": {
+      "model": "wilescollection:block/rustic_barrel_model_open"
+    },
+    "facing=west,open=false": {
+      "x": 90,
+      "y": 270,
+      "model": "wilescollection:block/rustic_barrel_model"
+    },
+    "facing=west,open=true": {
+      "x": 90,
+      "y": 270,
+      "model": "wilescollection:block/rustic_barrel_model_open"
+    }
+  }
+}
