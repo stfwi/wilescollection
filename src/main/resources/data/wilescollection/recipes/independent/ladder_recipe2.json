@@ -12,7 +12,7 @@
     "F F"
   ],
   "key": {
-    "F": { "item": "minecraft:spruce_fence" }
+    "F": { "item": "minecraft:oak_fence" }
   },
   "result": {
     "item": "wilescollection:ladder",

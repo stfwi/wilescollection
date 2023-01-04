@@ -1,0 +1,31 @@
+{ "type": "forge:conditional", "recipes": [
+  {
+    "conditions": [
+      {
+        "type": "wilescollection:optional",
+        "result": "minecraft:quartz",
+        "requires": ["wilescollection:crushing_hammer", "minecraft:quartz_block"]
+      }
+    ],
+    "recipe": {
+      "type": "wilescollection:crafting_extended_shapeless",
+      "group": "grit",
+      "ingredients": [
+        {
+          "item": "minecraft:quartz_block"
+        },
+        {
+          "item": "wilescollection:crushing_hammer"
+        }
+      ],
+      "result": {
+        "item": "minecraft:quartz",
+        "count": 4
+      },
+      "aspects": {
+        "tool": "wilescollection:crushing_hammer",
+        "tool_damage": 1
+      }
+    }
+  }
+]}

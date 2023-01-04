@@ -39,8 +39,8 @@ import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
+import net.minecraftforge.common.capabilities.ForgeCapabilities;
 import net.minecraftforge.common.util.LazyOptional;
-import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.IItemHandler;
 import wile.wilescollection.libmc.blocks.StandardBlocks;
 import wile.wilescollection.libmc.blocks.StandardEntityBlocks;
@@ -257,7 +257,7 @@ public class LabeledCrate
     @Override
     public <T> LazyOptional<T> getCapability(net.minecraftforge.common.capabilities.Capability<T> capability, @Nullable Direction facing)
     {
-      if(capability==CapabilityItemHandler.ITEM_HANDLER_CAPABILITY) return item_handler_.cast();
+      if(capability==ForgeCapabilities.ITEM_HANDLER) return item_handler_.cast();
       return super.getCapability(capability, facing);
     }
 
@@ -342,18 +342,11 @@ public class LabeledCrate
 
       @Override
       public int get(int id)
-      {
-        return switch (id) {
-          default -> 0;
-        };
-      }
+      { return 0; }
+
       @Override
       public void set(int id, int value)
-      {
-        switch(id) {
-          default: break;
-        }
-      }
+      {}
     };
 
   }

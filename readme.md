@@ -9,7 +9,10 @@
 
 ## Version history
 
-    ~ v1.3.3     [A]
+    ~ v1.3.3     [A] Added ladder recipe from spruce fences.
+                 [F] JEI integration enabled.
+                 [A] Added crushing for glowstone and quartz.
+                 [A] Added name tag stamping using hammer.
 
     - v1.3.2     [U] Ported to 1.19.2.
 
