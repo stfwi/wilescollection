@@ -24,6 +24,7 @@ import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.block.BarrelBlock;
 import net.minecraft.world.level.block.SoundType;
+import net.minecraft.world.level.block.TrapDoorBlock;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
@@ -160,6 +161,9 @@ public class ModContent
       Auxiliaries.getPixeledAABB( 0,0,13, 16,16,16),
       SoundEvents.WOODEN_DOOR_OPEN, SoundEvents.WOODEN_DOOR_CLOSE
     ));
+    Registries.addBlock("rustic_wood_trapdoor",
+      ()->new TrapDoorBlock(BlockBehaviour.Properties.of(Material.WOOD, MaterialColor.WOOD).strength(3.0F).sound(SoundType.WOOD).noOcclusion().isValidSpawn(detail::disallowSpawn))
+    );
     Registries.addBlock("rustic_iron_lantern", ()->new OmniLanternBlock(
       StandardBlocks.CFG_CUTOUT|StandardBlocks.CFG_FACING_PLACEMENT|StandardBlocks.CFG_OPPOSITE_PLACEMENT|StandardBlocks.CFG_AI_PASSABLE,
       BlockBehaviour.Properties.of(Material.METAL, MaterialColor.METAL).strength(0.2f, 4f).sound(SoundType.LANTERN).lightLevel((state)->15).noOcclusion(),

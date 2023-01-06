@@ -2,12 +2,12 @@
   "type": "minecraft:block",
   "pools": [
     {
-      "name": "rustic_chain_dlt",
+      "name": "rustic_wood_trapdoor_dlt",
       "rolls": 1,
       "entries": [
         {
           "type": "minecraft:item",
-          "name": "wilescollection:rustic_chain"
+          "name": "wilescollection:rustic_wood_trapdoor"
         }
       ]
     }

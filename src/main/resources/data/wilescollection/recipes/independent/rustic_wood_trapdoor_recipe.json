@@ -1,0 +1,21 @@
+{
+  "conditions": [
+    {
+      "type": "wilescollection:optional",
+      "result": "wilescollection:rustic_wood_trapdoor"
+    }
+  ],
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "SSN",
+    "SSS"
+  ],
+  "key": {
+    "S": { "item": "minecraft:spruce_planks" },
+    "N": { "item": "wilescollection:rusty_iron_nugget" }
+  },
+  "result": {
+    "item": "wilescollection:rustic_wood_trapdoor",
+    "count": 1
+  }
+}
