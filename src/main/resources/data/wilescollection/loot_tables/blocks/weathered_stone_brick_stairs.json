@@ -1,0 +1,15 @@
+{
+  "type": "minecraft:block",
+  "pools": [
+    {
+      "name": "weathered_stone_brick_stairs_dlt",
+      "rolls": 1,
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "name": "wilescollection:weathered_stone_brick_stairs"
+        }
+      ]
+    }
+  ]
+}

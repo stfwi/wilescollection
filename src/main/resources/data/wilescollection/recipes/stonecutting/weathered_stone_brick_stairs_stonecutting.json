@@ -1,0 +1,20 @@
+{
+  "type": "forge:conditional",
+  "recipes": [
+    {
+      "conditions": [
+        {
+          "type": "wilescollection:optional",
+          "result": "wilescollection:weathered_stone_brick_stairs",
+          "required": ["wilescollection:weathered_stone_brick_block"]
+        }
+      ],
+      "recipe": {
+        "type": "minecraft:stonecutting",
+        "ingredient": { "item": "wilescollection:weathered_stone_brick_block" },
+        "result": "wilescollection:weathered_stone_brick_stairs",
+        "count": 1
+      }
+    }
+  ]
+}

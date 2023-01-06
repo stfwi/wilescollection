@@ -1,6 +1,8 @@
 {
   "replace": false,
   "values": [
-    "wilescollection:weathered_stone_brick_block"
+    "wilescollection:weathered_stone_brick_block",
+    "wilescollection:weathered_stone_brick_slab",
+    "wilescollection:weathered_stone_brick_stairs"
   ]
 }

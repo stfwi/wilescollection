@@ -219,7 +219,16 @@ public class ModContent
     ));
     Registries.addBlock("weathered_stone_brick_block", ()->new StandardBlocks.BaseBlock(
       StandardBlocks.CFG_DEFAULT,
-      BlockBehaviour.Properties.of(Material.STONE, MaterialColor.STONE).strength(1.5F, 6.0F).sound(SoundType.STONE).requiresCorrectToolForDrops()
+      BlockBehaviour.Properties.of(Material.STONE, MaterialColor.STONE).strength(0.5f, 7f).sound(SoundType.STONE).requiresCorrectToolForDrops()
+    ));
+    Registries.addBlock("weathered_stone_brick_slab", ()->new VariantSlabBlock(
+      StandardBlocks.CFG_DEFAULT,
+      BlockBehaviour.Properties.of(Material.STONE, MaterialColor.STONE).strength(0.5f, 7f).sound(SoundType.STONE).requiresCorrectToolForDrops()
+    ));
+    Registries.addBlock("weathered_stone_brick_stairs", ()->new StandardStairsBlock(
+      StandardBlocks.CFG_DEFAULT,
+      ()->Registries.getBlock("weathered_stone_brick_block").defaultBlockState(),
+      BlockBehaviour.Properties.of(Material.STONE, MaterialColor.STONE).strength(0.5f, 7f).sound(SoundType.STONE).requiresCorrectToolForDrops()
     ));
     Registries.addBlock("calloty", ()->new SpecialFlowerBlock(
       StandardBlocks.CFG_DEFAULT,

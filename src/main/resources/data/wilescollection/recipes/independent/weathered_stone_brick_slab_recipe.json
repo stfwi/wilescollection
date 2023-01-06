@@ -1,0 +1,29 @@
+{
+  "type": "forge:conditional",
+  "recipes": [
+    {
+      "conditions": [
+        {
+          "type": "wilescollection:optional",
+          "result": "wilescollection:weathered_stone_brick_slab",
+          "required": ["wilescollection:weathered_stone_brick_block"]
+        }
+      ],
+      "recipe": {
+        "type": "minecraft:crafting_shaped",
+        "pattern": [
+          "CCC"
+        ],
+        "key": {
+          "C": {
+            "item": "wilescollection:weathered_stone_brick_block"
+          }
+        },
+        "result": {
+          "item": "wilescollection:weathered_stone_brick_slab",
+          "count": 6
+        }
+      }
+    }
+  ]
+}
