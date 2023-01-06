@@ -22,9 +22,7 @@ import net.minecraft.world.item.Items;
 import net.minecraft.world.item.Rarity;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.BlockGetter;
-import net.minecraft.world.level.block.BarrelBlock;
-import net.minecraft.world.level.block.SoundType;
-import net.minecraft.world.level.block.TrapDoorBlock;
+import net.minecraft.world.level.block.*;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
@@ -154,6 +152,9 @@ public class ModContent
         Auxiliaries.getPixeledAABB(4,11.25,12,12,15.25,13),
       }
     ));
+    Registries.addBlock("rustic_wood_planks",
+      ()->new Block(BlockBehaviour.Properties.of(Material.WOOD, MaterialColor.WOOD).strength(1.5F, 3.0F).sound(SoundType.WOOD))
+    );
     Registries.addBlock("rustic_wood_door", ()->new StandardDoorBlock(
       StandardBlocks.CFG_DEFAULT,
       BlockBehaviour.Properties.of(Material.WOOD, MaterialColor.WOOD).strength(0.2f, 6f).sound(SoundType.WOOD).noOcclusion(),
@@ -162,7 +163,7 @@ public class ModContent
       SoundEvents.WOODEN_DOOR_OPEN, SoundEvents.WOODEN_DOOR_CLOSE
     ));
     Registries.addBlock("rustic_wood_trapdoor",
-      ()->new TrapDoorBlock(BlockBehaviour.Properties.of(Material.WOOD, MaterialColor.WOOD).strength(3.0F).sound(SoundType.WOOD).noOcclusion().isValidSpawn(detail::disallowSpawn))
+      ()->new TrapDoorBlock(BlockBehaviour.Properties.of(Material.WOOD, MaterialColor.WOOD).strength(2.0f).sound(SoundType.WOOD).noOcclusion().isValidSpawn(detail::disallowSpawn))
     );
     Registries.addBlock("rustic_iron_lantern", ()->new OmniLanternBlock(
       StandardBlocks.CFG_CUTOUT|StandardBlocks.CFG_FACING_PLACEMENT|StandardBlocks.CFG_OPPOSITE_PLACEMENT|StandardBlocks.CFG_AI_PASSABLE,

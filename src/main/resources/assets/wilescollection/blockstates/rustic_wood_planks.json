@@ -1,0 +1,10 @@
+{ "variants":{"":[
+  { "model": "wilescollection:block/var/wood/rustic_wood_planks_model0" },
+  { "model": "wilescollection:block/var/wood/rustic_wood_planks_model1" },
+  { "model": "wilescollection:block/var/wood/rustic_wood_planks_model2" },
+  { "model": "wilescollection:block/var/wood/rustic_wood_planks_model3" },
+  { "model": "wilescollection:block/var/wood/rustic_wood_planks_model4" },
+  { "model": "wilescollection:block/var/wood/rustic_wood_planks_model5" },
+  { "model": "wilescollection:block/var/wood/rustic_wood_planks_model6" },
+  { "model": "wilescollection:block/var/wood/rustic_wood_planks_model7" }
+]}}

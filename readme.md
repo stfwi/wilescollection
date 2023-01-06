@@ -9,8 +9,9 @@
 
 ## Version history
 
-    ~ v1.3.4     [A] Added Weathered Stone Brick stairs/slabs.
+    - v1.3.4     [A] Added Weathered Stone Brick stairs/slabs.
                  [A] Added Rustic Wood Trapdoor.
+                 [A] Added Rustic Wood Planks.
 
     - v1.3.3     [A] Added ladder recipe from spruce fences.
                  [A] Added crushing for glowstone and quartz.

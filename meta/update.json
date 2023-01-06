@@ -1,6 +1,7 @@
 {
  "homepage": "https://www.curseforge.com/minecraft/mc-mods/wiles-collection/",
  "1.19.2": {
+  "1.3.4": "[A] Added Weathered Stone Brick stairs/slabs.\n[A] Added Rustic Wood Trapdoor.\n[A] Added Rustic Wood Planks.",
   "1.3.3": "[A] Added ladder recipe from spruce fences.\n[A] Added crushing for glowstone and quartz.\n[A] Added name tag stamping using hammer.\n[A] Added Rustic Barrel (simple item storage).\n[M] Ariadne Coal texture reduced to 16x16.\n[M] JEI integration enabled.",
   "1.3.2": "[U] Ported to 1.19.2.",
   "1.2.2": "[U] Ported to 1.19.1.",
@@ -19,7 +20,7 @@
   "1.1.0-a1": "[A] Initial Alpha."
  },
  "promos": {
-  "1.19.2-recommended": "1.3.3",
-  "1.19.2-latest": "1.3.3"
+  "1.19.2-recommended": "1.3.4",
+  "1.19.2-latest": "1.3.4"
  }
 }

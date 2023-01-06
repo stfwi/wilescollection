@@ -1,0 +1,19 @@
+{
+  "type": "forge:conditional",
+  "recipes": [
+    {
+      "conditions": [
+        {
+          "type": "wilescollection:optional",
+          "result": "wilescollection:rustic_wood_planks"
+        }
+      ],
+      "recipe": {
+        "type": "minecraft:stonecutting",
+        "ingredient": { "item": "minecraft:oak_log" },
+        "result": "wilescollection:rustic_wood_planks",
+        "count": 4
+      }
+    }
+  ]
+}
