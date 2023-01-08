@@ -78,6 +78,7 @@ public class ModContent
     initBlocks();
     initItems();
     initEntities();
+    initPaintings();
     Registries.addRecipeSerializer("crafting_extended_shapeless", ()->wile.wilescollection.libmc.ExtendedShapelessRecipe.SERIALIZER);
   }
 
@@ -157,13 +158,22 @@ public class ModContent
     );
     Registries.addBlock("rustic_wood_door", ()->new StandardDoorBlock(
       StandardBlocks.CFG_DEFAULT,
-      BlockBehaviour.Properties.of(Material.WOOD, MaterialColor.WOOD).strength(0.2f, 6f).sound(SoundType.WOOD).noOcclusion(),
+      BlockBehaviour.Properties.of(Material.WOOD, MaterialColor.WOOD).strength(1.5F, 6f).sound(SoundType.WOOD).noOcclusion(),
       Auxiliaries.getPixeledAABB(15,0, 0, 16,16,16),
       Auxiliaries.getPixeledAABB( 0,0,13, 16,16,16),
-      SoundEvents.WOODEN_DOOR_OPEN, SoundEvents.WOODEN_DOOR_CLOSE
+      SoundEvents.WOODEN_DOOR_OPEN, SoundEvents.WOODEN_DOOR_CLOSE,
+      false
+    ));
+    Registries.addBlock("rustic_player_wood_door", ()->new StandardDoorBlock(
+      StandardBlocks.CFG_DEFAULT,
+      BlockBehaviour.Properties.of(Material.METAL, MaterialColor.WOOD).strength(1.5F, 6f).sound(SoundType.WOOD).noOcclusion(),
+      Auxiliaries.getPixeledAABB(15,0, 0, 16,16,16),
+      Auxiliaries.getPixeledAABB( 0,0,13, 16,16,16),
+      SoundEvents.WOODEN_DOOR_OPEN, SoundEvents.WOODEN_DOOR_CLOSE,
+      true
     ));
     Registries.addBlock("rustic_wood_trapdoor",
-      ()->new TrapDoorBlock(BlockBehaviour.Properties.of(Material.WOOD, MaterialColor.WOOD).strength(2.0f).sound(SoundType.WOOD).noOcclusion().isValidSpawn(detail::disallowSpawn))
+      ()->new TrapDoorBlock(BlockBehaviour.Properties.of(Material.METAL, MaterialColor.WOOD).strength(2.0f).sound(SoundType.WOOD).noOcclusion().isValidSpawn(detail::disallowSpawn))
     );
     Registries.addBlock("rustic_iron_lantern", ()->new OmniLanternBlock(
       StandardBlocks.CFG_CUTOUT|StandardBlocks.CFG_FACING_PLACEMENT|StandardBlocks.CFG_OPPOSITE_PLACEMENT|StandardBlocks.CFG_AI_PASSABLE,
@@ -311,6 +321,18 @@ public class ModContent
         .setCustomClientFactory(Chair.EntityChair::customClientFactory)
         .build(new ResourceLocation(Auxiliaries.modid(), "et_chair").toString())
     );
+  }
+
+  public static void initPaintings()
+  {
+    Registries.addPainting("painting_melon_16x16", 16, 16);
+    Registries.addPainting("painting_poppy_meadow_16x32", 16, 32);
+    Registries.addPainting("painting_sunflower_64x48", 64, 48);
+    Registries.addPainting("painting_valley_64x32", 64, 32);
+    Registries.addPainting("painting_mushroom_16x16", 16, 16);
+    Registries.addPainting("painting_lillypads_32x16", 32, 16);
+    Registries.addPainting("painting_holyrood_park_abstract_32x32", 32, 32);
+    Registries.addPainting("painting_flower_abstract_32x32", 32, 32);
   }
 
   //--------------------------------------------------------------------------------------------------------------------

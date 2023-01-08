@@ -11,6 +11,7 @@ package wile.wilescollection.libmc;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.decoration.PaintingVariant;
 import net.minecraft.world.inventory.MenuType;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.CreativeModeTab;
@@ -44,6 +45,7 @@ public class Registries
   private static final Map<String, RegistryObject<EntityType<?>>> registered_entity_types = new HashMap<>();
   private static final Map<String, RegistryObject<MenuType<?>>> registered_menu_types = new HashMap<>();
   private static final Map<String, RegistryObject<RecipeSerializer<?>>> recipe_serializers = new HashMap<>();
+  private static final Map<String, RegistryObject<PaintingVariant>> paintings = new HashMap<>();
 
   private static DeferredRegister<Block> BLOCKS;
   private static DeferredRegister<Item> ITEMS;
@@ -51,6 +53,7 @@ public class Registries
   private static DeferredRegister<MenuType<?>> MENUS;
   private static DeferredRegister<EntityType<?>> ENTITIES;
   private static DeferredRegister<RecipeSerializer<?>> RECIPE_SERIALIZERS;
+  private static DeferredRegister<PaintingVariant> PAINTINGS;
   private static List<DeferredRegister<?>> MOD_REGISTRIES;
 
   public static void init(String mod_id, String creative_tab_icon_item_name, Consumer<DeferredRegister<?>> registrar)
@@ -63,9 +66,9 @@ public class Registries
     MENUS = DeferredRegister.create(ForgeRegistries.MENU_TYPES, modid);
     ENTITIES = DeferredRegister.create(ForgeRegistries.ENTITY_TYPES, modid);
     RECIPE_SERIALIZERS = DeferredRegister.create(ForgeRegistries.RECIPE_SERIALIZERS, modid);
-    List.of(BLOCKS, ITEMS, BLOCK_ENTITIES, MENUS, ENTITIES, RECIPE_SERIALIZERS).forEach(registrar);
+    PAINTINGS = DeferredRegister.create(ForgeRegistries.PAINTING_VARIANTS, modid);
+    List.of(BLOCKS, ITEMS, BLOCK_ENTITIES, MENUS, ENTITIES, RECIPE_SERIALIZERS, PAINTINGS).forEach(registrar);
   }
-
 
   public static CreativeModeTab getCreativeModeTab()
   {
@@ -170,6 +173,9 @@ public class Registries
 
   public static void addRecipeSerializer(String registry_name, Supplier<? extends RecipeSerializer<?>> serializer_supplier)
   { recipe_serializers.put(registry_name, RECIPE_SERIALIZERS.register(registry_name, serializer_supplier)); }
+
+  public static void addPainting(String registry_name, int width, int height)
+  { paintings.put(registry_name, PAINTINGS.register(registry_name, () -> new PaintingVariant(width, height))); }
 
   public static void addOptionalBlockTag(String tag_name, ResourceLocation... default_blocks)
   {

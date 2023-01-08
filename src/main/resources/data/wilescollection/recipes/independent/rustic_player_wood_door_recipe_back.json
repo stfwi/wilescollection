@@ -1,0 +1,23 @@
+{
+  "type": "forge:conditional",
+  "recipes": [
+    {
+      "conditions": [
+        {
+          "type": "wilescollection:optional",
+          "result": "wilescollection:rustic_wood_door",
+          "required": ["wilescollection:rustic_player_wood_door"]
+        }
+      ],
+      "recipe": {
+        "type": "minecraft:crafting_shapeless",
+        "ingredients": [
+          { "item": "wilescollection:rustic_player_wood_door" }
+        ],
+        "result": {
+          "item": "wilescollection:rustic_wood_door"
+        }
+      }
+    }
+  ]
+}

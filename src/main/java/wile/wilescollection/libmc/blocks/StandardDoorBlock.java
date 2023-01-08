@@ -30,6 +30,7 @@ import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.DoorHingeSide;
 import net.minecraft.world.level.block.state.properties.DoubleBlockHalf;
+import net.minecraft.world.level.pathfinder.PathComputationType;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.shapes.BooleanOp;
@@ -47,11 +48,12 @@ import java.util.List;
 public class StandardDoorBlock extends DoorBlock implements StandardBlocks.IStandardBlock
 {
   private final long config_;
+  private final boolean players_only_;
   protected final VoxelShape[][][][] shapes_;
   protected final SoundEvent open_sound_;
   protected final SoundEvent close_sound_;
 
-  public StandardDoorBlock(long config, BlockBehaviour.Properties properties, AABB[] open_aabbs_top, AABB[] open_aabbs_bottom, AABB[] closed_aabbs_top, AABB[] closed_aabbs_bottom, SoundEvent open_sound, SoundEvent close_sound)
+  public StandardDoorBlock(long config, BlockBehaviour.Properties properties, AABB[] open_aabbs_top, AABB[] open_aabbs_bottom, AABB[] closed_aabbs_top, AABB[] closed_aabbs_bottom, SoundEvent open_sound, SoundEvent close_sound, boolean players_only)
   {
     super(properties);
     VoxelShape[][][][] shapes = new VoxelShape[Direction.values().length][2][2][2];
@@ -79,10 +81,11 @@ public class StandardDoorBlock extends DoorBlock implements StandardBlocks.IStan
     shapes_ = shapes;
     open_sound_ = open_sound;
     close_sound_ = close_sound;
+    players_only_ = players_only;
   }
 
-  public StandardDoorBlock(long config, BlockBehaviour.Properties properties, AABB open_aabb, AABB closed_aabb, SoundEvent open_sound, SoundEvent close_sound)
-  { this(config, properties, new AABB[]{open_aabb}, new AABB[]{open_aabb}, new AABB[]{closed_aabb}, new AABB[]{closed_aabb}, open_sound, close_sound); }
+  public StandardDoorBlock(long config, BlockBehaviour.Properties properties, AABB open_aabb, AABB closed_aabb, SoundEvent open_sound, SoundEvent close_sound, boolean players_only)
+  { this(config, properties, new AABB[]{open_aabb}, new AABB[]{open_aabb}, new AABB[]{closed_aabb}, new AABB[]{closed_aabb}, open_sound, close_sound, players_only); }
 
   public StandardDoorBlock(long config, BlockBehaviour.Properties properties, SoundEvent open_sound, SoundEvent close_sound)
   {
@@ -91,7 +94,8 @@ public class StandardDoorBlock extends DoorBlock implements StandardBlocks.IStan
       Auxiliaries.getPixeledAABB(13,0, 0, 16,16,16),
       Auxiliaries.getPixeledAABB( 0,0,13, 16,16,16),
       open_sound,
-      close_sound
+      close_sound,
+      false
     );
   }
 
@@ -102,7 +106,8 @@ public class StandardDoorBlock extends DoorBlock implements StandardBlocks.IStan
       Auxiliaries.getPixeledAABB(13,0, 0, 16,16,16),
       Auxiliaries.getPixeledAABB( 0,0,13, 16,16,16),
       SoundEvents.WOODEN_DOOR_OPEN,
-      SoundEvents.WOODEN_DOOR_CLOSE
+      SoundEvents.WOODEN_DOOR_CLOSE,
+      false
     );
   }
 
@@ -138,12 +143,16 @@ public class StandardDoorBlock extends DoorBlock implements StandardBlocks.IStan
   { return false; }
 
   @Override
+  public boolean isPathfindable(BlockState state, BlockGetter world, BlockPos pos, PathComputationType path)
+  { return (players_only_) ? (false) : (super.isPathfindable(state, world, pos, path)); }
+
+  @Override
   public VoxelShape getShape(BlockState state, BlockGetter world, BlockPos pos, CollisionContext context)
   { return shapes_[state.getValue(FACING).ordinal()][state.getValue(OPEN)?1:0][state.getValue(HINGE)==DoorHingeSide.RIGHT?1:0][state.getValue(HALF)==DoubleBlockHalf.UPPER?0:1]; }
 
   @Override
   public InteractionResult use(BlockState state, Level world, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hit)
-  { setOpen(player, world, state, pos, !state.getValue(OPEN)); return InteractionResult.sidedSuccess(world.isClientSide()); }
+  { setDoubleOpen(player, world, state, pos, !state.getValue(OPEN)); return InteractionResult.sidedSuccess(world.isClientSide()); }
 
   @Override
   public void neighborChanged(BlockState state, Level world, BlockPos pos, Block block, BlockPos fromPos, boolean isMoving)
@@ -157,7 +166,12 @@ public class StandardDoorBlock extends DoorBlock implements StandardBlocks.IStan
 
   @Override
   public void setOpen(@Nullable Entity entity, Level world, BlockState state, BlockPos pos, boolean open)
+  { if(!players_only_ || (entity instanceof Player)) super.setOpen(entity, world, state, pos, open); }
+
+  protected void setDoubleOpen(@Nullable Entity entity, Level world, BlockState state, BlockPos pos, boolean open)
   {
+    if(world.isClientSide()) return;
+    if(players_only_ && !(entity instanceof Player)) return;
     if(!state.is(this) || (state.getValue(OPEN) == open)) return;
     state = state.setValue(OPEN, open);
     world.setBlock(pos, state, 2|8);

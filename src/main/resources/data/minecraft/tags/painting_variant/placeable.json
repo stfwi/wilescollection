@@ -1,0 +1,13 @@
+{
+  "replace": false,
+  "values": [
+    "wilescollection:painting_melon_16x16",
+    "wilescollection:painting_poppy_meadow_16x32",
+    "wilescollection:painting_sunflower_64x48",
+    "wilescollection:painting_valley_64x32",
+    "wilescollection:painting_mushroom_16x16",
+    "wilescollection:painting_lillypads_32x16",
+    "wilescollection:painting_holyrood_park_abstract_32x32",
+    "wilescollection:painting_flower_abstract_32x32"
+  ]
+}
