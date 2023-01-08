@@ -9,7 +9,7 @@
 
 ## Version history
 
-    ~ v1.3.5     [A] Added Rustic player-only Wood Door.
+    - v1.3.5     [A] Added Rustic player-only Wood Door.
                  [A] Added Paintings.
 
     - v1.3.4     [A] Added Weathered Stone Brick stairs/slabs.

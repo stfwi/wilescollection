@@ -50,6 +50,7 @@ public class StandardDoorBlock extends DoorBlock implements StandardBlocks.IStan
   private final long config_;
   private final boolean players_only_;
   protected final VoxelShape[][][][] shapes_;
+  protected final VoxelShape[][][][] collision_shapes_;
   protected final SoundEvent open_sound_;
   protected final SoundEvent close_sound_;
 
@@ -57,11 +58,13 @@ public class StandardDoorBlock extends DoorBlock implements StandardBlocks.IStan
   {
     super(properties);
     VoxelShape[][][][] shapes = new VoxelShape[Direction.values().length][2][2][2];
+    VoxelShape[][][][] collision_shapes = new VoxelShape[Direction.values().length][2][2][2];
     for(Direction facing: Direction.values()) {
       for(boolean open: new boolean[]{false,true}) {
         for(DoubleBlockHalf half: new DoubleBlockHalf[]{DoubleBlockHalf.UPPER,DoubleBlockHalf.LOWER}) {
           for(boolean hinge_right: new boolean[]{false,true}) {
             VoxelShape shape = Shapes.empty();
+            VoxelShape collision_shape = Shapes.empty();
             if(facing.getAxis() == Direction.Axis.Y) {
               shape = Shapes.block();
             } else {
@@ -70,15 +73,22 @@ public class StandardDoorBlock extends DoorBlock implements StandardBlocks.IStan
                 AABB aabb = Auxiliaries.getRotatedAABB(e, facing, true);
                 if(!hinge_right) aabb = Auxiliaries.getMirroredAABB(aabb, facing.getClockWise().getAxis());
                 shape = Shapes.join(shape, Shapes.create(aabb), BooleanOp.OR);
+                if(half==DoubleBlockHalf.UPPER) {
+                  collision_shape = shape;
+                } else {
+                  aabb.setMaxY(aabb.maxY+4);
+                }
               }
             }
             shapes[facing.ordinal()][open?1:0][hinge_right?1:0][half==DoubleBlockHalf.UPPER?0:1] = shape;
+            collision_shapes[facing.ordinal()][open?1:0][hinge_right?1:0][half==DoubleBlockHalf.UPPER?0:1] = collision_shape;
           }
         }
       }
     }
     config_ = config;
     shapes_ = shapes;
+    collision_shapes_ = collision_shapes;
     open_sound_ = open_sound;
     close_sound_ = close_sound;
     players_only_ = players_only;
@@ -126,7 +136,7 @@ public class StandardDoorBlock extends DoorBlock implements StandardBlocks.IStan
     BlockState adjacent_state = world.getBlockState(adjecent_pos);
     if(adjacent_state.getBlock()!=this) return;
     if(adjacent_state.getValue(OPEN)==open) return;
-    world.setBlock(adjecent_pos, adjacent_state.setValue(OPEN, open), 2|10);
+    world.setBlock(adjecent_pos, adjacent_state.setValue(OPEN, open), 2|16);
   }
 
   @Override
@@ -149,6 +159,11 @@ public class StandardDoorBlock extends DoorBlock implements StandardBlocks.IStan
   @Override
   public VoxelShape getShape(BlockState state, BlockGetter world, BlockPos pos, CollisionContext context)
   { return shapes_[state.getValue(FACING).ordinal()][state.getValue(OPEN)?1:0][state.getValue(HINGE)==DoorHingeSide.RIGHT?1:0][state.getValue(HALF)==DoubleBlockHalf.UPPER?0:1]; }
+
+  @Override
+  @SuppressWarnings("deprecation")
+  public VoxelShape getCollisionShape(BlockState state, BlockGetter world, BlockPos pos, CollisionContext context)
+  { return collision_shapes_[state.getValue(FACING).ordinal()][state.getValue(OPEN)?1:0][state.getValue(HINGE)==DoorHingeSide.RIGHT?1:0][state.getValue(HALF)==DoubleBlockHalf.UPPER?0:1]; }
 
   @Override
   public InteractionResult use(BlockState state, Level world, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hit)
