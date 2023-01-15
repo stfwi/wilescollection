@@ -9,6 +9,8 @@
 
 ## Version history
 
+    - v1.3.6     [F] Fixed door handling for AI.
+
     - v1.3.5     [A] Added Rustic player-only Wood Door.
                  [A] Added Paintings.
 

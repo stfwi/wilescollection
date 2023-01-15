@@ -136,7 +136,9 @@ public class StandardDoorBlock extends DoorBlock implements StandardBlocks.IStan
     BlockState adjacent_state = world.getBlockState(adjecent_pos);
     if(adjacent_state.getBlock()!=this) return;
     if(adjacent_state.getValue(OPEN)==open) return;
-    world.setBlock(adjecent_pos, adjacent_state.setValue(OPEN, open), 2|16);
+    final BlockPos adjecent_half_pos = (adjacent_state.getValue(HALF) == DoubleBlockHalf.UPPER) ? adjecent_pos.below() : adjecent_pos.above();
+    world.setBlock(adjecent_pos, adjacent_state.setValue(OPEN, open), 1|2);
+    world.setBlock(adjecent_half_pos, world.getBlockState(adjecent_half_pos).setValue(OPEN, open), 1|2);
   }
 
   @Override
@@ -174,7 +176,7 @@ public class StandardDoorBlock extends DoorBlock implements StandardBlocks.IStan
   {
     boolean powered = world.hasNeighborSignal(pos) || world.hasNeighborSignal(pos.relative(state.getValue(HALF) == DoubleBlockHalf.LOWER ? Direction.UP : Direction.DOWN));
     if((block == this) || (powered == state.getValue(POWERED))) return;
-    world.setBlock(pos, state.setValue(POWERED, powered).setValue(OPEN, powered), 2);
+    world.setBlock(pos, state.setValue(POWERED, powered).setValue(OPEN, powered), 1|2);
     actuate_adjacent_wing(state, world, pos, powered);
     if(powered != state.getValue(OPEN)) sound(world, pos, powered);
   }
@@ -189,7 +191,7 @@ public class StandardDoorBlock extends DoorBlock implements StandardBlocks.IStan
     if(players_only_ && !(entity instanceof Player)) return;
     if(!state.is(this) || (state.getValue(OPEN) == open)) return;
     state = state.setValue(OPEN, open);
-    world.setBlock(pos, state, 2|8);
+    world.setBlock(pos, state, 1|2);
     sound(world, pos, open);
     actuate_adjacent_wing(state, world, pos, open);
   }
