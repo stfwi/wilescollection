@@ -30,6 +30,7 @@ import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.DoorHingeSide;
 import net.minecraft.world.level.block.state.properties.DoubleBlockHalf;
+import net.minecraft.world.level.gameevent.GameEvent;
 import net.minecraft.world.level.pathfinder.PathComputationType;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.BlockHitResult;
@@ -76,7 +77,7 @@ public class StandardDoorBlock extends DoorBlock implements StandardBlocks.IStan
                 if(half==DoubleBlockHalf.UPPER) {
                   collision_shape = shape;
                 } else {
-                  aabb.setMaxY(aabb.maxY+4);
+                  collision_shape = Shapes.join(shape, Shapes.create(aabb.setMaxY(aabb.maxY+4)), BooleanOp.OR);
                 }
               }
             }
@@ -176,7 +177,7 @@ public class StandardDoorBlock extends DoorBlock implements StandardBlocks.IStan
   {
     boolean powered = world.hasNeighborSignal(pos) || world.hasNeighborSignal(pos.relative(state.getValue(HALF) == DoubleBlockHalf.LOWER ? Direction.UP : Direction.DOWN));
     if((block == this) || (powered == state.getValue(POWERED))) return;
-    world.setBlock(pos, state.setValue(POWERED, powered).setValue(OPEN, powered), 1|2);
+    world.setBlock(pos, state.setValue(POWERED, powered).setValue(OPEN, powered), 2|8);
     actuate_adjacent_wing(state, world, pos, powered);
     if(powered != state.getValue(OPEN)) sound(world, pos, powered);
   }
@@ -187,13 +188,13 @@ public class StandardDoorBlock extends DoorBlock implements StandardBlocks.IStan
 
   protected void setDoubleOpen(@Nullable Entity entity, Level world, BlockState state, BlockPos pos, boolean open)
   {
-    if(world.isClientSide()) return;
     if(players_only_ && !(entity instanceof Player)) return;
     if(!state.is(this) || (state.getValue(OPEN) == open)) return;
     state = state.setValue(OPEN, open);
-    world.setBlock(pos, state, 1|2);
+    world.setBlock(pos, state, 2|8);
     sound(world, pos, open);
     actuate_adjacent_wing(state, world, pos, open);
+    world.gameEvent(entity, open ? GameEvent.BLOCK_OPEN : GameEvent.BLOCK_CLOSE, pos);
   }
 
 }

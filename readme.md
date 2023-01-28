@@ -9,6 +9,10 @@
 
 ## Version history
 
+    - v1.3.7     [A] Added Rustic Wood Slab.
+                 [A] Added Rustic Wood Stairs.
+                 [F] Fixed Rustic Trapdoor opening.
+
     - v1.3.6     [F] Fixed door handling for AI.
 
     - v1.3.5     [A] Added Rustic player-only Wood Door.

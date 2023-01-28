@@ -1,0 +1,29 @@
+{
+  "type": "forge:conditional",
+  "recipes": [
+    {
+      "conditions": [
+        {
+          "type": "wilescollection:optional",
+          "result": "wilescollection:rustic_wood_slab",
+          "required": ["wilescollection:rustic_wood_planks"]
+        }
+      ],
+      "recipe": {
+        "type": "minecraft:crafting_shaped",
+        "pattern": [
+          "CCC"
+        ],
+        "key": {
+          "C": {
+            "item": "wilescollection:rustic_wood_planks"
+          }
+        },
+        "result": {
+          "item": "wilescollection:rustic_wood_slab",
+          "count": 6
+        }
+      }
+    }
+  ]
+}

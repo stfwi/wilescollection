@@ -1,6 +1,7 @@
 {
  "homepage": "https://www.curseforge.com/minecraft/mc-mods/wiles-collection/",
  "1.19.2": {
+  "1.3.7": "[A] Added Rustic Wood Slab.\n[A] Added Rustic Wood Stairs.\n[F] Fixed Rustic Trapdoor opening.",
   "1.3.6": "[F] Fixed door handling for AI.",
   "1.3.5": "[A] Added Rustic player-only Wood Door.\n[A] Added Paintings.",
   "1.3.4": "[A] Added Weathered Stone Brick stairs/slabs.\n[A] Added Rustic Wood Trapdoor.\n[A] Added Rustic Wood Planks.",
@@ -22,7 +23,7 @@
   "1.1.0-a1": "[A] Initial Alpha."
  },
  "promos": {
-  "1.19.2-recommended": "1.3.6",
-  "1.19.2-latest": "1.3.6"
+  "1.19.2-recommended": "1.3.7",
+  "1.19.2-latest": "1.3.7"
  }
 }

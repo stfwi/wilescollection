@@ -18,6 +18,7 @@ import org.slf4j.Logger;
 import wile.wilescollection.blocks.*;
 import wile.wilescollection.items.ChargedLapisSqueezerItem;
 import wile.wilescollection.items.Trinkets;
+import wile.wilescollection.libmc.blocks.SlabSliceBlock;
 import wile.wilescollection.libmc.blocks.VariantSlabBlock;
 import wile.wilescollection.libmc.Auxiliaries;
 import wile.wilescollection.libmc.OptionalRecipeCondition;
@@ -176,7 +177,7 @@ public class ModConfig
     final ArrayList<String> includes = new ArrayList<>();
     final ArrayList<String> excludes = new ArrayList<>();
     {
-      String inc = COMMON.pattern_includes.get().toLowerCase().replaceAll(MODID+":", "").replaceAll("[^*_,a-z0-9]", "");
+      String inc = COMMON.pattern_includes.get().toLowerCase().replaceAll(MODID+":", "").replaceAll("[^*_,a-z\\d]", "");
       if(COMMON.pattern_includes.get() != inc) COMMON.pattern_includes.set(inc);
       String[] incl = inc.split(",");
       for(int i=0; i< incl.length; ++i) {
@@ -185,7 +186,7 @@ public class ModConfig
       }
     }
     {
-      String exc = COMMON.pattern_excludes.get().toLowerCase().replaceAll(MODID+":", "").replaceAll("[^*_,a-z0-9]", "");
+      String exc = COMMON.pattern_excludes.get().toLowerCase().replaceAll(MODID+":", "").replaceAll("[^*_,a-z\\d]", "");
       String[] excl = exc.split(",");
       for(int i=0; i< excl.length; ++i) {
         excl[i] = excl[i].replaceAll("[*]", ".*?");
@@ -193,7 +194,7 @@ public class ModConfig
       }
     }
     if(COMMON_CONFIG_SPEC.isLoaded()) {
-      String inc = COMMON.pattern_includes.get().toLowerCase().replaceAll(MODID+":", "").replaceAll("[^*_,a-z0-9]", "");
+      String inc = COMMON.pattern_includes.get().toLowerCase().replaceAll(MODID+":", "").replaceAll("[^*_,a-z\\d]", "");
       String[] incl = inc.split(",");
       for(int i=0; i< incl.length; ++i) {
         incl[i] = incl[i].replaceAll("[*]", ".*?");
@@ -201,7 +202,7 @@ public class ModConfig
       }
     }
     if(COMMON_CONFIG_SPEC.isLoaded()) {
-      String exc = COMMON.pattern_excludes.get().toLowerCase().replaceAll(MODID+":", "").replaceAll("[^*_,a-z0-9]", "");
+      String exc = COMMON.pattern_excludes.get().toLowerCase().replaceAll(MODID+":", "").replaceAll("[^*_,a-z\\d]", "");
       String[] excl = exc.split(",");
       for(int i=0; i< excl.length; ++i) {
         excl[i] = excl[i].replaceAll("[*]", ".*?");
@@ -262,7 +263,8 @@ public class ModConfig
     // -----------------------------------------------------------------------------------------------------------------
     Chair.on_config(COMMON.without_chair_sitting.get(), COMMON.without_chair_sitting.get(), 80, 10);
     ExtLadderBlock.on_config(COMMON.without_ladder_speed_boost.get());
-    VariantSlabBlock.on_config(!COMMON.without_direct_slab_pickup.get());
+    VariantSlabBlock.on_config(!without_direct_slab_pickup);
+    SlabSliceBlock.on_config(!without_direct_slab_pickup);
     LabeledCrate.on_config(false);
     ExtCraftingTable.on_config(COMMON.without_crafting_table_history.get(), false, COMMON.without_crafting_mouse_scrolling.get());
     FluidBarrel.on_config(12000, 1000);

@@ -154,8 +154,17 @@ public class ModContent
       }
     ));
     Registries.addBlock("rustic_wood_planks",
-      ()->new Block(BlockBehaviour.Properties.of(Material.WOOD, MaterialColor.WOOD).strength(1.5F, 3.0F).sound(SoundType.WOOD))
+      ()->new Block(BlockBehaviour.Properties.of(Material.WOOD, MaterialColor.WOOD).strength(1.5f, 3.0f).sound(SoundType.WOOD))
     );
+    Registries.addBlock("rustic_wood_slab", ()->new VariantSlabBlock(
+      StandardBlocks.CFG_DEFAULT,
+      BlockBehaviour.Properties.of(Material.WOOD, MaterialColor.WOOD).strength(1.5f, 3.0f).sound(SoundType.WOOD)
+    ));
+    Registries.addBlock("rustic_wood_stairs", ()->new StandardStairsBlock(
+      StandardBlocks.CFG_DEFAULT,
+      ()->Registries.getBlock("rustic_wood_planks").defaultBlockState(),
+      BlockBehaviour.Properties.of(Material.WOOD, MaterialColor.WOOD).strength(1.5f, 3.0f).sound(SoundType.WOOD)
+    ));
     Registries.addBlock("rustic_wood_door", ()->new StandardDoorBlock(
       StandardBlocks.CFG_DEFAULT,
       BlockBehaviour.Properties.of(Material.WOOD, MaterialColor.WOOD).strength(1.5F, 6f).sound(SoundType.WOOD).noOcclusion(),
@@ -173,7 +182,7 @@ public class ModContent
       true
     ));
     Registries.addBlock("rustic_wood_trapdoor",
-      ()->new TrapDoorBlock(BlockBehaviour.Properties.of(Material.METAL, MaterialColor.WOOD).strength(2.0f).sound(SoundType.WOOD).noOcclusion().isValidSpawn(detail::disallowSpawn))
+      ()->new TrapDoorBlock(BlockBehaviour.Properties.of(Material.WOOD, MaterialColor.WOOD).strength(2.0f).sound(SoundType.WOOD).noOcclusion().isValidSpawn(detail::disallowSpawn))
     );
     Registries.addBlock("rustic_iron_lantern", ()->new OmniLanternBlock(
       StandardBlocks.CFG_CUTOUT|StandardBlocks.CFG_FACING_PLACEMENT|StandardBlocks.CFG_OPPOSITE_PLACEMENT|StandardBlocks.CFG_AI_PASSABLE,
@@ -234,16 +243,16 @@ public class ModContent
     ));
     Registries.addBlock("weathered_stone_brick_block", ()->new StandardBlocks.BaseBlock(
       StandardBlocks.CFG_DEFAULT,
-      BlockBehaviour.Properties.of(Material.STONE, MaterialColor.STONE).strength(0.5f, 7f).sound(SoundType.STONE).requiresCorrectToolForDrops()
+      BlockBehaviour.Properties.of(Material.STONE, MaterialColor.STONE).strength(1.5f, 7f).sound(SoundType.STONE).requiresCorrectToolForDrops()
     ));
     Registries.addBlock("weathered_stone_brick_slab", ()->new VariantSlabBlock(
       StandardBlocks.CFG_DEFAULT,
-      BlockBehaviour.Properties.of(Material.STONE, MaterialColor.STONE).strength(0.5f, 7f).sound(SoundType.STONE).requiresCorrectToolForDrops()
+      BlockBehaviour.Properties.of(Material.STONE, MaterialColor.STONE).strength(1.5f, 7f).sound(SoundType.STONE).requiresCorrectToolForDrops()
     ));
     Registries.addBlock("weathered_stone_brick_stairs", ()->new StandardStairsBlock(
       StandardBlocks.CFG_DEFAULT,
       ()->Registries.getBlock("weathered_stone_brick_block").defaultBlockState(),
-      BlockBehaviour.Properties.of(Material.STONE, MaterialColor.STONE).strength(0.5f, 7f).sound(SoundType.STONE).requiresCorrectToolForDrops()
+      BlockBehaviour.Properties.of(Material.STONE, MaterialColor.STONE).strength(1.5f, 7f).sound(SoundType.STONE).requiresCorrectToolForDrops()
     ));
     Registries.addBlock("calloty", ()->new SpecialFlowerBlock(
       StandardBlocks.CFG_DEFAULT,
