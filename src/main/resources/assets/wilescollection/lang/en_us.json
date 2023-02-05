@@ -50,12 +50,14 @@
   "block.wilescollection.wood_table": "Wood Table",
   "item.wilescollection.ariadne_coal": "Ariadne Coal",
   "item.wilescollection.ariadne_coal.help": "Draws orientation arrows. The arrow direction depends on where you click the block.",
+  "item.wilescollection.charged_amethyst": "Charged Amethyst",
+  "item.wilescollection.charged_amethyst.help": "Stores one Experience level. Consume to retrieve the XP, this also removes all active effects. Created with a Mind Squeezer.",
   "item.wilescollection.charged_lapis": "Charged Lapis",
   "item.wilescollection.charged_lapis.help": "Stores one Experience level. Consume to retrieve the XP, this also removes all active effects. Created with a Mind Squeezer.",
   "item.wilescollection.charged_lapis_squeezer": "Mind Squeezer",
-  "item.wilescollection.charged_lapis_squeezer.help": "Creates Charged Lapis from Lapis Lazuli in your inventory by draining XP levels. It will hurt a bit. The Charged Lapis can be consumed again.",
+  "item.wilescollection.charged_lapis_squeezer.help": "Creates Charged Lapis from Lapis Lazuli (or Charged Amethyst from Amethyst Shards) in your inventory by draining XP levels. It will hurt a bit. The Charged Lapis can be consumed again.",
   "item.wilescollection.charged_lapis_squeezer.msg.lowhealth": "That would probably kill me",
-  "item.wilescollection.charged_lapis_squeezer.msg.nolapis": "No Lapis in my inventory",
+  "item.wilescollection.charged_lapis_squeezer.msg.nolapis": "No Lapis nor Amethyst in my inventory",
   "item.wilescollection.charged_lapis_squeezer.msg.noxp": "Hmm, it doesn't work, not enough XP left?",
   "item.wilescollection.crushed_copper": "Crushed Raw Copper",
   "item.wilescollection.crushed_copper.help": "Can be faster smelted to copper ingots.",
@@ -88,5 +90,10 @@
   "item.wilescollection.tracking_compass.tip.dimension.overworld": " in the Overworld",
   "item.wilescollection.tracking_compass.tip.target.distance": " | %1$s blocks away",
   "item.wilescollection.tracking_compass.tip.target.entity": "Entity: %1$s",
-  "item.wilescollection.tracking_compass.tip.target.location": "Location: %1$s"
+  "item.wilescollection.tracking_compass.tip.target.location": "Location: %1$s",
+  "item.wilescollection.wand_of_backfilling": "Wand Of Back-Filling",
+  "item.wilescollection.wand_of_backfilling.fail.cantplace": "Cannot use that item as filling block (%1$s).",
+  "item.wilescollection.wand_of_backfilling.fail.noblocks": "Put the blocks to place at the right next to the wand.",
+  "item.wilescollection.wand_of_backfilling.fail.notmainhand": "Put the wand in your hotbar, and the blocks to place right next to it.",
+  "item.wilescollection.wand_of_backfilling.help": "Point and use to backfill gaps ans cavities with dirt, stone, or cobblestone from your inventory. Items to be placed have to be at the right slot next to your wand. The wand only fills the clicked level and below (sneak: only below). If charged with Lapis or Amethyst (in a crafting grid), it can generate Dirts, Cobble, Stone, etc."
 }

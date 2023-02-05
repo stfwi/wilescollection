@@ -79,15 +79,22 @@ public class ChargedLapisSqueezerItem extends ModItem
       world.playSound(null, player.blockPosition(), SoundEvents.WOOL_BREAK, SoundSource.PLAYERS, 1f, 0.6f);
       return;
     }
-    final ItemStack lapis = Inventories.extract(Inventories.itemhandler(player), new ItemStack(Items.LAPIS_LAZULI), 1, false);
-    if(lapis.isEmpty()) {
+    ItemStack source = Inventories.extract(Inventories.itemhandler(player), new ItemStack(Items.LAPIS_LAZULI), 1, false);
+    if(!source.isEmpty()) {
+      Inventories.give(player, new ItemStack(Registries.getItem("charged_lapis")));
+    } else {
+      source = Inventories.extract(Inventories.itemhandler(player), new ItemStack(Items.AMETHYST_SHARD), 1, false);
+      if(!source.isEmpty()) {
+        Inventories.give(player, new ItemStack(Registries.getItem("charged_amethyst")));
+      }
+    }
+    if(source.isEmpty()) {
       Overlay.show(player, Auxiliaries.localizable("item."+Auxiliaries.modid()+".charged_lapis_squeezer.msg.nolapis"));
       world.playSound(null, player.blockPosition(), SoundEvents.WOOL_BREAK, SoundSource.PLAYERS, 1f, 0.6f);
       return;
     }
     world.playSound(null, player.blockPosition(), SoundEvents.PLAYER_HURT, SoundSource.PLAYERS, 0.2f, 1.4f);
     world.playSound(null, player.blockPosition(), SoundEvents.ENCHANTMENT_TABLE_USE, SoundSource.PLAYERS, 0.5f, 1.4f);
-    Inventories.give(player, new ItemStack(Registries.getItem("charged_lapis")));
     player.giveExperienceLevels(-1);
     player.causeFoodExhaustion(4f);
     player.setHealth(player.getHealth()-(player.getMaxHealth()/10));

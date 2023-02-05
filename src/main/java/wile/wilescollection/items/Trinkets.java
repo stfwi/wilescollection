@@ -47,6 +47,8 @@ public class Trinkets
     charging_items_.clear();
     charging_items_.put(Items.LAPIS_LAZULI, 25);
     charging_items_.put(Items.LAPIS_BLOCK, 25*9);
+    charging_items_.put(Items.AMETHYST_SHARD, 20);
+    charging_items_.put(Items.AMETHYST_BLOCK, 50);
   }
 
   //--------------------------------------------------------------------------------------------------------------------
@@ -103,6 +105,7 @@ public class Trinkets
     { return true; }
 
     @Override
+    @SuppressWarnings("deprecation")
     public int getEnchantmentValue()
     { return 35; }
 

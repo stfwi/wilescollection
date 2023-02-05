@@ -9,6 +9,10 @@
 
 ## Version history
 
+    - v1.3.8     [A] Added Back-Filling Wand.
+                 [A] Added Charged Amethyst additional to Charged Lapis.
+                 [A] Peculiar Ring chargeable with Amethyst Shards/Blocks.
+
     - v1.3.7     [A] Added Rustic Wood Slab.
                  [A] Added Rustic Wood Stairs.
                  [F] Fixed Rustic Trapdoor opening.

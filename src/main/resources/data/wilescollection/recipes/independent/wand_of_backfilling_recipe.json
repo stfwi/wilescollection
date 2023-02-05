@@ -1,0 +1,23 @@
+{
+  "conditions": [
+    {
+      "type": "wilescollection:optional",
+      "result": "wilescollection:wand_of_backfilling",
+      "required": ["wilescollection:rusty_iron_ingot"]
+    }
+  ],
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    " DI",
+    " SD",
+    "S  "
+  ],
+  "key": {
+    "S": { "item": "minecraft:stick" },
+    "D": { "item": "minecraft:dirt" },
+    "I": { "item": "wilescollection:rusty_iron_ingot" }
+  },
+  "result": {
+    "item": "wilescollection:wand_of_backfilling"
+  }
+}

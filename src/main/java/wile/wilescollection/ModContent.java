@@ -271,6 +271,9 @@ public class ModContent
     Registries.addItem("prospecting_dowser", ()->new ProspectingDowserItem(
       detail.default_item_properties()
     ));
+    Registries.addItem("wand_of_backfilling", ()->new BackfillWandItem(
+      detail.default_item_properties()
+    ));
     Registries.addItem("plated_netherite_helmet", ()->new Armors.HelmetArmorItem(
       Armors.CFG_DEFAULT,
       detail.reinforced_armor_material(),
@@ -299,6 +302,9 @@ public class ModContent
       detail.default_item_properties().stacksTo(1).rarity(Rarity.UNCOMMON)
     ));
     Registries.addItem("charged_lapis", ()->new ChargedLapisItem(
+      detail.default_item_properties().rarity(Rarity.UNCOMMON)
+    ));
+    Registries.addItem("charged_amethyst", ()->new ChargedLapisItem(
       detail.default_item_properties().rarity(Rarity.UNCOMMON)
     ));
     Registries.addItem("charged_lapis_squeezer", ()->new ChargedLapisSqueezerItem(

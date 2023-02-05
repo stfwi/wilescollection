@@ -1,0 +1,14 @@
+{
+  "type": "wilescollection:crafting_extended_shapeless",
+  "ingredients": [
+    { "item" : "minecraft:amethyst_shard" },
+    { "item": "wilescollection:wand_of_backfilling" }
+  ],
+  "result": {
+    "item": "wilescollection:wand_of_backfilling"
+  },
+  "aspects": {
+    "tool": "wilescollection:wand_of_backfilling",
+    "tool_repair": 16
+  }
+}
