@@ -1,7 +1,7 @@
 {
 	"parent": "builtin/entity",
 	"textures": {
-		"particle": "wilescollection:item/tracking_compass"
+		"particle": "wilescollection:item/tracking_compass_pointer_front"
 	},
 	"gui_light": "front",
 	"display": {

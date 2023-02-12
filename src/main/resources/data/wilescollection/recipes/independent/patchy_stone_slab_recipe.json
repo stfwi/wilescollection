@@ -1,0 +1,29 @@
+{
+  "type": "forge:conditional",
+  "recipes": [
+    {
+      "conditions": [
+        {
+          "type": "wilescollection:optional",
+          "result": "wilescollection:patchy_stone_slab",
+          "required": ["wilescollection:patchy_stone"]
+        }
+      ],
+      "recipe": {
+        "type": "minecraft:crafting_shaped",
+        "pattern": [
+          "CCC"
+        ],
+        "key": {
+          "C": {
+            "item": "wilescollection:patchy_stone"
+          }
+        },
+        "result": {
+          "item": "wilescollection:patchy_stone_slab",
+          "count": 6
+        }
+      }
+    }
+  ]
+}

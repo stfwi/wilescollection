@@ -1,0 +1,15 @@
+{
+  "type": "minecraft:block",
+  "pools": [
+    {
+      "name": "patchy_stone_stairs_dlt",
+      "rolls": 1,
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "name": "wilescollection:patchy_stone_stairs"
+        }
+      ]
+    }
+  ]
+}

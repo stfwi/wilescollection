@@ -1,0 +1,23 @@
+{
+  "type": "forge:conditional",
+  "recipes": [
+    {
+      "conditions": [
+        {
+          "type": "wilescollection:optional",
+          "result": "minecraft:stone",
+          "required": ["wilescollection:patchy_stone"]
+        }
+      ],
+      "recipe": {
+        "type": "minecraft:crafting_shapeless",
+        "ingredients": [
+          { "item": "wilescollection:patchy_stone" }
+        ],
+        "result": {
+          "item": "minecraft:stone"
+        }
+      }
+    }
+  ]
+}

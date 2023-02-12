@@ -35,6 +35,7 @@ import net.minecraft.world.phys.Vec3;
 import wile.wilescollection.libmc.Auxiliaries;
 import wile.wilescollection.libmc.Inventories;
 import wile.wilescollection.libmc.Overlay;
+import wile.wilescollection.libmc.Registries;
 
 import java.util.*;
 
@@ -57,6 +58,7 @@ public class BackfillWandItem extends ModItem
     blocks_spawnable_with_charges.add(Items.DEEPSLATE);
     blocks_spawnable_with_charges.add(Items.GRAVEL);
     blocks_spawnable_with_charges.add(Items.COBBLED_DEEPSLATE);
+    blocks_spawnable_with_charges.add(Registries.getItem("patchy_stone"));
   }
 
   public BackfillWandItem(Item.Properties properties)

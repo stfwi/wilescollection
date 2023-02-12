@@ -1,0 +1,17 @@
+{ "variants":{"":[
+  { "model": "wilescollection:block/var/patchy/patchy_stone_model0" },
+  { "model": "wilescollection:block/var/patchy/patchy_stone_model1" },
+  { "model": "wilescollection:block/var/patchy/patchy_stone_model2" },
+  { "model": "wilescollection:block/var/patchy/patchy_stone_model3" },
+  { "model": "wilescollection:block/var/patchy/patchy_stone_model4" },
+  { "model": "wilescollection:block/var/patchy/patchy_stone_model5" },
+  { "model": "wilescollection:block/var/patchy/patchy_stone_model6" },
+  { "model": "wilescollection:block/var/patchy/patchy_stone_model7" },
+  { "model": "wilescollection:block/var/patchy/patchy_stone_model8" },
+  { "model": "wilescollection:block/var/patchy/patchy_stone_model9" },
+  { "model": "wilescollection:block/var/patchy/patchy_stone_modela" },
+  { "model": "wilescollection:block/var/patchy/patchy_stone_modelb" },
+  { "model": "wilescollection:block/var/patchy/patchy_stone_modeld" },
+  { "model": "wilescollection:block/var/patchy/patchy_stone_modele" },
+  { "model": "wilescollection:block/var/patchy/patchy_stone_modelf" }
+]}}

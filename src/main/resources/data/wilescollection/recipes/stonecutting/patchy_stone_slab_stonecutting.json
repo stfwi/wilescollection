@@ -1,0 +1,20 @@
+{
+  "type": "forge:conditional",
+  "recipes": [
+    {
+      "conditions": [
+        {
+          "type": "wilescollection:optional",
+          "result": "wilescollection:patchy_stone_slab",
+          "required": ["wilescollection:patchy_stone"]
+        }
+      ],
+      "recipe": {
+        "type": "minecraft:stonecutting",
+        "ingredient": { "item": "wilescollection:patchy_stone" },
+        "result": "wilescollection:patchy_stone_slab",
+        "count": 2
+      }
+    }
+  ]
+}

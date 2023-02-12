@@ -1,0 +1,8 @@
+{
+  "parent": "minecraft:block/stairs",
+  "textures": {
+    "bottom": "wilescollection:block/var/patchy/patchy_stone_texture0",
+    "top": "wilescollection:block/var/patchy/patchy_stone_texture0",
+    "side": "wilescollection:block/var/patchy/patchy_stone_texture0"
+  }
+}

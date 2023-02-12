@@ -1,0 +1,25 @@
+{
+  "type": "forge:conditional",
+  "recipes": [
+    {
+      "conditions": [
+        {
+          "type": "wilescollection:optional",
+          "result": "wilescollection:chimney",
+          "required": ["wilescollection:rusty_iron_ingot"]
+        }
+      ],
+      "recipe": {
+        "type": "minecraft:crafting_shapeless",
+        "ingredients": [
+          { "item": "minecraft:stone_bricks" },
+          { "item": "minecraft:campfire" },
+          { "item": "wilescollection:rusty_iron_ingot" }
+        ],
+        "result": {
+          "item": "wilescollection:chimney"
+        }
+      }
+    }
+  ]
+}

@@ -2,6 +2,7 @@
   "replace": false,
   "values": [
     "wilescollection:weathered_stone_brick_slab",
-    "wilescollection:rustic_wood_slab"
+    "wilescollection:rustic_wood_slab",
+    "wilescollection:patchy_stone_slab"
   ]
 }

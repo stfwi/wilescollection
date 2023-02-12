@@ -1,0 +1,4 @@
+{ "variants": {
+  "waterlogged=false": { "model": "wilescollection:block/chimney_model" },
+  "waterlogged=true": { "model": "wilescollection:block/chimney_model" }
+}}

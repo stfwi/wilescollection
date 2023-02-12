@@ -1,0 +1,70 @@
+{
+	"parent": "block/block",
+	"textures": {
+		"particle": "wilescollection:block/var/weathered/weathered_stone_brick_block_texture9",
+		"s": "wilescollection:block/var/weathered/weathered_stone_brick_block_texture9",
+		"t": "wilescollection:block/var/patchy/patchy_stone_texture1"
+	},
+	"elements": [
+		{
+			"from": [2, 0, 2],
+			"to": [14, 11, 14],
+			"faces": {
+				"north": {"uv": [0, 1, 12, 12], "texture": "#s"},
+				"east": {"uv": [0, 1, 12, 12], "texture": "#s"},
+				"south": {"uv": [3, 1, 15, 12], "texture": "#s"},
+				"west": {"uv": [1, 1, 13, 12], "texture": "#s"},
+				"up": {"uv": [0, 0, 12, 12], "texture": "#t"},
+				"down": {"uv": [4, 4, 16, 16], "texture": "#t"}
+			}
+		},
+		{
+			"from": [0, 11, 5],
+			"to": [5, 16, 11],
+			"faces": {
+				"north": {"uv": [11, 0, 16, 5], "texture": "#s"},
+				"east": {"uv": [2, 3, 8, 8], "texture": "#s"},
+				"south": {"uv": [0, 0, 5, 5], "texture": "#s"},
+				"west": {"uv": [0, 10, 6, 15], "texture": "#t"},
+				"up": {"uv": [5, 2, 10, 8], "texture": "#s"},
+				"down": {"uv": [3, 9, 8, 15], "rotation": 180, "texture": "#t"}
+			}
+		},
+		{
+			"from": [11, 11, 5],
+			"to": [16, 16, 11],
+			"faces": {
+				"north": {"uv": [0, 0, 5, 5], "texture": "#s"},
+				"east": {"uv": [3, 0, 9, 5], "texture": "#t"},
+				"south": {"uv": [11, 0, 16, 5], "texture": "#s"},
+				"west": {"uv": [5, 3, 11, 8], "texture": "#s"},
+				"up": {"uv": [10, 0, 15, 6], "rotation": 180, "texture": "#s"},
+				"down": {"uv": [11, 5, 16, 11], "texture": "#t"}
+			}
+		},
+		{
+			"from": [0, 11, 0],
+			"to": [16, 16, 5],
+			"faces": {
+				"north": {"uv": [0, 0, 16, 5], "texture": "#t"},
+				"east": {"uv": [11, 6, 16, 11], "texture": "#t"},
+				"south": {"uv": [0, 3, 16, 8], "texture": "#s"},
+				"west": {"uv": [0, 0, 5, 5], "texture": "#t"},
+				"up": {"uv": [0, 6, 16, 11], "texture": "#t"},
+				"down": {"uv": [0, 11, 16, 16], "texture": "#t"}
+			}
+		},
+		{
+			"from": [0, 11, 11],
+			"to": [16, 16, 16],
+			"faces": {
+				"north": {"uv": [0, 3, 16, 8], "texture": "#s"},
+				"east": {"uv": [0, 0, 5, 5], "texture": "#t"},
+				"south": {"uv": [0, 4, 16, 9], "texture": "#t"},
+				"west": {"uv": [11, 0, 16, 5], "texture": "#t"},
+				"up": {"uv": [0, 0, 16, 5], "texture": "#t"},
+				"down": {"uv": [0, 0, 16, 5], "rotation": 180, "texture": "#t"}
+			}
+		}
+	]
+}

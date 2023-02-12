@@ -34,6 +34,9 @@ public class StandardEntityBlocks
     default boolean isBlockEntityTicking(Level world, BlockState state)
     { return false; }
 
+    default boolean isBlockEntityClientTicking(Level world, BlockState state)
+    { return false; }
+
     default InteractionResult useOpenGui(BlockState state, Level world, BlockPos pos, Player player)
     {
       if(world.isClientSide()) return InteractionResult.SUCCESS;
@@ -54,7 +57,13 @@ public class StandardEntityBlocks
     @Override
     @Nullable
     default <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level world, BlockState state, BlockEntityType<T> te_type)
-    { return (world.isClientSide || (!isBlockEntityTicking(world, state))) ? (null) : ((Level w, BlockPos p, BlockState s, T te) -> ((StandardBlockEntity)te).tick()); }
+    {
+      if(world instanceof ServerLevel) {
+        return (!isBlockEntityTicking(world, state)) ? (null) : ((Level w, BlockPos p, BlockState s, T te) -> ((StandardBlockEntity)te).tick());
+      } else {
+        return (!isBlockEntityClientTicking(world, state)) ? (null) : ((Level w, BlockPos p, BlockState s, T te) -> ((StandardBlockEntity)te).tick());
+      }
+    }
 
     @Override
     @Nullable

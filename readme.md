@@ -9,6 +9,11 @@
 
 ## Version history
 
+    ~ v1.3.9     [A] Added Patchy Stone Block (with Stairs and Slab).
+                 [M] Back-Filling Wand supports Patchy Stone placement
+                     from internal charge.
+                 [A] Added simple/mundane Chimney block.
+
     - v1.3.8     [A] Added Back-Filling Wand.
                  [A] Added Charged Amethyst additional to Charged Lapis.
                  [A] Peculiar Ring chargeable with Amethyst Shards/Blocks.

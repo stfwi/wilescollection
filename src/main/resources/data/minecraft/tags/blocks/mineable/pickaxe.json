@@ -3,6 +3,10 @@
   "values": [
     "wilescollection:weathered_stone_brick_block",
     "wilescollection:weathered_stone_brick_slab",
-    "wilescollection:weathered_stone_brick_stairs"
+    "wilescollection:weathered_stone_brick_stairs",
+    "wilescollection:patchy_stone",
+    "wilescollection:patchy_stone_slab",
+    "wilescollection:patchy_stone_stairs",
+    "wilescollection:chimney"
   ]
 }

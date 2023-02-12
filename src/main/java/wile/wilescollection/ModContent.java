@@ -133,7 +133,7 @@ public class ModContent
       StandardBlocks.CFG_DEFAULT,
       BlockBehaviour.Properties.of(Material.WOOD, MaterialColor.WOOD).strength(0.2f, 3f).sound(SoundType.WOOD).noOcclusion()
     ));
-    Registries.addBlock("wood_table", ()->new TableBlock(
+    Registries.addBlock("wood_table", ()->new SimpleBlocks.TableBlock(
       StandardBlocks.CFG_CUTOUT,
       BlockBehaviour.Properties.of(Material.WOOD, MaterialColor.WOOD).strength(0.2f, 3f).sound(SoundType.WOOD).noOcclusion(),
       Auxiliaries.getPixeledAABB( 0,14, 0, 16,16,16), // top base aabb
@@ -152,6 +152,18 @@ public class ModContent
         Auxiliaries.getPixeledAABB(2.5,7,3.5,13.5,8.875,13),
         Auxiliaries.getPixeledAABB(4,11.25,12,12,15.25,13),
       }
+    ));
+    Registries.addBlock("patchy_stone",
+      ()->new Block(BlockBehaviour.Properties.of(Material.STONE, MaterialColor.STONE).strength(1.5f, 3.0f).sound(SoundType.STONE))
+    );
+    Registries.addBlock("patchy_stone_slab",
+      ()->new VariantSlabBlock(StandardBlocks.CFG_DEFAULT,
+      BlockBehaviour.Properties.of(Material.STONE, MaterialColor.STONE).strength(1.5f, 3.0f).sound(SoundType.STONE)
+    ));
+    Registries.addBlock("patchy_stone_stairs", ()->new StandardStairsBlock(
+      StandardBlocks.CFG_DEFAULT,
+      ()->Registries.getBlock("patchy_stone").defaultBlockState(),
+      BlockBehaviour.Properties.of(Material.STONE, MaterialColor.STONE).strength(1.5f, 3.0f).sound(SoundType.STONE)
     ));
     Registries.addBlock("rustic_wood_planks",
       ()->new Block(BlockBehaviour.Properties.of(Material.WOOD, MaterialColor.WOOD).strength(1.5f, 3.0f).sound(SoundType.WOOD))
@@ -184,7 +196,7 @@ public class ModContent
     Registries.addBlock("rustic_wood_trapdoor",
       ()->new TrapDoorBlock(BlockBehaviour.Properties.of(Material.WOOD, MaterialColor.WOOD).strength(2.0f).sound(SoundType.WOOD).noOcclusion().isValidSpawn(detail::disallowSpawn))
     );
-    Registries.addBlock("rustic_iron_lantern", ()->new OmniLanternBlock(
+    Registries.addBlock("rustic_iron_lantern", ()->new SimpleBlocks.OmniLanternBlock(
       StandardBlocks.CFG_CUTOUT|StandardBlocks.CFG_FACING_PLACEMENT|StandardBlocks.CFG_OPPOSITE_PLACEMENT|StandardBlocks.CFG_AI_PASSABLE,
       BlockBehaviour.Properties.of(Material.METAL, MaterialColor.METAL).strength(0.2f, 4f).sound(SoundType.LANTERN).lightLevel((state)->15).noOcclusion(),
       new AABB[]{
@@ -210,22 +222,22 @@ public class ModContent
         Auxiliaries.getPixeledAABB( 7,  7, 0, 9,9,16),
       }
     ));
-    Registries.addBlock("rustic_iron_framed_window", ()->new WindowBlock(
+    Registries.addBlock("rustic_iron_framed_window", ()->new SimpleBlocks.WindowBlock(
       StandardBlocks.CFG_CUTOUT|StandardBlocks.CFG_LOOK_PLACEMENT,
       BlockBehaviour.Properties.of(Material.METAL, MaterialColor.METAL).strength(0.2f, 3f).sound(SoundType.METAL).noOcclusion(),
       Auxiliaries.getPixeledAABB(0,0,7.5, 16,16,8.5)
     ));
-    Registries.addBlock("rustic_iron_framed_window_asym", ()->new WindowBlock(
+    Registries.addBlock("rustic_iron_framed_window_asym", ()->new SimpleBlocks.WindowBlock(
       StandardBlocks.CFG_CUTOUT|StandardBlocks.CFG_LOOK_PLACEMENT,
       BlockBehaviour.Properties.of(Material.METAL, MaterialColor.METAL).strength(0.2f, 3f).sound(SoundType.METAL).noOcclusion(),
       Auxiliaries.getPixeledAABB(0,0,7.5, 16,16,8.5)
     ));
-    Registries.addBlock("rustic_iron_framed_window_diag", ()->new WindowBlock(
+    Registries.addBlock("rustic_iron_framed_window_diag", ()->new SimpleBlocks.WindowBlock(
       StandardBlocks.CFG_CUTOUT|StandardBlocks.CFG_LOOK_PLACEMENT,
       BlockBehaviour.Properties.of(Material.METAL, MaterialColor.METAL).strength(0.2f, 3f).sound(SoundType.METAL).noOcclusion(),
       Auxiliaries.getPixeledAABB(0,0,7.5, 16,16,8.5)
     ));
-    Registries.addBlock("rustic_iron_framed_window_wide", ()->new WindowBlock(
+    Registries.addBlock("rustic_iron_framed_window_wide", ()->new SimpleBlocks.WindowBlock(
       StandardBlocks.CFG_CUTOUT|StandardBlocks.CFG_LOOK_PLACEMENT,
       BlockBehaviour.Properties.of(Material.METAL, MaterialColor.METAL).strength(0.2f, 3f).sound(SoundType.METAL).noOcclusion(),
       Auxiliaries.getPixeledAABB(0,0,7.5, 16,16,8.5)
@@ -237,10 +249,17 @@ public class ModContent
       3.0,24,3, 0,24,24, // Collision shape -> collision_pole_width, collision_pole_height, collision_side_width, collision_side_min_y, collision_side_max_low_y, collision_side_max_tall_y
       true
     ));
-    Registries.addBlock("ariadne_coal_block", ()->new AriadneCoalBlock(
-      StandardBlocks.CFG_TRANSLUCENT,
-      BlockBehaviour.Properties.of(Material.STONE, MaterialColor.STONE).strength(0.2f, 2f).sound(SoundType.STONE).noCollission().noLootTable()
-    ));
+    Registries.addBlock("chimney",
+      ()->new SimpleBlocks.ChimneyBlock(
+        StandardBlocks.CFG_CUTOUT,
+        BlockBehaviour.Properties.of(Material.STONE, MaterialColor.STONE).strength(1.5f, 3.0f).sound(SoundType.STONE),
+        new AABB[]{
+          Auxiliaries.getPixeledAABB( 2,  0, 2, 14,11,14),
+          Auxiliaries.getPixeledAABB( 0,  11, 0, 16,16,16)
+        }
+      ),
+      SimpleBlocks.ChimneyBlock.ChimneyBlockEntity::new
+    );
     Registries.addBlock("weathered_stone_brick_block", ()->new StandardBlocks.BaseBlock(
       StandardBlocks.CFG_DEFAULT,
       BlockBehaviour.Properties.of(Material.STONE, MaterialColor.STONE).strength(1.5f, 7f).sound(SoundType.STONE).requiresCorrectToolForDrops()
@@ -257,6 +276,10 @@ public class ModContent
     Registries.addBlock("calloty", ()->new SpecialFlowerBlock(
       StandardBlocks.CFG_DEFAULT,
       BlockBehaviour.Properties.of(Material.PLANT).noCollission().instabreak().sound(SoundType.GRASS).randomTicks()
+    ));
+    Registries.addBlock("ariadne_coal_block", ()->new AriadneCoalBlock(
+      StandardBlocks.CFG_TRANSLUCENT,
+      BlockBehaviour.Properties.of(Material.STONE, MaterialColor.STONE).strength(0.2f, 2f).sound(SoundType.STONE).noCollission().noLootTable()
     ));
   }
 
