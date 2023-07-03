@@ -1,31 +1,31 @@
 # @file mods.toml
 # @spec TOML v0.5.0 (https://github.com/toml-lang/toml)
 modLoader="javafml"
-loaderVersion="[43,)"
-issueTrackerURL="https://github.com/stfwi/wilescollection/issues/"
-license="MIT"
+loaderVersion="${version_range_loader}"
+issueTrackerURL="${meta_issues}"
+license="${meta_license}"
 
 [[mods]]
-modId="wilescollection"
-version="${file.jarVersion}"
-displayName="WilE's Collection"
-description="Adds a small bunch of decoration and functionality to vanilla styled packs."
-authors="wilechaote"
-#credits="The Forge Smiths."
-updateJSONURL="https://raw.githubusercontent.com/stfwi/wilescollection/versions/forge-1.19.2.json"
-displayURL="https://www.curseforge.com/minecraft/mc-mods/wiles-collection"
+modId="${meta_modid}"
+version="${version_mod}"
+displayName="${meta_modname}"
+description='''${meta_description}'''
+authors="${meta_author}"
+credits=""
+updateJSONURL="${meta_updateurl}"
+displayURL="${meta_download}"
 logoFile="logo.png"
 
-[[dependencies.wilescollection]]
+[[dependencies.${meta_modid}]]
   modId="forge"
   mandatory=true
-  versionRange="[43.0.16,)"
+  versionRange="${version_range_forge}"
   ordering="NONE"
   side="BOTH"
 
-[[dependencies.wilescollection]]
+[[dependencies.${meta_modid}]]
   modId="minecraft"
   mandatory=true
-  versionRange="[1.19.2]"
+  versionRange="[${version_minecraft}]"
   ordering="NONE"
   side="BOTH"

@@ -9,7 +9,8 @@
 
 ## Version history
 
-    ~ v1.3.9     [A] Added Patchy Stone Block (with Stairs and Slab).
+    - v1.3.9     [U] Updated to mc1.20.1 forge.
+                 [A] Added Patchy Stone Block (with Stairs and Slab).
                  [M] Back-Filling Wand supports Patchy Stone placement
                      from internal charge.
                  [A] Added simple/mundane Chimney block.
