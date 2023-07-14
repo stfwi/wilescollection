@@ -11,13 +11,14 @@ package wile.wilescollection.libmc;
 import com.mojang.blaze3d.platform.InputConstants;
 import net.minecraft.ChatFormatting;
 import net.minecraft.SharedConstants;
+import net.minecraft.client.Minecraft;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
-import net.minecraft.core.Registry;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.ComponentUtils;
 import net.minecraft.network.chat.MutableComponent;
+import net.minecraft.network.chat.Style;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.MenuType;
@@ -188,6 +189,13 @@ public class Auxiliaries
   public static boolean hasTranslation(String key)
   { return net.minecraft.client.resources.language.I18n.exists(key); }
 
+  @OnlyIn(Dist.CLIENT)
+  public static List<Component> wrapText(Component text, int max_width_percent)
+  {
+    int max_width = ((Minecraft.getInstance().getWindow().getGuiScaledWidth())-10) * max_width_percent/100;
+    return Minecraft.getInstance().font.getSplitter().splitLines(text, max_width, Style.EMPTY).stream().map(ft->Component.literal(ft.getString())).collect(Collectors.toList());
+  }
+
   public static MutableComponent join(Collection<? extends Component> components, String separator)
   { return ComponentUtils.formatList(components, Component.literal(separator), Function.identity()); }
 
@@ -279,15 +287,15 @@ public class Auxiliaries
 
   @SuppressWarnings("deprecation")
   public static ResourceLocation getResourceLocation(Item item)
-  { return Registry.ITEM.getKey(item); }
+  { return ForgeRegistries.ITEMS.getKey(item); }
 
   @SuppressWarnings("deprecation")
   public static ResourceLocation getResourceLocation(Block block)
-  { return Registry.BLOCK.getKey(block); }
+  { return ForgeRegistries.BLOCKS.getKey(block); }
 
   @SuppressWarnings("deprecation")
   public static ResourceLocation getResourceLocation(MenuType<?> menuType)
-  { return Registry.MENU.getKey(menuType); }
+  { return ForgeRegistries.MENU_TYPES.getKey(menuType); }
 
   // -------------------------------------------------------------------------------------------------------------------
   // Item NBT data

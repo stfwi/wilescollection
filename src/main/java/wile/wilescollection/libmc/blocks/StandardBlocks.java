@@ -7,15 +7,12 @@
  * Common functionality class for decor blocks.
  */
 package wile.wilescollection.libmc.blocks;
-import wile.wilescollection.libmc.Auxiliaries;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvent;
-import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.SpawnPlacements;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.item.context.BlockPlaceContext;
@@ -39,7 +36,7 @@ import net.minecraft.world.level.material.FluidState;
 import net.minecraft.world.level.material.Fluids;
 import net.minecraft.world.level.material.PushReaction;
 import net.minecraft.world.level.pathfinder.PathComputationType;
-import net.minecraft.world.level.storage.loot.LootContext;
+import net.minecraft.world.level.storage.loot.LootParams;
 import net.minecraft.world.level.storage.loot.parameters.LootContextParams;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.shapes.BooleanOp;
@@ -48,6 +45,7 @@ import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
+import wile.wilescollection.libmc.Auxiliaries;
 
 import javax.annotation.Nullable;
 import java.util.*;
@@ -143,7 +141,7 @@ public class StandardBlocks
 
     @Override
     @SuppressWarnings("deprecation")
-    public List<ItemStack> getDrops(BlockState state, LootContext.Builder builder)
+    public List<ItemStack> getDrops(BlockState state, LootParams.Builder builder)
     {
       final ServerLevel world = builder.getLevel();
       final Float explosion_radius = builder.getOptionalParameter(LootContextParams.EXPLOSION_RADIUS);
@@ -226,7 +224,7 @@ public class StandardBlocks
     }
 
     @Override
-    public boolean isPossibleToRespawnInThis()
+    public boolean isPossibleToRespawnInThis(BlockState state)
     { return false; }
 
     @Override
@@ -318,14 +316,10 @@ public class StandardBlocks
     }
 
     public Directed(long config, BlockBehaviour.Properties properties, final AABB unrotatedAABB)
-    { this(config, properties, new AABB[]{unrotatedAABB}); }
+    { this(config, properties.isValidSpawn((s,w,p,e)->false), new AABB[]{unrotatedAABB}); }
 
     @Override
-    public boolean isPossibleToRespawnInThis()
-    { return false; }
-
-    @Override
-    public boolean isValidSpawn(BlockState state, BlockGetter world, BlockPos pos, SpawnPlacements.Type type, @Nullable EntityType<?> entityType)
+    public boolean isPossibleToRespawnInThis(BlockState state)
     { return false; }
 
     @Override
@@ -370,7 +364,7 @@ public class StandardBlocks
 
     public AxisAligned(long config, BlockBehaviour.Properties properties, final Supplier<ArrayList<VoxelShape>> shape_supplier)
     {
-      super(config, properties);
+      super(config, properties.isValidSpawn((s,w,p,e)->false));
       registerDefaultState(super.defaultBlockState().setValue(AXIS, Direction.Axis.X));
       vshapes = shape_supplier.get();
     }
@@ -389,11 +383,7 @@ public class StandardBlocks
     { this(config, properties, new AABB[]{unrotatedAABB}); }
 
     @Override
-    public boolean isPossibleToRespawnInThis()
-    { return false; }
-
-    @Override
-    public boolean isValidSpawn(BlockState state, BlockGetter world, BlockPos pos, SpawnPlacements.Type type, @Nullable EntityType<?> entityType)
+    public boolean isPossibleToRespawnInThis(BlockState state)
     { return false; }
 
     @Override

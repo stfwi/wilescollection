@@ -47,10 +47,13 @@ import java.util.stream.Stream;
 public class Inventories
 {
   public static boolean areItemStacksIdentical(ItemStack a, ItemStack b)
-  { return (a.getItem()==b.getItem()) && ItemStack.tagMatches(a, b); }
+  { return (a.getItem()==b.getItem()) && ItemStack.isSameItemSameTags(a, b); }
 
   public static boolean areItemStacksDifferent(ItemStack a, ItemStack b)
-  { return (a.getItem()!=b.getItem()) || (!ItemStack.tagMatches(a, b)); }
+  { return (a.getItem()!=b.getItem()) || (!ItemStack.isSameItemSameTags(a, b)); }
+
+  public static boolean isItemStackableOn(ItemStack a, ItemStack b)
+  { return (!a.isEmpty()) && (ItemStack.isSameItem(a,b)) && (a.hasTag() == b.hasTag()) && (!a.hasTag() || a.getTag().equals(b.getTag())) && a.areCapsCompatible(b); }
 
   public static IItemHandler itemhandler(Level world, BlockPos pos, @Nullable Direction side)
   {
@@ -72,20 +75,14 @@ public class Inventories
     return (entity==null) ? (null) : (itemhandler(entity,side));
   }
 
+  public static IItemHandler itemhandler(Entity entity)
+  { return (entity instanceof Container) ? (new InvWrapper((Container)entity)) : null; }
+
   public static IItemHandler itemhandler(Player player)
   { return new PlayerMainInvWrapper(player.getInventory()); }
 
-  public static IItemHandler itemhandler(Entity entity)
-  { return itemhandler(entity, null); }
-
   public static IItemHandler itemhandler(Entity entity, @Nullable Direction side)
-  {
-    if(entity==null) return null;
-    final IItemHandler ih = entity.getCapability(ForgeCapabilities.ITEM_HANDLER, side).orElse(null);
-    if(ih!=null) return ih;
-    if(entity instanceof Container container) return (new InvWrapper(container));
-    return null;
-  }
+  { return (entity instanceof Container) ? (new InvWrapper((Container)entity)) : null; }
 
   public static boolean insertionPossible(Level world, BlockPos pos, @Nullable Direction side, boolean including_entities)
   { return itemhandler(world, pos, side, including_entities) != null; }
@@ -226,7 +223,7 @@ public class Inventories
       final int slot_limit = inv_.getMaxStackSize();
       if(!sst.isEmpty()) {
         if(sst.getCount() >= Math.min(sst.getMaxStackSize(), slot_limit)) return stack;
-        if(!ItemHandlerHelper.canItemStacksStack(stack, sst)) return stack;
+        if(!isItemStackableOn(stack, sst)) return stack;
         final int limit = Math.min(stack.getMaxStackSize(), slot_limit) - sst.getCount();
         if(stack.getCount() <= limit) {
           if(!simulate) {

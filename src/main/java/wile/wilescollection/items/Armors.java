@@ -19,9 +19,7 @@ import net.minecraft.world.item.*;
 import net.minecraft.world.level.Level;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-import wile.wilescollection.ModConfig;
 import wile.wilescollection.libmc.Auxiliaries;
-import wile.wilescollection.libmc.Registries;
 
 import javax.annotation.Nullable;
 import java.util.*;
@@ -38,9 +36,9 @@ public class Armors
     protected Map<Attribute, AttributeModifier> modifiers_ = new HashMap<>();
     protected final long armor_config;
 
-    public ModArmorItem(long config, ArmorMaterial material, EquipmentSlot slot, Properties properties)
+    public ModArmorItem(long config, ArmorMaterial material, ArmorItem.Type type, Properties properties)
     {
-      super(material, slot, properties.tab(Registries.getCreativeModeTab()));
+      super(material, type, properties);
       armor_config = config;
     }
 
@@ -48,10 +46,6 @@ public class Armors
     @OnlyIn(Dist.CLIENT)
     public void appendHoverText(ItemStack stack, @Nullable Level world, List<Component> tooltip, TooltipFlag flag)
     { Auxiliaries.Tooltip.addInformation(stack, world, tooltip, flag, true); }
-
-    @Override
-    public Collection<CreativeModeTab> getCreativeTabs()
-    { return ModConfig.isOptedOut(this) ? (ModItem.DISABLED_TABS) : (Collections.singletonList(Registries.getCreativeModeTab())); }
 
     @Override
     @SuppressWarnings("all")
@@ -83,25 +77,25 @@ public class Armors
   public static class HelmetArmorItem extends ModArmorItem
   {
     public HelmetArmorItem(long config, ArmorMaterial material, Properties properties)
-    { super(config, material, EquipmentSlot.HEAD, properties); }
+    { super(config, material, Type.HELMET, properties); }
   }
 
   public static class ChestPlateArmorItem extends ModArmorItem
   {
     public ChestPlateArmorItem(long config, ArmorMaterial material, Properties properties)
-    { super(config, material, EquipmentSlot.CHEST, properties); }
+    { super(config, material, Type.CHESTPLATE, properties); }
   }
 
   public static class LeggingsArmorItem extends ModArmorItem
   {
     public LeggingsArmorItem(long config, ArmorMaterial material, Properties properties)
-    { super(config, material, EquipmentSlot.LEGS, properties); }
+    { super(config, material, Type.LEGGINGS, properties); }
   }
 
   public static class BootsArmorItem extends ModArmorItem
   {
     public BootsArmorItem(long config, ArmorMaterial material, Properties properties)
-    { super(config, material, EquipmentSlot.FEET, properties); }
+    { super(config, material, Type.BOOTS, properties); }
   }
 
 }

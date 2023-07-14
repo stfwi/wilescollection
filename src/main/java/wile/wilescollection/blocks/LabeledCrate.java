@@ -8,7 +8,7 @@
  */
 package wile.wilescollection.blocks;
 
-import com.mojang.blaze3d.vertex.PoseStack;
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.NonNullList;
@@ -29,7 +29,7 @@ import net.minecraft.world.item.Items;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.LevelReader;
+import net.minecraft.world.level.SignalGetter;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockBehaviour;
@@ -45,7 +45,6 @@ import net.minecraftforge.items.IItemHandler;
 import wile.wilescollection.libmc.blocks.StandardBlocks;
 import wile.wilescollection.libmc.blocks.StandardEntityBlocks;
 import wile.wilescollection.libmc.*;
-import wile.wilescollection.libmc.ui.Guis;
 
 import javax.annotation.Nullable;
 import java.util.*;
@@ -92,7 +91,7 @@ public class LabeledCrate
     { return (!(world.getBlockEntity(pos) instanceof LabeledCrateTileEntity te)) ? 0 : RsSignals.fromContainer(te.main_inventory_); }
 
     @Override
-    public boolean shouldCheckWeakPower(BlockState state, LevelReader world, BlockPos pos, Direction side)
+    public boolean shouldCheckWeakPower(BlockState state, SignalGetter level, BlockPos pos, Direction side)
     { return false; }
 
     @Override
@@ -394,7 +393,7 @@ public class LabeledCrate
     public int field(int index) { return fields_.get(index); }
     public Player player() { return player_ ; }
     public Container inventory() { return inventory_ ; }
-    public Level world() { return player_.level; }
+    public Level world() { return player_.level(); }
     //------------------------------------------------------------------------------------------------------------------
 
     public LabeledCrateContainer(int cid, Inventory player_inventory)
@@ -527,10 +526,10 @@ public class LabeledCrate
     }
 
     @Override
-    protected void renderLabels(PoseStack mx, int x, int y)
+    protected void renderLabels(GuiGraphics gg, int x, int y)
     {
-      font.draw(mx, title, (float)titleLabelX+1, (float)titleLabelY+1, 0x303030);
-      font.draw(mx, title, (float)titleLabelX, (float)titleLabelY, 0x707070);
+      gg.drawString(font, title, titleLabelX+1, titleLabelY+1, 0x303030);
+      gg.drawString(font, title, titleLabelX, titleLabelY, 0x707070);
     }
 
     //------------------------------------------------------------------------------------------------------------------

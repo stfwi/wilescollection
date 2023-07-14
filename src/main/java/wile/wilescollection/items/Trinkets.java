@@ -184,7 +184,7 @@ public class Trinkets
     private void rechargeTick(final ItemStack trinket, final Level world, final ItemEntity entity)
     {
       // Recharging by tossing items
-      if(!entity.isOnGround()) {
+      if(!entity.onGround()) {
         Vec3 pos = Vec3.atLowerCornerOf(entity.blockPosition()).add(0.5,0, 0.5);
         if(entity.position().distanceToSqr(pos) > 0.01) {
           entity.setPos(pos.x, entity.getY(), pos.z);
@@ -233,12 +233,13 @@ public class Trinkets
     }
 
     @Override
+    @SuppressWarnings("all")
     public boolean onEntityItemUpdate(ItemStack stack, ItemEntity entity)
     {
       if(entity.isAlive()) {
-        final Block block_below = entity.level.getBlockState(entity.blockPosition().below()).getBlock();
+        final Block block_below = entity.level().getBlockState(entity.blockPosition().below()).getBlock();
         if(block_below == Blocks.ANVIL || block_below == Blocks.DAMAGED_ANVIL || block_below == Blocks.CHIPPED_ANVIL) {
-          rechargeTick(stack, entity.level, entity);
+          rechargeTick(stack, entity.level(), entity);
         }
       }
       return false;

@@ -11,12 +11,11 @@ package wile.wilescollection.detail;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
-import com.mojang.math.Vector3f;
+import com.mojang.math.Axis;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.BlockEntityWithoutLevelRenderer;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
-import net.minecraft.client.renderer.block.model.ItemTransforms;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderer;
 import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
 import net.minecraft.client.renderer.entity.EntityRenderer;
@@ -30,6 +29,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
 import net.minecraft.util.Tuple;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.item.ItemDisplayContext;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.Vec3;
@@ -129,11 +129,11 @@ public class ModRenderers
           if(stack.isEmpty()) return;
           mxs.pushPose();
           mxs.translate(0.5+ox, 0.5+oy, 0.5+oz);
-          mxs.mulPose(Vector3f.XP.rotationDegrees(90.0f));
-          mxs.mulPose(Vector3f.ZP.rotationDegrees(ry));
+          mxs.mulPose(Axis.XP.rotationDegrees(90.0f));
+          mxs.mulPose(Axis.ZP.rotationDegrees(ry));
           mxs.translate(rndo, rndo, 0);
           mxs.scale(scaler, scaler, scaler);
-          Minecraft.getInstance().getItemRenderer().renderStatic(stack, ItemTransforms.TransformType.FIXED, i5, overlayTexture, mxs, buf, 0);
+          Minecraft.getInstance().getItemRenderer().renderStatic(stack, ItemDisplayContext.FIXED, i5, overlayTexture, mxs, buf, te.getLevel(), 0);
           mxs.popPose();
         }
       } catch(Throwable e) {
@@ -186,9 +186,9 @@ public class ModRenderers
         float ry = (float)tr[di][3];
         mxs.pushPose();
         mxs.translate(0.5+ox, 0.5+oy, 0.5+oz);
-        mxs.mulPose(Vector3f.YP.rotationDegrees(ry));
+        mxs.mulPose(Axis.YP.rotationDegrees(ry));
         mxs.scale(scaler, scaler, scaler);
-        Minecraft.getInstance().getItemRenderer().renderStatic(stack, ItemTransforms.TransformType.FIXED, i5, overlayTexture, mxs, buf, 0);
+        Minecraft.getInstance().getItemRenderer().renderStatic(stack, ItemDisplayContext.FIXED, i5, overlayTexture, mxs, buf, te.getLevel(), 0);
         mxs.popPose();
       } catch(Throwable e) {
         if(--tesr_error_counter<=0) {
@@ -217,7 +217,7 @@ public class ModRenderers
     { super(Minecraft.getInstance().getBlockEntityRenderDispatcher(), Minecraft.getInstance().getEntityModels()); }
 
     @Override
-    public void renderByItem(ItemStack stack, ItemTransforms.TransformType ctt, PoseStack mx, MultiBufferSource buf, int combinedLight, int combinedOverlay)
+    public void renderByItem(ItemStack stack, ItemDisplayContext idc, PoseStack mx, MultiBufferSource buf, int combinedLight, int combinedOverlay)
     {
       mx.pushPose();
       final ItemRenderer ir = Minecraft.getInstance().getItemRenderer();
@@ -227,9 +227,9 @@ public class ModRenderers
       final int rotation = (!stack.hasTag()) ? (0) : stack.getTag().getInt("rotation");
       BakedModel active_model = Minecraft.getInstance().getModelManager().getModel(new ModelResourceLocation(new ResourceLocation(ModWilesCollection.MODID, "prospecting_dowser_model_e"), "inventory"));
       mx.translate(0.5,0.5,0.5);
-      mx.mulPose(Vector3f.ZP.rotationDegrees(-45));
-      mx.mulPose(Vector3f.YP.rotationDegrees(rotation));
-      mx.mulPose(Vector3f.ZP.rotationDegrees( 45));
+      mx.mulPose(Axis.ZP.rotationDegrees(-45));
+      mx.mulPose(Axis.YP.rotationDegrees(rotation));
+      mx.mulPose(Axis.ZP.rotationDegrees( 45));
       mx.translate(-0.5,-0.5,-0.5);
       ir.renderModelLists(active_model, stack, combinedLight, combinedOverlay, mx, vb);
       mx.popPose();
@@ -254,9 +254,9 @@ public class ModRenderers
     { super(Minecraft.getInstance().getBlockEntityRenderDispatcher(), Minecraft.getInstance().getEntityModels()); }
 
     @Override
-    public void renderByItem(ItemStack stack, ItemTransforms.TransformType ctt, PoseStack mx, MultiBufferSource buf, int combinedLight, int combinedOverlay)
+    public void renderByItem(ItemStack stack, ItemDisplayContext idc, PoseStack mx, MultiBufferSource buf, int combinedLight, int combinedOverlay)
     {
-      if(ctt == ItemTransforms.TransformType.FIRST_PERSON_LEFT_HAND || ctt == ItemTransforms.TransformType.FIRST_PERSON_RIGHT_HAND) return;
+      if(idc == ItemDisplayContext.FIRST_PERSON_LEFT_HAND || idc == ItemDisplayContext.FIRST_PERSON_RIGHT_HAND) return;
       Optional<Tuple<Integer,Integer>> rotations = TrackerItem.getUiAngles(stack);
       mx.pushPose();
       final ItemRenderer ir = Minecraft.getInstance().getItemRenderer();
@@ -264,10 +264,10 @@ public class ModRenderers
       BakedModel model = Minecraft.getInstance().getModelManager().getModel(new ModelResourceLocation(new ResourceLocation(Auxiliaries.modid(), "tracking_compass_pointer_model"), "inventory"));
       mx.translate(0.5,0.5,0.5);
       if(rotations.isEmpty()) {
-        mx.mulPose(Vector3f.YP.rotationDegrees(180));
+        mx.mulPose(Axis.YP.rotationDegrees(180));
       } else {
-        mx.mulPose(Vector3f.YP.rotationDegrees(rotations.get().getB()));
-        mx.mulPose(Vector3f.XP.rotationDegrees(rotations.get().getA()));
+        mx.mulPose(Axis.YP.rotationDegrees(rotations.get().getB()));
+        mx.mulPose(Axis.XP.rotationDegrees(rotations.get().getA()));
       }
       mx.scale(0.6f, 0.6f, 0.6f);
       mx.translate(-0.5,-0.5,-0.5);

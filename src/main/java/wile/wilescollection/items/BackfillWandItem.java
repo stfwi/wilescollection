@@ -140,17 +140,16 @@ public class BackfillWandItem extends ModItem
   }
 
   @Override
-  public void onUsingTick(ItemStack wand, LivingEntity entity, int count)
+  public void onUseTick(Level world, LivingEntity entity, ItemStack wand, int count)
   {
     if(!wand.is(this)) return;
     if(!(entity instanceof ServerPlayer player)) return;
-    final ServerLevel world = player.getLevel();
     final BlockHitResult bh = Item.getPlayerPOVHitResult(world, player, ClipContext.Fluid.NONE);
     final Direction facing = bh.getDirection();
     BlockPos pos = bh.getBlockPos().relative(facing);
     if(!world.getBlockState(pos).is(Blocks.WATER) && (facing==Direction.UP)) pos = pos.relative(facing.getOpposite());
     final ItemStack stack = getSelectedPlacementBlock(player);
-    if(backfill(world, pos, player, stack, !world.getBlockState(pos).getFluidState().isEmpty(), player.isSteppingCarefully())) {
+    if(backfill((ServerLevel)world, pos, player, stack, !world.getBlockState(pos).getFluidState().isEmpty(), player.isSteppingCarefully())) {
       consumeStack(stack, player);
     }
   }
@@ -180,7 +179,7 @@ public class BackfillWandItem extends ModItem
     if(world.getBlockEntity(pos)!=null) return false;
     final BlockState state = world.getBlockState(pos);
     if(state.isAir()) return true;
-    if(state.is(BlockTags.REPLACEABLE_PLANTS)) return true;
+    if(state.is(BlockTags.REPLACEABLE_BY_TREES)) return true;
     if(allow_fluid && state.is(Blocks.WATER)) return true;
     return false;
   }

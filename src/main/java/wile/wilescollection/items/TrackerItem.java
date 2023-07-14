@@ -216,7 +216,8 @@ public class TrackerItem extends ModItem
       if(rx > 180) rx -= 360;
       if(ry > 180) ry -= 360;
       if(Math.abs(rx) < 30) rx = 0;
-      nbt.putLong("playerpos", new BlockPos(player.position()).asLong());
+      final Vec3 p = player.position();
+      nbt.putLong("playerpos", new BlockPos((int)p.x, (int)p.y, (int)p.z).asLong());
       tracker_angles.put(nbt.getInt("id"), new Tuple<Integer,Integer>((int)rx,(int)ry));
     }
   }
@@ -256,12 +257,14 @@ public class TrackerItem extends ModItem
         BlockPos uipos = BlockPos.of(nbt.getLong("target"));
         if(player.distanceToSqr(target) > 200) {
           if(uipos.distToCenterSqr(target.position()) > 10) {
-            nbt.putLong("target", (new BlockPos(target.position())).asLong());
+            final Vec3 p = target.position();
+            nbt.putLong("target", (new BlockPos((int)p.x, (int)p.y, (int)p.z)).asLong());
             changed = true;
           }
         } else {
           if(uipos.distToCenterSqr(target.position()) > 2.78) {
-            nbt.putLong("target", (new BlockPos(target.position())).asLong());
+            final Vec3 p = target.position();
+            nbt.putLong("target", (new BlockPos((int)p.x, (int)p.y, (int)p.z)).asLong()); // no BlockPos.of(Vec3 or Position or whatever)
             changed = true;
           }
         }

@@ -205,7 +205,7 @@ public class VariantWallBlock extends WallBlock implements StandardBlocks.IStand
   { return false; }
 
   @Override
-  public boolean isPossibleToRespawnInThis()
+  public boolean isPossibleToRespawnInThis(BlockState state)
   { return false; }
 
   @Override

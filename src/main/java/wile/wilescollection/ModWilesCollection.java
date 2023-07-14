@@ -6,6 +6,7 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.client.event.ModelEvent;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.crafting.CraftingHelper;
+import net.minecraftforge.event.BuildCreativeModeTabContentsEvent;
 import net.minecraftforge.event.entity.living.LivingEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.ModLoadingContext;
@@ -42,6 +43,7 @@ public class ModWilesCollection
     FMLJavaModLoadingContext.get().getModEventBus().addListener(this::onSetup);
     FMLJavaModLoadingContext.get().getModEventBus().addListener(this::onClientSetup);
     FMLJavaModLoadingContext.get().getModEventBus().addListener(this::onRegisterModels);
+    FMLJavaModLoadingContext.get().getModEventBus().addListener(this::onCreativeModeTabContents);
     MinecraftForge.EVENT_BUS.register(this);
   }
 
@@ -71,6 +73,9 @@ public class ModWilesCollection
     ModRenderers.ProspectingDowserIster.registerModels().forEach(event::register);
   }
 
+  private void onCreativeModeTabContents(BuildCreativeModeTabContentsEvent event)
+  {}
+
   @Mod.EventBusSubscriber(bus=Mod.EventBusSubscriber.Bus.MOD)
   public static class ForgeEvents
   {
@@ -89,7 +94,7 @@ public class ModWilesCollection
   {
     @SubscribeEvent
     public static void onRenderGui(net.minecraftforge.client.event.RenderGuiOverlayEvent.Post event)
-    { Overlay.TextOverlayGui.INSTANCE.onRenderGui(event.getPoseStack()); }
+    { Overlay.TextOverlayGui.INSTANCE.onRenderGui(event.getGuiGraphics()); }
 
     @SubscribeEvent
     @OnlyIn(Dist.CLIENT)

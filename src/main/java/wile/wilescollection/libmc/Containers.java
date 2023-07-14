@@ -1,4 +1,4 @@
-package wile.wilescollection.libmc.ui;
+package wile.wilescollection.libmc;
 
 import net.minecraft.util.Mth;
 import net.minecraft.world.Container;
@@ -41,7 +41,7 @@ public class Containers
     @Override
     public void set(ItemStack stack)
     {
-      if(stack.sameItem(getItem())) {
+      if(stack.is(getItem().getItem())) {
         super.set(stack);
       } else {
         final ItemStack before = getItem().copy();

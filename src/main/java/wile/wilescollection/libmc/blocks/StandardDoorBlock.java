@@ -28,6 +28,7 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.DoorBlock;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.state.properties.BlockSetType;
 import net.minecraft.world.level.block.state.properties.DoorHingeSide;
 import net.minecraft.world.level.block.state.properties.DoubleBlockHalf;
 import net.minecraft.world.level.gameevent.GameEvent;
@@ -55,9 +56,9 @@ public class StandardDoorBlock extends DoorBlock implements StandardBlocks.IStan
   protected final SoundEvent open_sound_;
   protected final SoundEvent close_sound_;
 
-  public StandardDoorBlock(long config, BlockBehaviour.Properties properties, AABB[] open_aabbs_top, AABB[] open_aabbs_bottom, AABB[] closed_aabbs_top, AABB[] closed_aabbs_bottom, SoundEvent open_sound, SoundEvent close_sound, boolean players_only)
+  public StandardDoorBlock(long config, BlockBehaviour.Properties properties, BlockSetType settype, AABB[] open_aabbs_top, AABB[] open_aabbs_bottom, AABB[] closed_aabbs_top, AABB[] closed_aabbs_bottom, SoundEvent open_sound, SoundEvent close_sound, boolean players_only)
   {
-    super(properties);
+    super(properties, settype);
     VoxelShape[][][][] shapes = new VoxelShape[Direction.values().length][2][2][2];
     VoxelShape[][][][] collision_shapes = new VoxelShape[Direction.values().length][2][2][2];
     for(Direction facing: Direction.values()) {
@@ -95,13 +96,13 @@ public class StandardDoorBlock extends DoorBlock implements StandardBlocks.IStan
     players_only_ = players_only;
   }
 
-  public StandardDoorBlock(long config, BlockBehaviour.Properties properties, AABB open_aabb, AABB closed_aabb, SoundEvent open_sound, SoundEvent close_sound, boolean players_only)
-  { this(config, properties, new AABB[]{open_aabb}, new AABB[]{open_aabb}, new AABB[]{closed_aabb}, new AABB[]{closed_aabb}, open_sound, close_sound, players_only); }
+  public StandardDoorBlock(long config, BlockBehaviour.Properties properties, BlockSetType settype, AABB open_aabb, AABB closed_aabb, SoundEvent open_sound, SoundEvent close_sound, boolean players_only)
+  { this(config, properties, settype, new AABB[]{open_aabb}, new AABB[]{open_aabb}, new AABB[]{closed_aabb}, new AABB[]{closed_aabb}, open_sound, close_sound, players_only); }
 
-  public StandardDoorBlock(long config, BlockBehaviour.Properties properties, SoundEvent open_sound, SoundEvent close_sound)
+  public StandardDoorBlock(long config, BlockBehaviour.Properties properties, BlockSetType settype, SoundEvent open_sound, SoundEvent close_sound)
   {
     this(
-      config, properties,
+      config, properties, settype,
       Auxiliaries.getPixeledAABB(13,0, 0, 16,16,16),
       Auxiliaries.getPixeledAABB( 0,0,13, 16,16,16),
       open_sound,
@@ -110,10 +111,10 @@ public class StandardDoorBlock extends DoorBlock implements StandardBlocks.IStan
     );
   }
 
-  public StandardDoorBlock(long config, BlockBehaviour.Properties properties)
+  public StandardDoorBlock(long config, BlockBehaviour.Properties properties, BlockSetType settype)
   {
     this(
-      config, properties,
+      config, properties, settype,
       Auxiliaries.getPixeledAABB(13,0, 0, 16,16,16),
       Auxiliaries.getPixeledAABB( 0,0,13, 16,16,16),
       SoundEvents.WOODEN_DOOR_OPEN,
@@ -148,7 +149,7 @@ public class StandardDoorBlock extends DoorBlock implements StandardBlocks.IStan
   { Auxiliaries.Tooltip.addInformation(stack, world, tooltip, flag, true); }
 
   @Override
-  public boolean isPossibleToRespawnInThis()
+  public boolean isPossibleToRespawnInThis(BlockState state)
   { return false; }
 
   @Override

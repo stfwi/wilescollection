@@ -9,7 +9,7 @@
 package wile.wilescollection.libmc;
 
 import net.minecraft.sounds.SoundEvent;
-import net.minecraft.world.entity.EquipmentSlot;
+import net.minecraft.world.item.ArmorItem;
 import net.minecraft.world.item.ArmorMaterial;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraftforge.api.distmarker.Dist;
@@ -53,11 +53,11 @@ public class Materials
     public String getName()
     { return name_; }
 
-    public int getDurabilityForSlot(EquipmentSlot slot)
-    { return durability_[slot.getIndex()]; }
+    public int getDurabilityForType(ArmorItem.Type type)
+    { return durability_[type.getSlot().getIndex()]; }
 
-    public int getDefenseForSlot(EquipmentSlot slot)
-    { return damage_reduction_[slot.getIndex()]; }
+    public int getDefenseForType(ArmorItem.Type type)
+    { return damage_reduction_[type.getSlot().getIndex()]; }
 
     public int getEnchantmentValue()
     { return enchantability_; }

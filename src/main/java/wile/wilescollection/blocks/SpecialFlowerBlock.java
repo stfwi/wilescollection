@@ -29,7 +29,7 @@ import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.IntegerProperty;
-import net.minecraft.world.level.storage.loot.LootContext;
+import net.minecraft.world.level.storage.loot.LootParams;
 import net.minecraft.world.level.storage.loot.parameters.LootContextParams;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
@@ -52,6 +52,7 @@ public class SpecialFlowerBlock extends FlowerBlock implements StandardBlocks.IS
   public static final int MOOD_HAPPY = 2;
   public static final int MOOD_ANGRY = 3;
 
+  @SuppressWarnings("deprecation")
   public SpecialFlowerBlock(long config, BlockBehaviour.Properties properties)
   {
     super(MobEffects.JUMP, 10, properties);
@@ -82,7 +83,7 @@ public class SpecialFlowerBlock extends FlowerBlock implements StandardBlocks.IS
 
   @Override
   @SuppressWarnings("deprecation")
-  public List<ItemStack> getDrops(BlockState state, LootContext.Builder builder)
+  public List<ItemStack> getDrops(BlockState state, LootParams.Builder builder)
   {
     final Float r = builder.getOptionalParameter(LootContextParams.EXPLOSION_RADIUS);
     return dropList(state, builder.getLevel(), null, (r!=null) && (r>0));

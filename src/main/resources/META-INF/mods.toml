@@ -8,7 +8,7 @@ license="${meta_license}"
 [[mods]]
 modId="${meta_modid}"
 version="${version_mod}"
-displayName="${meta_modname}"
+displayName=${meta_modname}
 description='''${meta_description}'''
 authors="${meta_author}"
 credits=""

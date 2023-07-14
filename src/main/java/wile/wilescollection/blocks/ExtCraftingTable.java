@@ -9,7 +9,7 @@
 package wile.wilescollection.blocks;
 
 import com.google.common.collect.ImmutableList;
-import com.mojang.blaze3d.vertex.PoseStack;
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.components.ImageButton;
 import net.minecraft.core.BlockPos;
@@ -35,7 +35,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.*;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.LevelReader;
+import net.minecraft.world.level.SignalGetter;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockBehaviour;
@@ -56,12 +56,11 @@ import wile.wilescollection.libmc.Inventories.InventoryRange;
 import wile.wilescollection.libmc.Inventories.StorageInventory;
 import wile.wilescollection.libmc.Networking;
 import wile.wilescollection.libmc.Registries;
-import wile.wilescollection.libmc.ui.Guis;
-import wile.wilescollection.libmc.ui.TooltipDisplay.TipRange;
+import wile.wilescollection.libmc.Guis;
+import wile.wilescollection.libmc.TooltipDisplay.TipRange;
 
 import javax.annotation.Nullable;
 import java.util.*;
-import java.util.stream.Collectors;
 
 
 public class ExtCraftingTable
@@ -96,7 +95,7 @@ public class ExtCraftingTable
     { return false; }
 
     @Override
-    public boolean shouldCheckWeakPower(BlockState state, LevelReader world, BlockPos pos, Direction side)
+    public boolean shouldCheckWeakPower(BlockState state, SignalGetter level, BlockPos pos, Direction side)
     { return false; }
 
     @Override
@@ -320,6 +319,7 @@ public class ExtCraftingTable
     public CraftingTableUiContainer(int cid, Inventory pinv)
     { this(cid, pinv, new SimpleContainer(CraftingTableTileEntity.NUM_OF_SLOTS), ContainerLevelAccess.NULL); }
 
+    @SuppressWarnings("all")
     private CraftingTableUiContainer(int cid, Inventory pinv, Container block_inventory, ContainerLevelAccess wpc)
     {
       super(Registries.getMenuTypeOfBlock("crafting_table"), cid);
@@ -327,7 +327,7 @@ public class ExtCraftingTable
       player_ = pinv.player;
       inventory_ = block_inventory;
       inventory_.startOpen(player_);
-      Level world = player_.level;
+      Level world = player_.level();
       if((inventory_ instanceof StorageInventory) && ((((StorageInventory)inventory_).getBlockEntity()) instanceof final CraftingTableTileEntity te)) {
         te_ = te;
       } else {
@@ -371,7 +371,7 @@ public class ExtCraftingTable
           addSlot(new Slot(inventory_, 9+x+y*9, 8+x*18, 65+y*18));
         }
       }
-      if((!player_.level.isClientSide()) && (te_ != null)) {
+      if((!player_.level().isClientSide()) && (te_ != null)) {
         history_.read(te_.history.copy());
       }
       CRAFTING_SLOT_COORDINATES = ImmutableList.copyOf(slotpositions);
@@ -405,7 +405,7 @@ public class ExtCraftingTable
             }
             if(result_.setRecipeUsed(world, player, recipe)) {
               broadcastChanges();
-              stack = recipe.assemble(matrix_);
+              stack = recipe.assemble(matrix_, player.getServer().registryAccess());
             }
           }
           result_.setItem(0, stack);
@@ -450,17 +450,18 @@ public class ExtCraftingTable
     }
 
     @Override
+    @SuppressWarnings("all")
     public void clicked(int slotId, int button, ClickType clickType, Player player)
     {
       crafting_matrix_changed_now_ = false;
       super.clicked(slotId, button, clickType, player);
       if((with_outslot_defined_refab) && (slotId == 0) && (clickType == ClickType.PICKUP)) {
-        if((!crafting_matrix_changed_now_) && (!player.level.isClientSide()) && (crafting_grid_empty())) {
+        if((!crafting_matrix_changed_now_) && (!player.level().isClientSide()) && (crafting_grid_empty())) {
           final ItemStack dragged = getCarried();
           if((dragged != null) && (!dragged.isEmpty())) {
-            try_result_stack_refab(dragged, player.level);
+            try_result_stack_refab(dragged, player.level());
           } else if(!history().current().isEmpty()) {
-            try_result_stack_refab(history().current_recipe().getResultItem(), player.level);
+            try_result_stack_refab(history().current_recipe().getResultItem(player.level().registryAccess()), player.level());
           }
         }
       }
@@ -670,14 +671,14 @@ public class ExtCraftingTable
           if(matching_recipes.size() < 2) return; // nothing to change
           Recipe<?> currently_used = result_.getRecipeUsed();
           List<CraftingRecipe> usable_recipes = matching_recipes.stream()
-            .filter((r)->result_.setRecipeUsed(world,player,r))
-            .sorted(Comparator.comparingInt(a -> a.getId().hashCode()))
-            .collect(Collectors.toList());
+                  .filter((r)->result_.setRecipeUsed(world, player, r))
+                  .sorted(Comparator.comparingInt(a->a.getId().hashCode()))
+                  .toList();
           for(int i=0; i<usable_recipes.size(); ++i) {
             if(usable_recipes.get(i) == currently_used) {
               if(++i >= usable_recipes.size()) i=0;
               currently_used = usable_recipes.get(i);
-              ItemStack stack = ((CraftingRecipe)currently_used).assemble(matrix_);
+              ItemStack stack = ((CraftingRecipe)currently_used).assemble(matrix_, player.getServer().registryAccess());
               result_.setItem(0, stack);
               result_.setRecipeUsed(currently_used);
               break;
@@ -694,7 +695,7 @@ public class ExtCraftingTable
     private CraftingRecipe find_first_recipe_for(Level world, ItemStack stack)
     {
       return (CraftingRecipe)world.getServer().getRecipeManager().getRecipes().stream()
-        .filter(r->(r.getType()==RecipeType.CRAFTING) && (r.getResultItem().sameItem(stack)))
+        .filter(r->(r.getType()==RecipeType.CRAFTING) && (r.getResultItem(world.registryAccess()).is(stack.getItem())))
         .findFirst().orElse(null);
     }
 
@@ -716,9 +717,10 @@ public class ExtCraftingTable
       return Optional.empty();
     }
 
+    @SuppressWarnings("all")
     private ArrayList<ItemStack> placement_stacks(CraftingRecipe recipe)
     {
-      final Level world = player_.level;
+      final Level world = player_.level();
       final ArrayList<ItemStack> grid = new ArrayList<>();
       if(recipe.getIngredients().size() > 9) {
         return grid;
@@ -813,8 +815,8 @@ public class ExtCraftingTable
           grid_match = false;
           dist_match = false;
           for(final ItemStack match: ingredient.getItems()) {
-            if(match.sameItemStackIgnoreDurability(grid_stack)) dist_match = true;
-            if(match.sameItemStackIgnoreDurability(history_stack)) grid_match = true;
+            if(match.is(grid_stack.getItem())) dist_match = true;
+            if(match.is(history_stack.getItem())) grid_match = true;
             if(dist_match && grid_match) return true;
           }
         }
@@ -1047,29 +1049,29 @@ public class ExtCraftingTable
         String[] translation_keys = { "next", "prev", "clear", "nextcollisionrecipe", "fromstorage", "tostorage", "fromplayer", "toplayer" };
         for(int i=0; (i<buttons.size()) && (i<translation_keys.length); ++i) {
           Button bt = buttons.get(i);
-          tooltips.add(new TipRange(bt.x,bt.y, bt.getWidth(), bt.getHeight(), Auxiliaries.localizable(prefix+translation_keys[i])));
+          tooltips.add(new TipRange(bt.getX(),bt.getY(), bt.getWidth(), bt.getHeight(), Auxiliaries.localizable(prefix+translation_keys[i])));
         }
         tooltip_.init(tooltips);
       }
     }
 
     @Override
-    public void render(PoseStack mx, int mouseX, int mouseY, float partialTicks)
+    public void render(GuiGraphics gg, int mouseX, int mouseY, float partialTicks)
     {
       if(with_assist) {
         boolean is_collision = getMenu().has_recipe_collision();
         buttons.get(3).visible = is_collision;
         buttons.get(3).active = is_collision;
       }
-      super.render(mx, mouseX, mouseY, partialTicks);
+      super.render(gg, mouseX, mouseY, partialTicks);
     }
 
-    protected void renderHoveredToolTip(PoseStack mx, int mouseX, int mouseY)
+    protected void renderHoveredToolTip(GuiGraphics gg, int mouseX, int mouseY)
     {
       if(!player_.getInventory().items.isEmpty()) return;
       final Slot slot = getSlotUnderMouse();
       if(slot == null) return;
-      if(!slot.getItem().isEmpty()) { renderTooltip(mx, slot.getItem(), mouseX, mouseY); return; }
+      if(!slot.getItem().isEmpty()) { gg.renderTooltip(this.font, this.getTooltipFromContainerItem(slot.getItem()), slot.getItem().getTooltipImage(), slot.getItem(), mouseX, mouseY); return; }
       if(with_assist) {
         int hist_index = -1;
         if(slot instanceof CraftingOutputSlot) {
@@ -1080,13 +1082,13 @@ public class ExtCraftingTable
         if((hist_index < 0) || (hist_index >= history_slot_tooltip.length)) return;
         if(!history_slot_tooltip[hist_index]) return;
         ItemStack hist_stack = getMenu().history().current().get(hist_index);
-        if(!hist_stack.isEmpty()) renderTooltip(mx, hist_stack, mouseX, mouseY);
+        if(!hist_stack.isEmpty()) gg.renderTooltip(this.font, this.getTooltipFromContainerItem(hist_stack), hist_stack.getTooltipImage(), hist_stack, mouseX, mouseY);
       }
     }
 
     @Override
     @SuppressWarnings("deprecation")
-    protected void renderBgWidgets(PoseStack mx, float partialTicks, int mouseX, int mouseY)
+    protected void renderBgWidgets(GuiGraphics gg, float partialTicks, int mouseX, int mouseY)
     {
       if(with_assist) {
         Arrays.fill(history_slot_tooltip, false);
@@ -1097,7 +1099,7 @@ public class ExtCraftingTable
           for(Tuple<Integer, Integer> e: getMenu().CRAFTING_SLOT_COORDINATES) {
             if(i==0) continue; // explicitly here, that is the result slot.
             if((getMenu().getSlot(i).hasItem())) {
-              if(!getMenu().getSlot(i).getItem().sameItem(crafting_template.get(i))) {
+              if(!getMenu().getSlot(i).getItem().is(crafting_template.get(i).getItem())) {
                 return; // user has placed another recipe
               }
             }
@@ -1110,10 +1112,10 @@ public class ExtCraftingTable
             final ItemStack stack = crafting_template.get(i);
             if(!stack.isEmpty()) {
               if(!getMenu().getSlot(i).hasItem()) history_slot_tooltip[i] = true;
-              if((i==0) && getMenu().getSlot(i).getItem().sameItem(crafting_template.get(i))) {
+              if((i==0) && getMenu().getSlot(i).getItem().is(crafting_template.get(i).getItem())) {
                 continue; // don't shade the output slot if the result can be crafted.
               } else {
-                renderItemTemplate(mx, stack, e.getA(), e.getB());
+                renderItemTemplate(gg, stack, e.getA(), e.getB());
               }
             }
             ++i;
@@ -1305,7 +1307,7 @@ public class ExtCraftingTable
     {
       if(grid_stacks.size() == 9) {
         ArrayList<ItemStack> result_and_stacks = new ArrayList<>();
-        result_and_stacks.add(recipe.getResultItem());
+        result_and_stacks.add(recipe.getResultItem(world.registryAccess()));
         result_and_stacks.addAll(grid_stacks);
         stash_ = stacks2str(result_and_stacks, recipe);
         current_stacks_ = result_and_stacks;
@@ -1321,7 +1323,7 @@ public class ExtCraftingTable
     {
       for(int i=0; i<history_.size(); ++i) {
         Tuple<CraftingRecipe, List<ItemStack>> data = str2stacks(history_.get(i));
-        if((data!=null) && (data.getA().getResultItem().sameItem(result))) return i;
+        if((data!=null) && (data.getA().getResultItem(world.registryAccess()).is(result.getItem()))) return i;
       }
       return -1;
     }
@@ -1347,7 +1349,7 @@ public class ExtCraftingTable
       if((num_stacks < 9) || (num_stacks > 10)) return "";
       final ArrayList<String> items = new ArrayList<>();
       items.add(recipe.getId().toString());
-      if(num_stacks < 10) items.add(Auxiliaries.getResourceLocation(recipe.getResultItem().getItem()).toString());
+      if(num_stacks < 10) items.add(Auxiliaries.getResourceLocation(recipe.getResultItem(world.registryAccess()).getItem()).toString());
       for(ItemStack st:grid_stacks) {
         if(st.isEmpty()) {
           items.add("");
@@ -1518,9 +1520,10 @@ public class ExtCraftingTable
     { amountCrafted += numItemsCrafted; }
 
     @Override
+    @SuppressWarnings("all")
     protected void checkTakeAchievements(ItemStack stack)
     {
-      if((with_assist) && ((player.level!=null) && (!(player.level.isClientSide()))) && (!stack.isEmpty())) {
+      if((with_assist) && ((player.level()!=null) && (!(player.level().isClientSide()))) && (!stack.isEmpty())) {
         final Recipe<?> recipe = ((CraftOutputInventory)this.container).getRecipeUsed();
         final ArrayList<ItemStack> grid = new ArrayList<>();
         grid.add(stack);
@@ -1532,20 +1535,21 @@ public class ExtCraftingTable
       }
       // Normal crafting result slot behaviour
       if(amountCrafted > 0) {
-        stack.onCraftedBy(this.player.level, this.player, this.amountCrafted);
+        stack.onCraftedBy(this.player.level(), this.player, this.amountCrafted);
         ForgeEventFactory.firePlayerCraftingEvent(this.player, stack, this.craftMatrix);
       }
       if(uicontainer instanceof RecipeHolder) {
-        ((RecipeHolder)uicontainer).awardUsedRecipes(player);
+        ((RecipeHolder)uicontainer).awardUsedRecipes(player, List.of(stack));
       }
       amountCrafted = 0;
     }
 
     @Override
+    @SuppressWarnings("all")
     public void onTake(Player taking_player, ItemStack stack) {
       checkTakeAchievements(stack);
       net.minecraftforge.common.ForgeHooks.setCraftingPlayer(taking_player);
-      NonNullList<ItemStack> stacks = taking_player.level.getRecipeManager().getRemainingItemsFor(RecipeType.CRAFTING, craftMatrix, taking_player.level);
+      NonNullList<ItemStack> stacks = taking_player.level().getRecipeManager().getRemainingItemsFor(RecipeType.CRAFTING, craftMatrix, taking_player.level());
       net.minecraftforge.common.ForgeHooks.setCraftingPlayer(null);
       for(int i=0; i<stacks.size(); ++i) {
         ItemStack itemstack = craftMatrix.getItem(i);
@@ -1557,7 +1561,7 @@ public class ExtCraftingTable
         if(!itemstack1.isEmpty()) {
           if(itemstack.isEmpty()) {
             craftMatrix.setItem(i, itemstack1);
-          } else if (ItemStack.isSame(itemstack, itemstack1) && ItemStack.tagMatches(itemstack, itemstack1)) {
+          } else if (ItemStack.isSameItem(itemstack, itemstack1) && ItemStack.isSameItemSameTags(itemstack, itemstack1)) {
             itemstack1.grow(itemstack.getCount());
             craftMatrix.setItem(i, itemstack1);
           } else if (!player.getInventory().add(itemstack1)) {
@@ -1577,13 +1581,13 @@ public class ExtCraftingTable
   }
 
   // Crafting inventory (needed to allow SlotCrafting to have a InventoryCrafting) -------------------------------------
-  public static class CraftingTableGrid extends CraftingContainer
+  public static class CraftingTableGrid extends TransientCraftingContainer
   {
     protected final AbstractContainerMenu uicontainer;
     protected final Container inventory;
 
-    public CraftingTableGrid(AbstractContainerMenu container_, Container block_inventory)
-    { super(container_, 3, 3); uicontainer = container_; inventory = block_inventory; }
+    public CraftingTableGrid(AbstractContainerMenu menu, Container block_inventory)
+    { super(menu, 3, 3); uicontainer = menu; inventory = block_inventory; }
 
     @Override
     public int getContainerSize()

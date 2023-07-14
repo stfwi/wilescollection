@@ -79,7 +79,7 @@ public class ExtLadderBlock extends LadderBlock implements StandardBlocks.IStand
   }
 
   @Override
-  public boolean isPossibleToRespawnInThis()
+  public boolean isPossibleToRespawnInThis(BlockState state)
   { return false; }
 
   @Override
@@ -96,13 +96,14 @@ public class ExtLadderBlock extends LadderBlock implements StandardBlocks.IStand
   { return true; }
 
   // Player update event, forwarded from the main mod instance.
+  @SuppressWarnings("all")
   public static void onPlayerUpdateEvent(final Player player)
   {
-    if((without_speed_boost_) || (player.isOnGround()) || (!player.onClimbable()) || (player.isSteppingCarefully()) || (player.isSpectator())) return;
+    if((without_speed_boost_) || (player.onGround()) || (!player.onClimbable()) || (player.isSteppingCarefully()) || (player.isSpectator())) return;
     double lvy = player.getLookAngle().y;
     if(Math.abs(lvy) < 0.92) return;
     final BlockPos pos = player.blockPosition();
-    final BlockState state = player.level.getBlockState(pos);
+    final BlockState state = player.level().getBlockState(pos);
     if(!(state.getBlock() instanceof ExtLadderBlock)) return;
     player.fallDistance = 0;
     if((player.getDeltaMovement().y() < 0) == (player.getLookAngle().y < 0)) {
