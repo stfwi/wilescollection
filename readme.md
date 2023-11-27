@@ -9,6 +9,9 @@
 
 ## Version history
 
+    - v1.4.10    [U] Updated to mc1.20.1 neoforge.
+                 [A] REDIA Tool ported over from Engineer's Tools.
+
     - v1.4.9     [U] Updated to mc1.20.1 forge.
                  [A] Added Patchy Stone Block (with Stairs and Slab).
                  [M] Back-Filling Wand supports Patchy Stone placement

@@ -298,6 +298,9 @@ public class ModContent
     Registries.addItem("wand_of_backfilling", ()->new BackfillWandItem(
       detail.default_item_properties()
     ));
+    Registries.addItem("redia_tool", ()->new RediaToolItem(
+      detail.default_item_properties()
+    ));
     Registries.addItem("plated_netherite_helmet", ()->new Armors.HelmetArmorItem(
       Armors.CFG_DEFAULT,
       detail.reinforced_armor_material(),
@@ -397,20 +400,6 @@ public class ModContent
   @OnlyIn(Dist.CLIENT)
   public static void processContentClientSide(final FMLClientSetupEvent event)
   {
-    // Block renderer selection
-    // -> Disabled/removed in Forge. -> JSON model file root {"render_type":"cutout"/"translucent"}
-    //  for(Block block: Registries.getRegisteredBlocks()) {
-    //    if(block instanceof IStandardBlock) {
-    //      switch(((IStandardBlock)block).getRenderTypeHint()) {
-    //        case CUTOUT: ItemBlockRenderTypes.setRenderLayer(block, RenderType.cutout()); break;
-    //        case CUTOUT_MIPPED: ItemBlockRenderTypes.setRenderLayer(block, RenderType.cutoutMipped()); break;
-    //        case TRANSLUCENT: ItemBlockRenderTypes.setRenderLayer(block, RenderType.translucent()); break;
-    //        case TRANSLUCENT_NO_CRUMBLING: ItemBlockRenderTypes.setRenderLayer(block, RenderType.translucentNoCrumbling()); break;
-    //        case SOLID: break;
-    //      }
-    //    }
-    //  }
-    // Entity renderers
     EntityRenderers.register(Registries.getEntityType("et_chair"), ModRenderers.InvisibleEntityRenderer::new);
   }
 

@@ -1,0 +1,19 @@
+{
+  "conditions": [
+    {
+      "type": "wilescollection:optional",
+      "result": "wilescollection:redia_tool"
+    }
+  ],
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    { "item": "minecraft:diamond_shovel" },
+    { "item": "minecraft:diamond_pickaxe" },
+    { "item": "minecraft:diamond_axe" },
+    { "item": "minecraft:shears" }
+  ],
+  "result": {
+    "item": "wilescollection:redia_tool",
+    "count": 1
+  }
+}

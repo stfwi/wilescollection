@@ -80,6 +80,8 @@
   "item.wilescollection.plated_netherite_leggings": "Plated Netherite Leggings",
   "item.wilescollection.prospecting_dowser": "Prospecting Dowser",
   "item.wilescollection.prospecting_dowser.status": "Sensing: §6%1$s§r",
+  "item.wilescollection.redia_tool": "REDIA Tool",
+  "item.wilescollection.redia_tool.help": "REal DIAmond multi tool. Combines axe,\npickaxe, shovel, hoe, and shears. Repair\nwith Diamonds (in your inventory).\n Right-click: Place torch.\n Sneak-right-click: Hoe Dirt to\n Farmland, Coarse Dirt, etc; Shear\n sheep, Vines, Leaves etc. Sneak\n while breaking lowest wood log of a tree: Tree\n felling.\n",
   "item.wilescollection.rusty_iron_ingot": "Rusty Iron Ingot",
   "item.wilescollection.rusty_iron_nugget": "Rusty Iron Nugget",
   "item.wilescollection.tracking_compass": "Tracking Compass",

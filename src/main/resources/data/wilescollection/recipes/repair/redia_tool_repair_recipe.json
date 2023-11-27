@@ -1,0 +1,16 @@
+{
+  "type": "wilescollection:crafting_extended_shapeless",
+  "ingredients": [
+    { "tag" : "forge:gems/diamond" },
+    { "item": "wilescollection:redia_tool" }
+  ],
+  "result": {
+    "item": "wilescollection:redia_tool"
+  },
+  "aspects": {
+    "tool": "wilescollection:redia_tool",
+    "tool_repair": 65,
+    "over_repair": true,
+    "relative_repair_damage": true
+  }
+}

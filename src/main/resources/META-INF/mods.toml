@@ -1,6 +1,6 @@
 # @file mods.toml
 # @spec TOML v0.5.0 (https://github.com/toml-lang/toml)
-modLoader="javafml"
+modLoader="javafml" # forge FML java
 loaderVersion="${version_range_loader}"
 issueTrackerURL="${meta_issues}"
 license="${meta_license}"
@@ -8,7 +8,7 @@ license="${meta_license}"
 [[mods]]
 modId="${meta_modid}"
 version="${version_mod}"
-displayName=${meta_modname}
+displayName="${meta_modname}"
 description='''${meta_description}'''
 authors="${meta_author}"
 credits=""
@@ -19,7 +19,7 @@ logoFile="logo.png"
 [[dependencies.${meta_modid}]]
   modId="forge"
   mandatory=true
-  versionRange="${version_range_forge}"
+  versionRange="${version_range_neoforge}"
   ordering="NONE"
   side="BOTH"
 

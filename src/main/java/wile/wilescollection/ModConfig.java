@@ -18,6 +18,7 @@ import org.slf4j.Logger;
 import wile.wilescollection.blocks.*;
 import wile.wilescollection.items.BackfillWandItem;
 import wile.wilescollection.items.ChargedLapisSqueezerItem;
+import wile.wilescollection.items.RediaToolItem;
 import wile.wilescollection.items.Trinkets;
 import wile.wilescollection.libmc.blocks.SlabSliceBlock;
 import wile.wilescollection.libmc.blocks.VariantSlabBlock;
@@ -140,10 +141,10 @@ public class ModConfig
   // Optout checks
   //--------------------------------------------------------------------------------------------------------------------
 
-  public static final boolean isOptedOut(final @Nullable Block block)
+  public static boolean isOptedOut(final @Nullable Block block)
   { return (block==null) || isOptedOut(block.asItem()); }
 
-  public static final boolean isOptedOut(final @Nullable Item item)
+  public static boolean isOptedOut(final @Nullable Item item)
   { return (item!=null) && optouts_.contains(Auxiliaries.getResourceLocation(item).getPath()); }
 
   public static boolean withExperimental()
@@ -170,16 +171,16 @@ public class ModConfig
   public static boolean without_direct_slab_pickup = false;
   public static boolean with_creative_mode_device_drops = false;
 
-  public static final CompoundTag getServerConfig() // config that may be synchronized from server to client via net pkg.
+  public static CompoundTag getServerConfig() // config that may be synchronized from server to client via net pkg.
   { return server_config_; }
 
-  private static final void updateOptouts()
+  private static void updateOptouts()
   {
     final ArrayList<String> includes = new ArrayList<>();
     final ArrayList<String> excludes = new ArrayList<>();
     {
       String inc = COMMON.pattern_includes.get().toLowerCase().replaceAll(MODID+":", "").replaceAll("[^*_,a-z\\d]", "");
-      if(COMMON.pattern_includes.get() != inc) COMMON.pattern_includes.set(inc);
+      if(!COMMON.pattern_includes.get().equals(inc)) COMMON.pattern_includes.set(inc);
       String[] incl = inc.split(",");
       for(int i=0; i< incl.length; ++i) {
         incl[i] = incl[i].replaceAll("[*]", ".*?");
@@ -251,7 +252,7 @@ public class ModConfig
     OptionalRecipeCondition.on_config(withExperimental(), withoutRecipes(), ModConfig::isOptedOut, ModConfig::isOptedOut);
   }
 
-  public static final void apply()
+  public static void apply()
   {
     with_config_logging_ = COMMON.with_config_logging.get();
     with_experimental_features_ = COMMON.with_experimental.get();
@@ -272,9 +273,27 @@ public class ModConfig
     Trinkets.on_config();
     BackfillWandItem.on_config(2048);
     ChargedLapisSqueezerItem.on_config(15);
+    {
+      boolean without_redia_torchplacing = false;
+      boolean without_redia_hoeing = false;
+      boolean without_redia_tree_chopping = false;
+      boolean without_safe_attacking = false;
+      int durability = 3000;
+      int initial_durability_percent = 100;
+      int enchantability = 20;
+      RediaToolItem.on_config(
+        without_redia_torchplacing,
+        without_redia_hoeing,
+        without_redia_tree_chopping,
+        without_safe_attacking,
+        durability,
+        initial_durability_percent,
+        enchantability
+      );
+    }
   }
 
-  public static final void log(String config_message)
+  public static void log(String config_message)
   {
     if(!with_config_logging_) return;
     LOGGER.info(config_message);
