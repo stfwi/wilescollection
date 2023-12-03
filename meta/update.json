@@ -1,6 +1,7 @@
 {
  "homepage": "https://www.curseforge.com/minecraft/mc-mods/wiles-collection/",
  "1.20.1": {
+  "1.4.11": "[A] JEI integration for crafting table added.",
   "1.4.10": "[U] Updated to mc1.20.1 neoforge.\n[A] REDIA Tool ported over from Engineer's Tools.",
   "1.4.9": "[U] Updated to mc1.20.1 forge.\n[A] Added Patchy Stone Block (with Stairs and Slab).\n[M] Back-Filling Wand supports Patchy Stone placement from internal charge.\n[A] Added simple/mundane Chimney block.",
   "1.3.8": "[A] Added Back-Filling Wand.\n[A] Added Charged Amethyst additional to Charged Lapis.\n[A] Peculiar Ring chargeable with Amethyst Shards/Blocks.",
@@ -26,7 +27,7 @@
   "1.1.0-a1": "[A] Initial Alpha."
  },
  "promos": {
-  "1.20.1-recommended": "1.4.10",
-  "1.20.1-latest": "1.4.10"
+  "1.20.1-recommended": "1.4.11",
+  "1.20.1-latest": "1.4.11"
  }
 }

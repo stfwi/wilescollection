@@ -17,6 +17,7 @@ _*
 *.tmp
 *.xcf
 *~
+/libs
 /*.txt
 /archive
 /assets-src

@@ -9,6 +9,8 @@
 
 ## Version history
 
+    - v1.4.11    [A] JEI integration for crafting table added.
+
     - v1.4.10    [U] Updated to mc1.20.1 neoforge.
                  [A] REDIA Tool ported over from Engineer's Tools.
 

@@ -12,8 +12,8 @@ group = "wile.${meta_modid}"
 base { archivesName = "${meta_modid}-${version_minecraft}-neoforge" }
 
 repositories {
-  maven { name = "Progwml6 maven"; url = "https://dvs1.progwml6.com/files/maven/" } // JEI files
-  maven { name = "ModMaven"; url = "modmaven.k-4u.nl" } // JEI files, fallback
+  maven { name = "ModMaven"; url = "modmaven.k-4u.nl" } // JEI files
+  maven { name = "ModrinthMaven"; url = "https://api.modrinth.com/maven" } // JEI files
   flatDir { dir 'libs' } // Mod jar dependencies in ./libs
 }
 
@@ -42,6 +42,9 @@ minecraft {
 
 dependencies {
   minecraft "net.neoforged:forge:${version_minecraft}-${version_neoforge}"
+  compileOnly fg.deobf("mezz.jei:jei-${version_minecraft}-common-api:${version_jei}")
+  compileOnly fg.deobf("mezz.jei:jei-${version_minecraft}-forge-api:${version_jei}")
+  runtimeOnly fg.deobf("mezz.jei:jei-${version_minecraft}-forge:${version_jei}")
 }
 
 tasks.named('processResources', ProcessResources).configure {
