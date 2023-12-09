@@ -29,3 +29,10 @@ logoFile="logo.png"
   versionRange="[${version_minecraft}]"
   ordering="NONE"
   side="BOTH"
+
+[[dependencies.${meta_modid}]]
+  modId="jei"
+  mandatory=false
+  versionRange="[15.2.0.1,)"
+  ordering="AFTER"
+  side="BOTH"
