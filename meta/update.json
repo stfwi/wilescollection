@@ -1,6 +1,7 @@
 {
  "homepage": "https://www.curseforge.com/minecraft/mc-mods/wiles-collection/",
  "1.20.1": {
+  "1.4.13": "[F] Mod ID query made static (issue #2).",
   "1.4.12": "[F] JEI load order edited (issue #2, ty jimmon89).",
   "1.4.11": "[A] JEI integration for crafting table added.",
   "1.4.10": "[U] Updated to mc1.20.1 neoforge.\n[A] REDIA Tool ported over from Engineer's Tools.",
@@ -28,7 +29,7 @@
   "1.1.0-a1": "[A] Initial Alpha."
  },
  "promos": {
-  "1.20.1-recommended": "1.4.12",
-  "1.20.1-latest": "1.4.12"
+  "1.20.1-recommended": "1.4.13",
+  "1.20.1-latest": "1.4.13"
  }
 }

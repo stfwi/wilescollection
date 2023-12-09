@@ -9,6 +9,8 @@
 
 ## Version history
 
+    - v1.4.13    [F] Mod ID query made static (issue #2).
+
     - v1.4.12    [F] JEI load order edited (issue #2, ty jimmon89).
 
     - v1.4.11    [A] JEI integration for crafting table added.

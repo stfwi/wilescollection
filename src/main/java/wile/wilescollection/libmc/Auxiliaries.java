@@ -45,10 +45,7 @@ import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
-import java.util.Collection;
-import java.util.Iterator;
-import java.util.List;
-import java.util.NoSuchElementException;
+import java.util.*;
 import java.util.function.Function;
 import java.util.function.Supplier;
 import java.util.regex.Matcher;
@@ -59,7 +56,7 @@ import java.util.stream.Stream;
 
 public class Auxiliaries
 {
-  private static String modid;
+  private static String modid = "";
   private static Logger logger;
   private static Supplier<CompoundTag> server_config_supplier = CompoundTag::new;
 
@@ -75,7 +72,10 @@ public class Auxiliaries
   // -------------------------------------------------------------------------------------------------------------------
 
   public static String modid()
-  { return modid; }
+  {
+    if(modid.isEmpty()) modid = Auxiliaries.class.getCanonicalName().split("\\.")[1];
+    return modid;
+  }
 
   public static Logger logger()
   { return logger; }

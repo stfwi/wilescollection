@@ -47,7 +47,7 @@ public class ModWilesCollection
     MinecraftForge.EVENT_BUS.register(this);
   }
 
-  public static final Logger logger() { return LOGGER; }
+  public static Logger logger() { return LOGGER; }
 
 
   private void onSetup(final FMLCommonSetupEvent event)
